@@ -42,7 +42,7 @@ Create client and call API:
 })();
 ```
 
-###Config params
+### Config params
 
 The class constructor takes a config object as input:
 ```javascript
@@ -50,14 +50,14 @@ The class constructor takes a config object as input:
   region:'eu', // Required: The region of the selling partner API endpoint ("eu", "na" or "fe")
   refresh_token:'<YOUR_REFRESH_TOKEN>', // Required: The refresh token of your app user
   access_token:'<YOUR_ACCESS_TOKEN>', // Optional: The access token requested with the refresh token of the app user
-	role_tokens:{ 
-		id:'<YOUR_TEMPORARY_ROLE_ACCESS_ID>', // Optional: The temporary access id for the sp api role of the iam user
-		secret:'<YOUR_TEMPORARY_ROLE_ACCESS_SECRET>', // Optional: The temporary access secret for the sp api role of the iam user
-		security:'<YOUR_TEMPORARY_ROLE_SECURITY_TOKEN>' // Optional: The temporary security token for the sp api role of the iam user
-	},
-	options:{
-		auto_request_tokens:true // Optional: Whether or not the client should retreive new access and role tokens if non given or expired. Default is true
-	}
+  role_tokens:{ 
+    id:'<YOUR_TEMPORARY_ROLE_ACCESS_ID>', // Optional: The temporary access id for the sp api role of the iam user
+    secret:'<YOUR_TEMPORARY_ROLE_ACCESS_SECRET>', // Optional: The temporary access secret for the sp api role of the iam user
+    security:'<YOUR_TEMPORARY_ROLE_SECURITY_TOKEN>' // Optional: The temporary security token for the sp api role of the iam user
+  },
+  options:{
+    auto_request_tokens:true // Optional: Whether or not the client should retreive new access and role tokens if non given or expired. Default is true
+  }
 }
 ```
 If you only provide the required parameters (region and refresh_token) the client will automatically request access_token and role_tokens for you (with a TTL of 1 hour) and reuse these for future api calls for the class instance.
@@ -65,6 +65,7 @@ If you want to use the same credentials for multiple instances you can retrieve 
 ```javascript
 let access_token = sellingPartner.access_token;
 let role_tokens = sellingPartner.role_tokens;
+
 let sellingPartnerNewInstance = new SellingPartnerAPI({
   region:'eu',
   refresh_token:'<YOUR_REFRESH_TOKEN>',
