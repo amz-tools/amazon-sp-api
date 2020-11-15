@@ -66,7 +66,7 @@ The class constructor takes a config object as input:
     security_token:'<YOUR_TEMPORARY_ROLE_SECURITY_TOKEN>' // Optional, the temporary security token for the sp api role of the iam user
   },
   options:{
-  	credentials_path:'<YOUR_CUSTOM_ABSOLUTE_PATH>', // Optional, a custom absolute path to your credentials file location
+    credentials_path:'<YOUR_CUSTOM_ABSOLUTE_PATH>', // Optional, a custom absolute path to your credentials file location
     auto_request_tokens:true // Optional, whether or not the client should retrieve new access and role credentials if non given or expired. Default is true
   }
 }
