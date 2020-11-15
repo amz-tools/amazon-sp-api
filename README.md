@@ -22,23 +22,23 @@ Before you can use the client you need to add your app client and aws user crede
 ## Usage
 Require library
 ```javascript
-let SellingPartner = require('amazon-sp-api');
+let SellingPartnerAPI = require('amazon-sp-api');
 ```
 
 Create client and call API
 ```javascript
 (async() => {
-	try {
-		let sellingPartner = new SellingPartnerAPI({
-			region:'eu', 													// The region of the selling partner API endpoint ("eu", "na" or "fe")
-			refresh_token:'<YOUR_REFRESH_TOKEN>'	// The refresh token of your app user
-		});
-		let res = await sellingPartner.callAPI({
-			path:'/sellers/v1/marketplaceParticipations'
-		});
-		console.log(res);
-	} catch(e){
-		console.log(e);
-	}
+  try {
+    let sellingPartner = new SellingPartnerAPI({
+      region:'eu', // The region of the selling partner API endpoint ("eu", "na" or "fe")
+      refresh_token:'<YOUR_REFRESH_TOKEN>' // The refresh token of your app user
+    });
+    let res = await sellingPartner.callAPI({
+      path:'/sellers/v1/marketplaceParticipations'
+    });
+    console.log(res);
+  } catch(e){
+    console.log(e);
+  }
 })();
 ```
