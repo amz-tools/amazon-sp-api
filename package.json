@@ -8,10 +8,14 @@
   },
   "keywords": [
     "amazon",
-    "sp",
     "sellingpartner",
+    "sp",
     "mws",
-    "sellercentral"
+    "sellercentral",
+    "amazon sellingpartner api",
+    "amazon sp api",
+    "selling partner",
+    "amazon sp api client"
   ],
   "author": "Jens Lübberstedt <jens@amz.tools>",
   "license": "MIT",
