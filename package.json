@@ -1,0 +1,29 @@
+{
+  "name": "amazon-sp-api",
+  "version": "0.1.0",
+  "description": "Amazon SellingPartner API client",
+  "main": "index.js",
+  "directories": {
+    "lib": "./lib/"
+  },
+  "keywords": [
+    "amazon",
+    "sp",
+    "sellingpartner",
+    "mws",
+    "sellercentral"
+  ],
+  "author": "Jens Lübberstedt <jens@amz.tools>",
+  "license": "MIT",
+  "dependencies": {
+    "crypto-js": "^4.0.0",
+    "fast-xml-parser": "^3.17.4",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:amz-tools/amazon-sp-api.git"
+  },
+  "homepage": "https://github.com/amz-tools/amazon-sp-api"
+}
