@@ -1,5 +1,5 @@
 # amazon-sp-api (client for the Amazon Selling Partner API)
-The client handles calls to the Amazon Selling Partner API. It wraps up all the neccessary stuff such as requesting access token, security token and signing requests with AWS4 signature.
+The client handles calls to the Amazon Selling Partner API. It wraps up all the necessary stuff such as requesting access token, security token and signing requests with AWS4 signature.
 
 ## Prerequisites
 Make sure that you followed the [Selling Partner API Developer Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md) and have successfully completed the steps [Registering as a developer](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#registering-as-a-developer), [Registering your Selling Partner API application](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#registering-your-selling-partner-api-application) and have a valid refresh_token (if you use the client only for your own seller account the easiest way is using the self authorization as described in the developer guide).
