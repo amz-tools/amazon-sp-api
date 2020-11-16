@@ -117,3 +117,6 @@ let res = await sellingPartner.callAPI({
   }
 });
 ```
+
+## Known Issues
+Since the Selling Partner API is still pretty new, not all API paths and endpoints have been tested for full functionality. If you find any calls not working please open up a new issue.
