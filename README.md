@@ -67,7 +67,8 @@ The class constructor takes a config object as input:
   },
   options:{
     credentials_path:'<YOUR_CUSTOM_ABSOLUTE_PATH>', // Optional, a custom absolute path to your credentials file location
-    auto_request_tokens:true // Optional, whether or not the client should retrieve new access and role credentials if non given or expired. Default is true
+    auto_request_tokens:true, // Optional, whether or not the client should retrieve new access and role credentials if non given or expired. Default is true
+    auto_request_throttled:true // Optional: Whether or not the client should automatically retry a request when throttled. Default is true
   }
 }
 ```
@@ -103,17 +104,39 @@ await sellingPartner.refreshRoleCredentials();
 ### Call the API
 
 The .callAPI() function takes an object as input:
-* path: Required, the API path you want to request, [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references)
-* method: Optional, HTTP Method of the call, default is GET
-* query: Optional, the input parameters of the call
+* operation: Required, the operation you want to request [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references)
+* path: The input paramaters added to the path of the operation
+* query: The input parameters added to the query string of the operation
+* body: The input parameters added to the body of the operation
+
+## Examples
 ```javascript
 let res = await sellingPartner.callAPI({
-  path:'/sales/v1/orderMetrics',
-  method:'GET',
+  operation:'getOrderMetrics',
   query:{
-    marketplaceIds:'A1PA6795UKMFR9',
+    marketplaceIds:['A1PA6795UKMFR9'],
     interval:'2020-10-01T00:00:00-07:00--2020-10-01T20:00:00-07:00',
     granularity:'Hour'
+  }
+});
+```
+```javascript
+let res = await sellingPartner.callAPI({
+  operation:'getCatalogItem',
+  path:{
+    asin:'B084J4QQFT'
+  },
+  query:{
+    MarketplaceId:'A1PA6795UKMFR9'
+  }
+});
+```
+```javascript
+let res = await sellingPartner.callAPI({
+  operation:'createReport',
+  body:{
+    reportType:'GET_FLAT_FILE_OPEN_LISTINGS_DATA',
+    marketplaceIds:['A1PA6795UKMFR9']
   }
 });
 ```
