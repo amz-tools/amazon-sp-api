@@ -68,7 +68,7 @@ The class constructor takes a config object as input:
   options:{
     credentials_path:'<YOUR_CUSTOM_ABSOLUTE_PATH>', // Optional, a custom absolute path to your credentials file location
     auto_request_tokens:true, // Optional, whether or not the client should retrieve new access and role credentials if non given or expired. Default is true
-    auto_request_throttled:true // Optional: Whether or not the client should automatically retry a request when throttled. Default is true
+    auto_request_throttled:true // Optional, whether or not the client should automatically retry a request when throttled. Default is true
   }
 }
 ```
@@ -103,13 +103,13 @@ await sellingPartner.refreshRoleCredentials();
 
 ### Call the API
 
-The .callAPI() function takes an object as input:
+The **.callAPI()** function takes an object as input:
 * operation: Required, the operation you want to request [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references)
 * path: The input paramaters added to the path of the operation
 * query: The input parameters added to the query string of the operation
 * body: The input parameters added to the body of the operation
 
-## Examples
+#### Examples
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'getOrderMetrics',
@@ -138,6 +138,49 @@ let res = await sellingPartner.callAPI({
     reportType:'GET_FLAT_FILE_OPEN_LISTINGS_DATA',
     marketplaceIds:['A1PA6795UKMFR9']
   }
+});
+```
+
+### Download, decrypt and unzip reports
+
+The **.download()** function takes the download details (url and encryption details) received from a "getReportDocument" operation as input, downloads the content, unzips it (if result is compressed), decrypts it and returns it.
+You may also include an options object to enable a json result or to additionally save the report to a file.
+Retrieve the download details with a "getReportDocument" operation:
+```javascript
+let report_document = await sellingPartner.callAPI({
+  operation:'getReportDocument',
+  path:{
+    reportDocumentId:'<REPORT_DOCUMENT_ID>' // retrieve the reportDocumentId from a "getReport" operation (when processingStatus of report is "DONE")
+  }
+});
+```
+The structure of the returned report_document should look like this:
+```javascript
+{
+  reportDocumentId:'<REPORT_DOCUMENT_ID>',
+  compressionAlgorithm:'GZIP', // Only included if report is compressed
+  encryptionDetails:{
+    standard:'AES',
+    initializationVector:'<INITIALIZATION_VECTOR>',
+    key:'<KEY>'
+  },
+  url: '<REPORT_DOWNLOAD_URL>' // Expires after 5 minutes!
+}
+```
+Call the .download() function to receive the content of the report. The default without any config options will download, decrypt and unzip the content and return it without reformatting or saving it to the disk:
+```javascript
+let report = await sellingPartner.download(report_document);
+```
+The options object has three optional parameters:
+* json: true/false, whether or not the content should be transformed to json before returning it (from tab delimited flat-file or XML). Defaults to false. IMPORTANT: is ignored when unzip is set to false.
+* unzip: true/false, whether or not the content should be unzipped before returning it. Defaults to true. 
+* file: absolute file path to save the report to. Defaults to not saving to disk. IMPORTANT: Even when saved to disk the report content is still returned.
+
+The following call will download the report, transform it to json and save it to disk:
+```javascript
+let report = await sellingPartner.download(report_document, {
+  json:true,
+  file:'<YOUR_ABSOLUTE_FILE_PATH>/report.json'
 });
 ```
 

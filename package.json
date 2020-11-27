@@ -21,6 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "crypto-js": "^4.0.0",
+    "csvtojson": "^2.0.10",
     "fast-xml-parser": "^3.17.4",
     "qs": "^6.9.4"
   },
