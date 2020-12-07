@@ -31,7 +31,7 @@ AWS_SELLING_PARTNER_ROLE=<YOUR_AWS_SELLING_PARTNER_API_ROLE>
 ## Usage
 Require library:
 ```javascript
-let SellingPartnerAPI = require('amazon-sp-api');
+const SellingPartnerAPI = require('amazon-sp-api');
 ```
 
 Create client and call API:
@@ -186,3 +186,5 @@ let report = await sellingPartner.download(report_document, {
 
 ## Known Issues
 Since the Selling Partner API is still pretty new, not all API paths and endpoints have been tested for full functionality. If you find any calls not working please open up a new issue.
+
+Some operations don't seem to be heavy-use resistant yet, i.e. the "listCatalogItems" operation throws an "InteralFailure" error (statusCode 500) if used repetitive (although restore rate of operation is respected).
