@@ -22,13 +22,21 @@
   "dependencies": {
     "crypto-js": "^4.0.0",
     "csvtojson": "^2.0.10",
-    "fast-xml-parser": "^3.17.4",
+    "fast-xml-parser": "^3.17.5",
     "qs": "^6.9.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "mocha": "^8.2.1",
+    "moment": "^2.29.1"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:amz-tools/amazon-sp-api.git"
+  },
+  "scripts": {
+    "test": "mocha --config ./test/.mocharc.js"
   },
   "homepage": "https://github.com/amz-tools/amazon-sp-api"
 }
