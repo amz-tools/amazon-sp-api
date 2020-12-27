@@ -43,7 +43,7 @@ Create client and call API:
       refresh_token:'<YOUR_REFRESH_TOKEN>' // The refresh token of your app user
     });
     let res = await sellingPartner.callAPI({
-      path:'/sellers/v1/marketplaceParticipations'
+      operation:'getMarketplaceParticipations'
     });
     console.log(res);
   } catch(e){
