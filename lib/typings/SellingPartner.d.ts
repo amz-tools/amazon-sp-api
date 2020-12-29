@@ -2,18 +2,21 @@ declare module "nick-testing-amazon-sp-api" {
   class SellingPartner {
     constructor(config: Config): void;
 
+    async refreshAccessToken(): void;
+    async refreshRoleCredentials(): void;
+
     async callAPI(test: string): void;
   }
 
   export = SellingPartner;
 
-  interface RoleCredentials {
+  export interface RoleCredentials {
     id?: string;
     secret?: string;
     security_token?: string;
   }
 
-  interface Options {
+  export interface Options {
     credentials_path?: string;
     auto_request_tokens?: boolean;
     auto_request_throttled?: boolean;
