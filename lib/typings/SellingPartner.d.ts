@@ -1,4 +1,12 @@
-declare module "SellingPartner" {
+declare module "nick-testing-amazon-sp-api" {
+  class SellingPartner {
+    constructor(config: Config): void;
+
+    async callAPI(test: string): void;
+  }
+
+  export = SellingPartner;
+
   interface RoleCredentials {
     id?: string;
     secret?: string;
@@ -11,15 +19,11 @@ declare module "SellingPartner" {
     auto_request_throttled?: boolean;
   }
 
-  interface ConstructorConfig {
+  export interface Config {
     region: "eu" | "na" | "fe";
     refresh_token: string;
     access_token?: string;
     role_credentials: RoleCredentials;
     options: Options;
-  }
-
-  export class SellingPartner {
-    constructor(config: ConstructorConfig): void {}
   }
 }
