@@ -1,5 +1,5 @@
 {
-  "name": "amazon-sp-api",
+  "name": "nick-testing-amazon-sp-api",
   "version": "0.2.6",
   "description": "Amazon Selling Partner API client",
   "main": "index.js",
