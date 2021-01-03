@@ -101,7 +101,7 @@ await sellingPartner.refreshAccessToken();
 await sellingPartner.refreshRoleCredentials();
 ```
 
-### Call the API
+## Call the API
 
 The **.callAPI()** function takes an object as input:
 * operation: Required, the operation you want to request [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references)
@@ -109,7 +109,7 @@ The **.callAPI()** function takes an object as input:
 * query: The input parameters added to the query string of the operation
 * body: The input parameters added to the body of the operation
 
-#### Examples
+### Examples
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'getOrderMetrics',
@@ -141,11 +141,11 @@ let res = await sellingPartner.callAPI({
 });
 ```
 
-### Download, decrypt and unzip reports
+## Download, decrypt and unzip reports
 
 The **.download()** function takes the download details (url and encryption details) received from a "getReportDocument" operation as input, downloads the content, unzips it (if result is compressed), decrypts it and returns it.
 You may also include an options object to enable a json result or to additionally save the report to a file.
-Retrieve the download details with a "getReportDocument" operation:
+Retrieve the download details from a "getReportDocument" operation:
 ```javascript
 let report_document = await sellingPartner.callAPI({
   operation:'getReportDocument',
@@ -171,7 +171,7 @@ Call the .download() function to receive the content of the report. The default 
 ```javascript
 let report = await sellingPartner.download(report_document);
 ```
-The options object has three optional parameters:
+The options object has three optional properties:
 * json: true/false, whether or not the content should be transformed to json before returning it (from tab delimited flat-file or XML). Defaults to false. IMPORTANT: is ignored when unzip is set to false.
 * unzip: true/false, whether or not the content should be unzipped before returning it. Defaults to true. 
 * file: absolute file path to save the report to. Defaults to not saving to disk. IMPORTANT: Even when saved to disk the report content is still returned.
@@ -183,6 +183,61 @@ let report = await sellingPartner.download(report_document, {
   file:'<YOUR_ABSOLUTE_FILE_PATH>/report.json'
 });
 ```
+
+## Encrypt and upload feeds
+
+The **.upload()** function takes the feed upload details (url and encryption details) received from a "createFeedDocument" operation, the feed content and its content type to upload as input, encrypts the content and uploads it.
+Start by creating a feed object with the following properties:
+* content: Required if "file" is not provided, the content to upload as a string.
+* file: Required if "content" is not provided, the absolute file path of the document to upload. IMPORTANT: Is ignored if "content" is provided
+* contentType: Required, the contentType of the content to upload (should be one of "text/xml" or "text/tab-separated-values" and the charset of the content, i.e. "text/xml; charset=utf-8").
+
+This will create an inventory feed ("POST_INVENTORY_AVAILABILITY_DATA") that will update the quantity of a given SKU to 10:
+```javascript
+let feed = {
+  content:`<?xml version="1.0" encoding="utf-8"?>
+    <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+      <Header>
+        <DocumentVersion>1.02</DocumentVersion>
+        <MerchantIdentifier>YOUR_MERCHANT_IDENTIFIER</MerchantIdentifier>
+      </Header>
+      <MessageType>Inventory</MessageType>
+      <Message>
+        <MessageID>1</MessageID>
+        <Inventory>
+          <SKU>YOUR_SKU</SKU>
+          <Quantity>10</Quantity>
+        </Inventory>
+      </Message>
+    </AmazonEnvelope>`,
+  contentType:'text/xml; charset=utf-8'
+};
+```
+Before you can upload the feed you need to retrieve the feed upload details from a "createFeedDocument" operation:
+```javascript
+let feed_upload_details = await sellingPartner.callAPI({
+  operation:'createFeedDocument',
+  body:{
+    contentType:feed.contentType
+  }
+});
+```
+Call the .upload() function to encrypt and upload the content of the feed:
+```javascript
+let res = await sellingPartner.upload(feed_upload_details, feed);
+```
+After uploading the feed you have to trigger the processing of the feed by calling the "createFeed" operation with the necessary params (marketplaceIds, feedType and inputFeedDocumentId):
+```javascript
+let feed_creation_infos = await sellingPartner.callAPI({
+  operation:'createFeed',
+  body:{
+    marketplaceIds:['A1PA6795UKMFR9'],
+    feedType:'POST_INVENTORY_AVAILABILITY_DATA',
+    inputFeedDocumentId:feed_upload_details.feedDocumentId // retrieve the feedDocumentId from the "createFeedDocument" operation
+  }
+});
+```
+IMPORTANT: Although uploading and creating the feed was successful it doesn't mean that the processing of the feed itself was also successful. You can check the result of the feed once it has been processed by downloading the processing result with the **.download()** function quite similar as how to download reports. Use the feedId returned by the "createFeed" operation and call the "getFeed" operation, which will include a resultFeedDocumentId if feed processing is already done. The resultFeedDocumentId can be used with a "getFeedDocument" operation that will return the feed download details needed for the feed result download.
 
 ## Known Issues
 Since the Selling Partner API is still pretty new, not all API paths and endpoints have been tested for full functionality. If you find any calls not working please open up a new issue.
