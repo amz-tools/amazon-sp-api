@@ -40,6 +40,20 @@ declare module "nick-testing-amazon-sp-api" {
     GetSmallAndLightFeePreviewBody,
     GetSmallAndLightFeePreviewResponse,
   } from "./operations/fba-small-and-light";
+  import {
+    CancelFeedPath,
+    CancelFeedResponse,
+    CreateFeedBody,
+    CreateFeedDocumentBody,
+    CreateFeedDocumentResponse,
+    CreateFeedResponse,
+    GetFeedDocumentPath,
+    GetFeedDocumentResponse,
+    GetFeedPath,
+    GetFeedResponse,
+    GetFeedsQuery,
+    GetFeedsResponse,
+  } from "./operations/feeds";
 
   class SellingPartner {
     constructor(config: Config): void;
@@ -76,6 +90,18 @@ declare module "nick-testing-amazon-sp-api" {
     ? GetSmallAndLightEligibilityBySellerSKUResponse
     : TOperation extends "getSmallAndLightFeePreview"
     ? GetSmallAndLightFeePreviewResponse
+    : TOperation extends "getFeeds"
+    ? GetFeedsResponse
+    : TOperation extends "createFeed"
+    ? CreateFeedResponse
+    : TOperation extends "getFeed"
+    ? GetFeedResponse
+    : TOperation extends "cancelFeed"
+    ? CancelFeedResponse
+    : TOperation extends "createFeedDocument"
+    ? CreateFeedDocumentResponse
+    : TOperation extends "getFeedDocument"
+    ? GetFeedDocumentResponse
     : never;
 
   type QueryType<
@@ -100,6 +126,8 @@ declare module "nick-testing-amazon-sp-api" {
     ? DeleteSmallAndLightEnrollmentBySellerSKUQuery
     : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
     ? GetSmallAndLightEligibilityBySellerSKUQuery
+    : TOperation extends "getFeeds"
+    ? GetFeedsQuery
     : never;
 
   type PathType<
@@ -114,12 +142,22 @@ declare module "nick-testing-amazon-sp-api" {
     ? DeleteSmallAndLightEnrollmentBySellerSKUPath
     : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
     ? GetSmallAndLightEligibilityBySellerSKUPath
+    : TOperation extends "getFeed"
+    ? GetFeedPath
+    : TOperation extends "cancelFeed"
+    ? CancelFeedPath
+    : TOperation extends "getFeedDocument"
+    ? GetFeedDocumentPath
     : never;
 
   type BodyType<
     TOperation extends Operation
   > = TOperation extends "getSmallAndLightFeePreview"
     ? GetSmallAndLightFeePreviewBody
+    : TOperation extends "createFeed"
+    ? CreateFeedBody
+    : TOperation extends "createFeedDocument"
+    ? CreateFeedDocumentBody
     : never;
 
   export interface ReqParams<TOperation extends Operation> {
