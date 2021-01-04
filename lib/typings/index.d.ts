@@ -13,6 +13,34 @@ import {
   GetFeedsResponse,
 } from "./operations/feeds";
 import {
+  ConfirmPreorderPath,
+  ConfirmPreorderQuery,
+  ConfirmPreorderResponse,
+  CreateInboundShipmentBody,
+  CreateInboundShipmentPath,
+  CreateInboundShipmentPlanBody,
+  CreateInboundShipmentPlanResponse,
+  CreateInboundShipmentResponse,
+  GetInboundGuidanceQuery,
+  GetInboundGuidanceResponse,
+  GetPreorderInfoPath,
+  GetPreorderInfoQuery,
+  GetPreorderInfoResponse,
+  GetPrepInstructionsQuery,
+  GetPrepInstructionsResponse,
+  UpdateInboundShipmentBody,
+  UpdateInboundShipmentPath,
+  UpdateInboundShipmentResponse,
+} from "./operations/fulfillment-inbound";
+import {
+  CreateReportBody,
+  CreateReportResponse,
+  GetReportDocumentPath,
+  GetReportDocumentResponse,
+  GetReportPath,
+  GetReportResponse,
+} from "./operations/reports";
+import {
   DeleteSmallAndLightEnrollmentBySellerSKUPath,
   DeleteSmallAndLightEnrollmentBySellerSKUQuery,
   GetSmallAndLightEligibilityBySellerSKUPath,
@@ -66,27 +94,6 @@ import {
 import { Config } from "./base-types";
 
 declare module "nick-testing-amazon-sp-api" {
-  import {
-    ConfirmPreorderPath,
-    ConfirmPreorderQuery,
-    ConfirmPreorderResponse,
-    CreateInboundShipmentBody,
-    CreateInboundShipmentPath,
-    CreateInboundShipmentPlanBody,
-    CreateInboundShipmentPlanResponse,
-    CreateInboundShipmentResponse,
-    GetInboundGuidanceQuery,
-    GetInboundGuidanceResponse,
-    GetPreorderInfoPath,
-    GetPreorderInfoQuery,
-    GetPreorderInfoResponse,
-    GetPrepInstructionsQuery,
-    GetPrepInstructionsResponse,
-    UpdateInboundShipmentBody,
-    UpdateInboundShipmentPath,
-    UpdateInboundShipmentResponse,
-  } from "./operations/fulfillment-inbound";
-
   class SellingPartner {
     constructor(config: Config): void;
     async refreshAccessToken(): void;
@@ -154,6 +161,10 @@ declare module "nick-testing-amazon-sp-api" {
     ? ConfirmPreorderResponse
     : TOperation extends "getPrepInstructions"
     ? GetPrepInstructionsResponse
+    : TOperation extends "getReport"
+    ? GetReportResponse
+    : TOperation extends "getReportDocument"
+    ? GetReportDocumentResponse
     : never;
 
   type QueryType<
@@ -198,6 +209,8 @@ declare module "nick-testing-amazon-sp-api" {
     ? ConfirmPreorderQuery
     : TOperation extends "getPrepInstructions"
     ? GetPrepInstructionsQuery
+    : TOperation extends "createReport"
+    ? CreateReportResponse
     : never;
 
   type PathType<
@@ -230,6 +243,10 @@ declare module "nick-testing-amazon-sp-api" {
     ? GetPreorderInfoPath
     : TOperation extends "confirmPreorder"
     ? ConfirmPreorderPath
+    : TOperation extends "getReport"
+    ? GetReportPath
+    : TOperation extends "getReportDocument"
+    ? GetReportDocumentPath
     : never;
 
   type BodyType<
@@ -246,6 +263,8 @@ declare module "nick-testing-amazon-sp-api" {
     ? UpdateInboundShipmentBody
     : TOperation extends "createInboundShipment"
     ? CreateInboundShipmentBody
+    : TOperation extends "createReport"
+    ? CreateReportBody
     : never;
 
   export interface ReqParams<TOperation extends Operation> {
