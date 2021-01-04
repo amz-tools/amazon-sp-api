@@ -66,6 +66,27 @@ import {
 import { Config } from "./base-types";
 
 declare module "nick-testing-amazon-sp-api" {
+  import {
+    ConfirmPreorderPath,
+    ConfirmPreorderQuery,
+    ConfirmPreorderResponse,
+    CreateInboundShipmentBody,
+    CreateInboundShipmentPath,
+    CreateInboundShipmentPlanBody,
+    CreateInboundShipmentPlanResponse,
+    CreateInboundShipmentResponse,
+    GetInboundGuidanceQuery,
+    GetInboundGuidanceResponse,
+    GetPreorderInfoPath,
+    GetPreorderInfoQuery,
+    GetPreorderInfoResponse,
+    GetPrepInstructionsQuery,
+    GetPrepInstructionsResponse,
+    UpdateInboundShipmentBody,
+    UpdateInboundShipmentPath,
+    UpdateInboundShipmentResponse,
+  } from "./operations/fulfillment-inbound";
+
   class SellingPartner {
     constructor(config: Config): void;
     async refreshAccessToken(): void;
@@ -121,6 +142,18 @@ declare module "nick-testing-amazon-sp-api" {
     ? ListFinancialEventsByOrderIdResponse
     : TOperation extends "listFinancialEvents"
     ? ListFinancialEventsResponse
+    : TOperation extends "getInboundGuidance"
+    ? GetInboundGuidanceResponse
+    : TOperation extends "updateInboundShipment"
+    ? UpdateInboundShipmentResponse
+    : TOperation extends "createInboundShipment"
+    ? CreateInboundShipmentResponse
+    : TOperation extends "getPreorderInfo"
+    ? GetPreorderInfoResponse
+    : TOperation extends "confirmPreorder"
+    ? ConfirmPreorderResponse
+    : TOperation extends "getPrepInstructions"
+    ? GetPrepInstructionsResponse
     : never;
 
   type QueryType<
@@ -155,6 +188,16 @@ declare module "nick-testing-amazon-sp-api" {
     ? ListFinancialEventsByOrderIdQuery
     : TOperation extends "listFinancialEvents"
     ? ListFinancialEventsQuery
+    : TOperation extends "getInboundGuidance"
+    ? GetInboundGuidanceQuery
+    : TOperation extends "createInboundShipmentPlan"
+    ? CreateInboundShipmentPlanResponse
+    : TOperation extends "getPreorderInfo"
+    ? GetPreorderInfoQuery
+    : TOperation extends "confirmPreorder"
+    ? ConfirmPreorderQuery
+    : TOperation extends "getPrepInstructions"
+    ? GetPrepInstructionsQuery
     : never;
 
   type PathType<
@@ -179,6 +222,14 @@ declare module "nick-testing-amazon-sp-api" {
     ? ListFinancialEventGroupsByGroupIdPath
     : TOperation extends "listFinancialEventsByOrderId"
     ? ListFinancialEventsByOrderIdPath
+    : TOperation extends "updateInboundShipment"
+    ? UpdateInboundShipmentPath
+    : TOperation extends "createInboundShipment"
+    ? CreateInboundShipmentPath
+    : TOperation extends "getPreorderInfo"
+    ? GetPreorderInfoPath
+    : TOperation extends "confirmPreorder"
+    ? ConfirmPreorderPath
     : never;
 
   type BodyType<
@@ -189,6 +240,12 @@ declare module "nick-testing-amazon-sp-api" {
     ? CreateFeedBody
     : TOperation extends "createFeedDocument"
     ? CreateFeedDocumentBody
+    : TOperation extends "createInboundShipmentPlan"
+    ? CreateInboundShipmentPlanBody
+    : TOperation extends "updateInboundShipment"
+    ? UpdateInboundShipmentBody
+    : TOperation extends "createInboundShipment"
+    ? CreateInboundShipmentBody
     : never;
 
   export interface ReqParams<TOperation extends Operation> {
