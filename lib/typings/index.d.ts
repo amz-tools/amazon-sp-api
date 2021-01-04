@@ -96,11 +96,15 @@ import {
 declare module "nick-testing-amazon-sp-api" {
   class SellingPartner {
     constructor(config: Config): void;
+
     async refreshAccessToken(): void;
+
     async refreshRoleCredentials(): void;
+
     async callAPI<TOperation extends Operation>(
       req_params: ReqParams<TOperation>
     ): ObjectType<TOperation>;
+
     download(details: ReportDocument, options?: DownloadOptions): void;
   }
 
@@ -108,7 +112,31 @@ declare module "nick-testing-amazon-sp-api" {
     | "getAuthorizationCode"
     | "listCatalogItems"
     | "getCatalogItem"
-    | "listCatalogCategories";
+    | "listCatalogCategories"
+    | "getItemEligibilityPreview"
+    | "getInventorySummaries"
+    | "getSmallAndLightEnrollmentBySellerSKU"
+    | "putSmallAndLightEnrollmentBySellerSKU"
+    | "getSmallAndLightEligibilityBySellerSKU"
+    | "getSmallAndLightFeePreview"
+    | "getFeeds"
+    | "createFeed"
+    | "getFeed"
+    | "cancelFeed"
+    | "createFeedDocument"
+    | "getFeedDocument"
+    | "listFinancialEventGroups"
+    | "listFinancialEventsByGroupId"
+    | "listFinancialEventsByOrderId"
+    | "listFinancialEvents"
+    | "getInboundGuidance"
+    | "updateInboundShipment"
+    | "createInboundShipment"
+    | "getPreorderInfo"
+    | "confirmPreorder"
+    | "getPrepInstructions"
+    | "getReport"
+    | "getReportDocument";
 
   type ObjectType<TOperation> = TOperation extends "getAuthorizationCode"
     ? GetAuthorizationCodeResponse
@@ -122,7 +150,7 @@ declare module "nick-testing-amazon-sp-api" {
     ? GetItemEligibilityPreviewResponse
     : TOperation extends "getInventorySummaries"
     ? GetInventorySummariesResponse
-    : TOperation extends "GetSmallAndLightEnrollmentBySellerSKUResponse"
+    : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
     ? GetSmallAndLightEnrollmentBySellerSKUResponse
     : TOperation extends "putSmallAndLightEnrollmentBySellerSKU"
     ? PutSmallAndLightEnrollmentBySellerSKUResponse
