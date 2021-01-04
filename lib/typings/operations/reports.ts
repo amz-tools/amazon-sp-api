@@ -59,7 +59,7 @@ type ProcessingStatus =
   | "IN_PROGRESS"
   | "IN_QUEUE";
 
-interface ReportDocument {
+export interface ReportDocument {
   reportDocumentId: string;
   url: string;
   encryptionDetails: ReportDocumentEncryptionDetails;
