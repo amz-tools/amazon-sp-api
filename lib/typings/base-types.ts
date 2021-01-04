@@ -31,3 +31,9 @@ export interface Config {
 export interface Pagination {
   nextToken?: string;
 }
+
+export interface DownloadOptions {
+  json?: boolean;
+  unzip?: boolean;
+  file?: string;
+}

@@ -12,6 +12,7 @@ import {
   GetFeedsQuery,
   GetFeedsResponse,
 } from "./operations/feeds";
+import { Config, DownloadOptions } from "./base-types";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
@@ -39,6 +40,7 @@ import {
   GetReportDocumentResponse,
   GetReportPath,
   GetReportResponse,
+  ReportDocument,
 } from "./operations/reports";
 import {
   DeleteSmallAndLightEnrollmentBySellerSKUPath,
@@ -91,8 +93,6 @@ import {
   ListFinancialEventsResponse,
 } from "./operations/finances";
 
-import { Config } from "./base-types";
-
 declare module "nick-testing-amazon-sp-api" {
   class SellingPartner {
     constructor(config: Config): void;
@@ -101,6 +101,7 @@ declare module "nick-testing-amazon-sp-api" {
     async callAPI<TOperation extends Operation>(
       req_params: ReqParams<TOperation>
     ): ObjectType<TOperation>;
+    download(details: ReportDocument, options?: DownloadOptions): void;
   }
 
   type Operation =
@@ -165,7 +166,7 @@ declare module "nick-testing-amazon-sp-api" {
     ? GetReportResponse
     : TOperation extends "getReportDocument"
     ? GetReportDocumentResponse
-    : never;
+    : any;
 
   type QueryType<
     TOperation extends Operation
@@ -211,7 +212,7 @@ declare module "nick-testing-amazon-sp-api" {
     ? GetPrepInstructionsQuery
     : TOperation extends "createReport"
     ? CreateReportResponse
-    : never;
+    : any;
 
   type PathType<
     TOperation extends Operation
@@ -247,7 +248,7 @@ declare module "nick-testing-amazon-sp-api" {
     ? GetReportPath
     : TOperation extends "getReportDocument"
     ? GetReportDocumentPath
-    : never;
+    : any;
 
   type BodyType<
     TOperation extends Operation
@@ -265,7 +266,7 @@ declare module "nick-testing-amazon-sp-api" {
     ? CreateInboundShipmentBody
     : TOperation extends "createReport"
     ? CreateReportBody
-    : never;
+    : any;
 
   export interface ReqParams<TOperation extends Operation> {
     operation: TOperation;
