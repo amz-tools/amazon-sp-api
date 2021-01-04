@@ -17,6 +17,10 @@ declare module "nick-testing-amazon-sp-api" {
     GetItemEligibilityPreviewQuery,
     GetItemEligibilityPreviewResponse,
   } from "./operations/fba-inbound-eligibility";
+  import {
+    GetInventorySummariesQuery,
+    GetInventorySummariesResponse,
+  } from "./operations/fba-inventory";
 
   class SellingPartner {
     constructor(config: Config): void;
@@ -43,6 +47,8 @@ declare module "nick-testing-amazon-sp-api" {
     ? ListCatalogCategoriesResponse
     : TOperation extends "getItemEligibilityPreview"
     ? GetItemEligibilityPreviewResponse
+    : TOperation extends "getInventorySummaries"
+    ? GetInventorySummariesResponse
     : never;
 
   type QueryType<
@@ -57,6 +63,8 @@ declare module "nick-testing-amazon-sp-api" {
     ? ListCatalogCategoriesQuery
     : TOperation extends "getItemEligibilityPreview"
     ? GetItemEligibilityPreviewQuery
+    : TOperation extends "getInventorySummaries"
+    ? GetInventorySummariesQuery
     : never;
 
   type PathType<

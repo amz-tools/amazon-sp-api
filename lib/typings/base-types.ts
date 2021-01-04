@@ -27,3 +27,7 @@ export interface Config {
   role_credentials?: RoleCredentials;
   options?: Options;
 }
+
+export interface Pagination {
+  nextToken?: string;
+}
