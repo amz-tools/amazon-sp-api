@@ -1,4 +1,18 @@
 import {
+  CancelFeedPath,
+  CancelFeedResponse,
+  CreateFeedBody,
+  CreateFeedDocumentBody,
+  CreateFeedDocumentResponse,
+  CreateFeedResponse,
+  GetFeedDocumentPath,
+  GetFeedDocumentResponse,
+  GetFeedPath,
+  GetFeedResponse,
+  GetFeedsQuery,
+  GetFeedsResponse,
+} from "./operations/feeds";
+import {
   DeleteSmallAndLightEnrollmentBySellerSKUPath,
   DeleteSmallAndLightEnrollmentBySellerSKUQuery,
   GetSmallAndLightEligibilityBySellerSKUPath,
@@ -32,29 +46,26 @@ import {
   GetItemEligibilityPreviewQuery,
   GetItemEligibilityPreviewResponse,
 } from "./operations/fba-inbound-eligibility";
+import {
+  GetSmallAndLightFeePreviewBody,
+  GetSmallAndLightFeePreviewResponse,
+} from "./operations/fba-small-and-light";
+import {
+  ListFinancialEventGroupsByGroupIdPath,
+  ListFinancialEventGroupsByGroupIdQuery,
+  ListFinancialEventGroupsByGroupIdResponse,
+  ListFinancialEventGroupsQuery,
+  ListFinancialEventGroupsResponse,
+  ListFinancialEventsByOrderIdPath,
+  ListFinancialEventsByOrderIdQuery,
+  ListFinancialEventsByOrderIdResponse,
+  ListFinancialEventsQuery,
+  ListFinancialEventsResponse,
+} from "./operations/finances";
 
 import { Config } from "./base-types";
 
 declare module "nick-testing-amazon-sp-api" {
-  import {
-    GetSmallAndLightFeePreviewBody,
-    GetSmallAndLightFeePreviewResponse,
-  } from "./operations/fba-small-and-light";
-  import {
-    CancelFeedPath,
-    CancelFeedResponse,
-    CreateFeedBody,
-    CreateFeedDocumentBody,
-    CreateFeedDocumentResponse,
-    CreateFeedResponse,
-    GetFeedDocumentPath,
-    GetFeedDocumentResponse,
-    GetFeedPath,
-    GetFeedResponse,
-    GetFeedsQuery,
-    GetFeedsResponse,
-  } from "./operations/feeds";
-
   class SellingPartner {
     constructor(config: Config): void;
     async refreshAccessToken(): void;
@@ -102,6 +113,14 @@ declare module "nick-testing-amazon-sp-api" {
     ? CreateFeedDocumentResponse
     : TOperation extends "getFeedDocument"
     ? GetFeedDocumentResponse
+    : TOperation extends "listFinancialEventGroups"
+    ? ListFinancialEventGroupsResponse
+    : TOperation extends "listFinancialEventsByGroupId"
+    ? ListFinancialEventGroupsByGroupIdResponse
+    : TOperation extends "listFinancialEventsByOrderId"
+    ? ListFinancialEventsByOrderIdResponse
+    : TOperation extends "listFinancialEvents"
+    ? ListFinancialEventsResponse
     : never;
 
   type QueryType<
@@ -128,6 +147,14 @@ declare module "nick-testing-amazon-sp-api" {
     ? GetSmallAndLightEligibilityBySellerSKUQuery
     : TOperation extends "getFeeds"
     ? GetFeedsQuery
+    : TOperation extends "listFinancialEventGroups"
+    ? ListFinancialEventGroupsQuery
+    : TOperation extends "listFinancialEventsByGroupId"
+    ? ListFinancialEventGroupsByGroupIdQuery
+    : TOperation extends "listFinancialEventsByOrderId"
+    ? ListFinancialEventsByOrderIdQuery
+    : TOperation extends "listFinancialEvents"
+    ? ListFinancialEventsQuery
     : never;
 
   type PathType<
@@ -148,6 +175,10 @@ declare module "nick-testing-amazon-sp-api" {
     ? CancelFeedPath
     : TOperation extends "getFeedDocument"
     ? GetFeedDocumentPath
+    : TOperation extends "listFinancialEventsByGroupId"
+    ? ListFinancialEventGroupsByGroupIdPath
+    : TOperation extends "listFinancialEventsByOrderId"
+    ? ListFinancialEventsByOrderIdPath
     : never;
 
   type BodyType<
