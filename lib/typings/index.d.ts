@@ -93,7 +93,7 @@ import {
   ListFinancialEventsResponse,
 } from "./operations/finances";
 
-declare module "nick-testing-amazon-sp-api" {
+declare module "amazon-sp-api" {
   class SellingPartner {
     constructor(config: Config): void;
 
