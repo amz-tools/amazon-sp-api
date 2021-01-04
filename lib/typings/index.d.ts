@@ -12,7 +12,7 @@ import {
   GetFeedsQuery,
   GetFeedsResponse,
 } from "./operations/feeds";
-import { Config, DownloadOptions, DownloadResponse } from "./base-types";
+import { Config, DownloadOptions, ReportDocumentType } from "./base-types";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
@@ -105,7 +105,10 @@ declare module "nick-testing-amazon-sp-api" {
       req_params: ReqParams<TOperation>
     ): ObjectType<TOperation>;
 
-    download<T>(details: ReportDocument, options?: DownloadOptions): T;
+    download<T extends ReportDocumentType>(
+      details: ReportDocument,
+      options?: DownloadOptions
+    ): T;
   }
 
   type Operation =
