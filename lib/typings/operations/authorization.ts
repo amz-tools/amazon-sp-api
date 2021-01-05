@@ -1,4 +1,4 @@
-import { BaseResponse } from "../base-types";
+import { BaseResponse } from "../baseTypes";
 
 export interface GetAuthorizationCodeQuery {
   sellingPartnerId: string;

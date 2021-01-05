@@ -1,4 +1,4 @@
-import { BaseResponse, Pagination } from "../base-types";
+import { BaseResponse, Pagination } from "../baseTypes";
 
 type GranularityType = "Marketplace";
 

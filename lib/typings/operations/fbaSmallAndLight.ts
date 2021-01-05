@@ -1,4 +1,4 @@
-import { BaseResponse } from "../base-types";
+import { BaseResponse } from "../baseTypes";
 
 interface SmallAndLightEnrollmentQuery {
   marketplaceIds: string[];

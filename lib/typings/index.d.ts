@@ -12,7 +12,7 @@ import {
   GetFeedsQuery,
   GetFeedsResponse,
 } from "./operations/feeds";
-import { Config, DownloadOptions, ReportDocumentType } from "./base-types";
+import { Config, DownloadOptions, ReportDocumentType } from "./baseTypes";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
@@ -32,7 +32,7 @@ import {
   UpdateInboundShipmentBody,
   UpdateInboundShipmentPath,
   UpdateInboundShipmentResponse,
-} from "./operations/fulfillment-inbound";
+} from "./operations/fulfillmentInbound";
 import {
   CreateReportBody,
   CreateReportResponse,
@@ -51,10 +51,12 @@ import {
   GetSmallAndLightEnrollmentBySellerSKUPath,
   GetSmallAndLightEnrollmentBySellerSKUQuery,
   GetSmallAndLightEnrollmentBySellerSKUResponse,
+  GetSmallAndLightFeePreviewBody,
+  GetSmallAndLightFeePreviewResponse,
   PutSmallAndLightEnrollmentBySellerSKUPath,
   PutSmallAndLightEnrollmentBySellerSKUQuery,
   PutSmallAndLightEnrollmentBySellerSKUResponse,
-} from "./operations/fba-small-and-light";
+} from "./operations/fbaSmallAndLight";
 import {
   GetAuthorizationCodeQuery,
   GetAuthorizationCodeResponse,
@@ -67,19 +69,15 @@ import {
   ListCatalogCategoriesResponse,
   ListCatalogItemsQuery,
   ListCatalogItemsResponse,
-} from "./operations/catalog-items";
+} from "./operations/catalogItems";
 import {
   GetInventorySummariesQuery,
   GetInventorySummariesResponse,
-} from "./operations/fba-inventory";
+} from "./operations/fbaInventory";
 import {
   GetItemEligibilityPreviewQuery,
   GetItemEligibilityPreviewResponse,
-} from "./operations/fba-inbound-eligibility";
-import {
-  GetSmallAndLightFeePreviewBody,
-  GetSmallAndLightFeePreviewResponse,
-} from "./operations/fba-small-and-light";
+} from "./operations/fbaInboundEligibility";
 import {
   ListFinancialEventGroupsByGroupIdPath,
   ListFinancialEventGroupsByGroupIdQuery,
