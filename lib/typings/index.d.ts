@@ -91,7 +91,7 @@ import {
   ListFinancialEventsResponse,
 } from "./operations/finances";
 
-import { ReportDocumentType } from "../typings/operations/download";
+import { ReportDocumentType } from "./download";
 
 declare module "amazon-sp-api" {
   class SellingPartner {
