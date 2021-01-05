@@ -20,13 +20,13 @@
   "author": "Jens Lübberstedt <jens@amz.tools>",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^14.14.16",
     "crypto-js": "^4.0.0",
     "csvtojson": "^2.0.10",
     "fast-xml-parser": "^3.17.5",
     "qs": "^6.9.4"
   },
   "devDependencies": {
+    "@types/node": "^14.14.16",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "mocha": "^8.2.1",
