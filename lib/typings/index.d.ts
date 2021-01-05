@@ -139,7 +139,8 @@ declare module "amazon-sp-api" {
     | "confirmPreorder"
     | "getPrepInstructions"
     | "getReport"
-    | "getReportDocument";
+    | "getReportDocument"
+    | string;
 
   type ObjectType<TOperation> = TOperation extends "getAuthorizationCode"
     ? GetAuthorizationCodeResponse
