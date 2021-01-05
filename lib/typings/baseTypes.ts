@@ -37,3 +37,11 @@ export interface DownloadOptions {
   unzip?: boolean;
   file?: string;
 }
+
+export enum ProcessingStatus {
+  InQueue = "IN_QUEUE",
+  InProgress = "IN_PROGRESS",
+  Done = "DONE",
+  Cancelled = "CANCELLED",
+  Fatal = "FATAL",
+}

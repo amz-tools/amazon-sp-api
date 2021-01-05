@@ -1,11 +1,4 @@
-import { BaseResponse } from "../baseTypes";
-
-type ProcessingStatus =
-  | "CANCELLED"
-  | "DONE"
-  | "FATAL"
-  | "IN_PROGRESS"
-  | "IN_QUEUE";
+import { BaseResponse, ProcessingStatus } from "../baseTypes";
 
 export interface GetFeedsQuery {
   feedTypes?: string[];

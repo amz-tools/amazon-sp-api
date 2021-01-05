@@ -1,4 +1,4 @@
-import { BaseResponse } from "../baseTypes";
+import { BaseResponse, ProcessingStatus } from "../baseTypes";
 
 export interface CreateReportBody {
   body: CreateReportSpecification;
@@ -51,13 +51,6 @@ interface Report {
   processingEndTime?: string;
   reportDocumentId?: string;
 }
-
-type ProcessingStatus =
-  | "CANCELLED"
-  | "DONE"
-  | "FATAL"
-  | "IN_PROGRESS"
-  | "IN_QUEUE";
 
 export interface ReportDocument {
   reportDocumentId: string;
