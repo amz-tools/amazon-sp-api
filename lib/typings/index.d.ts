@@ -12,7 +12,7 @@ import {
   GetFeedsQuery,
   GetFeedsResponse,
 } from "./operations/feeds";
-import { Config, DownloadOptions, ReportDocumentType } from "./baseTypes";
+import { Config, DownloadOptions } from "./baseTypes";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
@@ -90,6 +90,8 @@ import {
   ListFinancialEventsQuery,
   ListFinancialEventsResponse,
 } from "./operations/finances";
+
+import { ReportDocumentType } from "../typings/operations/download";
 
 declare module "amazon-sp-api" {
   class SellingPartner {
