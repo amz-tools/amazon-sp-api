@@ -10,8 +10,9 @@ npm install amazon-sp-api
 ```
 
 ## Getting Started
-Before you can use the client you need to add your app client and aws user credentials as environment variables:
+Before you can use the client you need to add your app client and aws user credentials.
 
+### Setting credentials from environment variables
 * `SELLING_PARTNER_APP_CLIENT_ID`=<YOUR_APP_CLIENT_ID> ([see SP Developer Guide "Viewing your developer information"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#viewing-your-developer-information))
 * `SELLING_PARTNER_APP_CLIENT_SECRET`=<YOUR_APP_CLIENT_SECRET> ([see SP Developer Guide "Viewing your developer information"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#viewing-your-developer-information))
 * `AWS_SELLING_PARTNER_ACCESS_KEY_ID` or `AWS_ACCESS_KEY_ID`=<YOUR_AWS_USER_ID> ([see SP Developer Guide "Create an IAM user"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#step-2-create-an-iam-user))
@@ -27,6 +28,9 @@ AWS_ACCESS_KEY_ID=<YOUR_AWS_USER_ID>
 AWS_SECRET_ACCESS_KEY=<YOUR_AWS_USER_SECRET>
 AWS_SELLING_PARTNER_ROLE=<YOUR_AWS_SELLING_PARTNER_API_ROLE>
 ```
+
+### Setting credentials from constructor config object
+Although the most convenient and recommended way of setting the credentials is via environment variables or config file it is also possible to pass the credentials inside the config object when creating an instance of the client (i.e. if you have no means of using env vars or a config file). The structure of the constructor config object will be explained below.
 
 ## Usage
 Require library:
@@ -69,6 +73,15 @@ The class constructor takes a config object as input:
     credentials_path:'<YOUR_CUSTOM_ABSOLUTE_PATH>', // Optional, a custom absolute path to your credentials file location
     auto_request_tokens:true, // Optional, whether or not the client should retrieve new access and role credentials if non given or expired. Default is true
     auto_request_throttled:true // Optional, whether or not the client should automatically retry a request when throttled. Default is true
+  },
+  // Optional: Your app client and aws user credentials
+  // --> should only be used if you have no means of using environment vars or credentials file
+  credentials:{
+    SELLING_PARTNER_APP_CLIENT_ID:'<YOUR_APP_CLIENT_ID>',
+    SELLING_PARTNER_APP_CLIENT_SECRET:'<YOUR_APP_CLIENT_SECRET>',
+    AWS_ACCESS_KEY_ID:'<YOUR_AWS_USER_ID>',
+    AWS_SECRET_ACCESS_KEY:'<YOUR_AWS_USER_SECRET>',
+    AWS_SELLING_PARTNER_ROLE:'<YOUR_AWS_SELLING_PARTNER_API_ROLE>'
   }
 }
 ```
