@@ -61,7 +61,7 @@ Create client and call API:
 The class constructor takes a config object as input:
 ```javascript
 {
-  region:'eu', // Required: The region of the selling partner API endpoint ("eu", "na" or "fe")
+  region:'eu', // Required, the region of the selling partner API endpoint ("eu", "na" or "fe")
   refresh_token:'<YOUR_REFRESH_TOKEN>', // Required, the refresh token of your app user
   access_token:'<YOUR_ACCESS_TOKEN>', // Optional, the access token requested with the refresh token of the app user
   role_credentials:{ 
@@ -118,10 +118,10 @@ await sellingPartner.refreshRoleCredentials();
 ## Call the API
 
 The **.callAPI()** function takes an object as input:
-* operation: Required, the operation you want to request [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references)
-* path: The input paramaters added to the path of the operation
-* query: The input parameters added to the query string of the operation
-* body: The input parameters added to the body of the operation
+* `operation`: Required, the operation you want to request [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references)
+* `path`: The input paramaters added to the path of the operation
+* `query`: The input parameters added to the query string of the operation
+* `body`: The input parameters added to the body of the operation
 
 ### Examples
 ```javascript
@@ -186,9 +186,9 @@ Call the .download() function to receive the content of the report. The default 
 let report = await sellingPartner.download(report_document);
 ```
 The options object has three optional properties:
-* json: true/false, whether or not the content should be transformed to json before returning it (from tab delimited flat-file or XML). Defaults to false. IMPORTANT: is ignored when unzip is set to false.
-* unzip: true/false, whether or not the content should be unzipped before returning it. Defaults to true. 
-* file: absolute file path to save the report to. Defaults to not saving to disk. IMPORTANT: Even when saved to disk the report content is still returned.
+* `json`: true/false, whether or not the content should be transformed to json before returning it (from tab delimited flat-file or XML). Defaults to false. IMPORTANT: is ignored when unzip is set to false.
+* `unzip`: true/false, whether or not the content should be unzipped before returning it. Defaults to true. 
+* `file`: absolute file path to save the report to. Defaults to not saving to disk. IMPORTANT: Even when saved to disk the report content is still returned.
 
 The following call will download the report, transform it to json and save it to disk:
 ```javascript
@@ -202,9 +202,9 @@ let report = await sellingPartner.download(report_document, {
 
 The **.upload()** function takes the feed upload details (url and encryption details) received from a "createFeedDocument" operation, the feed content and its content type to upload as input, encrypts the content and uploads it.
 Start by creating a feed object with the following properties:
-* content: Required if "file" is not provided, the content to upload as a string.
-* file: Required if "content" is not provided, the absolute file path of the document to upload. IMPORTANT: Is ignored if "content" is provided
-* contentType: Required, the contentType of the content to upload (should be one of "text/xml" or "text/tab-separated-values" and the charset of the content, i.e. "text/xml; charset=utf-8").
+* `content`: Required if "file" is not provided, the content to upload as a string.
+* `file`: Required if "content" is not provided, the absolute file path of the document to upload. IMPORTANT: Is ignored if "content" is provided
+* `contentType`: Required, the contentType of the content to upload (should be one of "text/xml" or "text/tab-separated-values" and the charset of the content, i.e. "text/xml; charset=utf-8").
 
 This will create an inventory feed ("POST_INVENTORY_AVAILABILITY_DATA") that will update the quantity of a given SKU to 10:
 ```javascript
