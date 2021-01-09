@@ -253,6 +253,19 @@ let feed_creation_infos = await sellingPartner.callAPI({
 ```
 IMPORTANT: Although uploading and creating the feed was successful it doesn't mean that the processing of the feed itself was also successful. You can check the result of the feed once it has been processed by downloading the processing result with the **.download()** function quite similar as how to download reports. Use the feedId returned by the "createFeed" operation and call the "getFeed" operation, which will include a resultFeedDocumentId if feed processing is already done. The resultFeedDocumentId can be used with a "getFeedDocument" operation that will return the feed download details needed for the feed result download.
 
+## Sandbox mode
+You can easily enable sandbox mode by setting the use_sandbox in the constructor config options to true. When using the sandbox you have to make sure to use the correct request parameters for the operation you want to test. You can find these inside the [api models definitions](https://github.com/amzn/selling-partner-api-models/tree/main/models) by searching the corresponding json file for "x-amazon-spds-sandbox-behaviors".
+For example, this will test the "listCatalogItems" operation in sandbox mode:
+```javascript
+let res = await sellingPartner.callAPI({
+  operation:'listCatalogItems',
+  query:{
+    MarketplaceId:'TEST_CASE_200',
+    SellerSKU:'SKU_200'
+  }
+});
+```
+
 ## Known Issues
 Since the Selling Partner API is still pretty new, not all API paths and endpoints have been tested for full functionality. If you find any calls not working please open up a new issue.
 
