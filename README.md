@@ -73,7 +73,7 @@ The class constructor takes a config object as input:
     credentials_path:'<YOUR_CUSTOM_ABSOLUTE_PATH>', // Optional, a custom absolute path to your credentials file location
     auto_request_tokens:true, // Optional, whether or not the client should retrieve new access and role credentials if non given or expired. Default is true
     auto_request_throttled:true, // Optional, whether or not the client should automatically retry a request when throttled. Default is true
-    use_sandbox:false // Optional, whether or not the client should automatically retry a request when throttled. Default is false
+    use_sandbox:false // Optional, whether or not use sandbox endpoint. Default is false
   },
   // Optional: Your app client and aws user credentials
   // --> should only be used if you have no means of using environment vars or credentials file
