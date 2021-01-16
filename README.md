@@ -61,19 +61,20 @@ Create client and call API:
 The class constructor takes a config object as input:
 ```javascript
 {
-  region:'eu', // Required, the region of the selling partner API endpoint ("eu", "na" or "fe")
-  refresh_token:'<YOUR_REFRESH_TOKEN>', // Required, the refresh token of your app user
-  access_token:'<YOUR_ACCESS_TOKEN>', // Optional, the access token requested with the refresh token of the app user
-  role_credentials:{ 
-    id:'<YOUR_TEMPORARY_ROLE_ACCESS_ID>', // Optional, the temporary access id for the sp api role of the iam user
-    secret:'<YOUR_TEMPORARY_ROLE_ACCESS_SECRET>', // Optional, the temporary access secret for the sp api role of the iam user
-    security_token:'<YOUR_TEMPORARY_ROLE_SECURITY_TOKEN>' // Optional, the temporary security token for the sp api role of the iam user
+  region:'eu', // Required: The region of the selling partner API endpoint ("eu", "na" or "fe")
+  refresh_token:'<YOUR_REFRESH_TOKEN>', // Optional: The refresh token of your app user. Required if "only_grantless_operations" option is set to false
+  access_token:'<YOUR_ACCESS_TOKEN>', // Optional: The access token requested with the refresh token of the app user
+  role_credentials:{
+    id:'<YOUR_TEMPORARY_ROLE_ACCESS_ID>', // Optional: The temporary access id for the sp api role of the iam user
+    secret:'<YOUR_TEMPORARY_ROLE_ACCESS_SECRET>', // Optional: The temporary access secret for the sp api role of the iam user
+    security_token:'<YOUR_TEMPORARY_ROLE_SECURITY_TOKEN>' // Optional: The temporary security token for the sp api role of the iam user
   },
   options:{
-    credentials_path:'<YOUR_CUSTOM_ABSOLUTE_PATH>', // Optional, a custom absolute path to your credentials file location
-    auto_request_tokens:true, // Optional, whether or not the client should retrieve new access and role credentials if non given or expired. Default is true
-    auto_request_throttled:true, // Optional, whether or not the client should automatically retry a request when throttled. Default is true
-    use_sandbox:false // Optional, whether or not to use the sandbox endpoint. Default is false
+    credentials_path:'<YOUR_CUSTOM_ABSOLUTE_PATH>', // Optional: A custom absolute path to your credentials file location
+    auto_request_tokens:true, // Optional: Whether or not the client should retrieve new access and role credentials if non given or expired. Default is true
+    auto_request_throttled:true, // Optional: Whether or not the client should automatically retry a request when throttled. Default is true
+    use_sandbox:false, // Optional: Whether or not to use the sandbox endpoint. Default is false
+    only_grantless_operations:false // Optional: Whether or not to only use grantless operations. Default is false
   },
   // Optional: Your app client and aws user credentials
   // --> should only be used if you have no means of using environment vars or credentials file
@@ -86,7 +87,7 @@ The class constructor takes a config object as input:
   }
 }
 ```
-If you only provide the required parameters (region and refresh_token) the client will automatically request access_token and role_credentials for you (with a TTL of 1 hour) and reuse these for future api calls for the class instance.
+If you only provide the "region" and "refresh_token" parameters the client will automatically request access_token and role_credentials for you (with a TTL of 1 hour) and reuse these for future api calls for the class instance.
 If you want to use the same credentials for multiple instances you can retrieve them via getters and use them as input for a new instance:
 ```javascript
 let access_token = sellingPartner.access_token;
@@ -151,6 +152,42 @@ let res = await sellingPartner.callAPI({
   body:{
     reportType:'GET_FLAT_FILE_OPEN_LISTINGS_DATA',
     marketplaceIds:['A1PA6795UKMFR9']
+  }
+});
+```
+
+### Grantless operations
+
+Some operations don't require an explicit authorization by a seller ([list of grantless operations](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#grantless-operations-1)). A grantless operation needs another access_token than other operations and as such a grantless token is NOT the access_token you can provide in the constructor config object. However if you set "auto_request_tokens" option to true the client should handle everything for you.
+
+If you do the token request manually you need to create a grantless token by calling "refreshAccessToken" with the scope of the corresponding endpoint. Currently there are only two different scopes: "sellingpartnerapi::migration" for authorization endpoint and "sellingpartnerapi::notifications" for notifications endpoint.
+
+If you don't need or have a refresh_token (i.e. because you want to retrieve an SP API authorization code of an already via MWS authorized seller) you may use the client with the "only_grantless_operations" option set to true which allows you to create an instance of the client without a refresh_token.
+
+To sum up, please see the following example that will request an auth code for an authorized MWS seller account.
+
+First create a client instance that only allows to call grantless operations (no refresh_token included):
+```javascript
+let sellingPartner = new SellingPartnerAPI({
+  region:'eu',
+  options:{
+    auto_request_tokens:false,
+    only_grantless_operations:true
+  }
+});
+```
+Then request a grantless token with the scope needed for the operation you want to call:
+```javascript
+await sellingPartner.refreshAccessToken('sellingpartnerapi::migration');
+```
+Finally call the grantless operation:
+```javascript
+let res = await sellingPartner.callAPI({
+  operation:'getAuthorizationCode',
+  query:{
+    sellingPartnerId:'<YOUR_CUSTOMERS_SELLER_ID>',
+    developerId:'<YOUR_DEVELOPER_ID>',
+    mwsAuthToken:'<YOUR_CUSTOMERS_MWS_TOKEN>'
   }
 });
 ```
@@ -270,3 +307,5 @@ let res = await sellingPartner.callAPI({
 Since the Selling Partner API is still pretty new, not all API paths and endpoints have been tested for full functionality. If you find any calls not working please open up a new issue.
 
 Some operations don't seem to be heavy-use resistant yet, i.e. the "listCatalogItems" operation throws an "InteralFailure" error (statusCode 500) if used repetitive (although restore rate of operation is respected).
+
+Some endpoints might have issues with special charsets like UTF-8. I.e. the finances operations return invalid UTF-8 encodings for all data prior to May 2020 resulting in JSON parse errors.
