@@ -19,7 +19,7 @@ module.exports.mochaHooks = {
   },
 
   beforeEach:function(done){
-    let skip_hook_titles = ['authorization', 'notifications'];
+    let skip_hook_titles = ['configErrors', 'authorization', 'notifications'];
     if (!skip_hook_titles.includes(this.currentTest.parent.title)){
       this.sellingPartner = new SellingPartnerAPI({
         region:config.region,
