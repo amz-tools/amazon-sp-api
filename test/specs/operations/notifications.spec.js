@@ -1,3 +1,4 @@
+const SellingPartnerAPI = require('../../../index');
 const chai = require('chai');
 const expect = chai.expect;
 
@@ -5,10 +6,20 @@ describe('notifications', async function(){
 
 	let subscription_id;
 	let destination_id;
+	let sellingPartner;
 
 	it('should return subscriptions for any offer changed', async function(){
+		sellingPartner = new SellingPartnerAPI({
+	    region:this.config.region,
+	    refresh_token:this.config.refresh_token,
+	    access_token:this.config.access_token,
+	    role_credentials:this.config.role_credentials,
+	    options:{
+	      auto_request_tokens:false
+	    }
+	  });
 		try {
-			let res = await this.sellingPartner.callAPI({
+			let res = await sellingPartner.callAPI({
 				operation:'getSubscription',
 				path:{
 					notificationType:'ANY_OFFER_CHANGED'
@@ -31,7 +42,8 @@ describe('notifications', async function(){
 	it('should return subscriptions for subscription id', async function(){
 		if (subscription_id){
 			try {
-				let res = await this.sellingPartner.callAPI({
+				await sellingPartner.refreshAccessToken('sellingpartnerapi::notifications');
+				let res = await sellingPartner.callAPI({
 					operation:'getSubscriptionById',
 					path:{
 						subscriptionId:subscription_id,
@@ -51,10 +63,22 @@ describe('notifications', async function(){
 		}
 	});
 
+	it('should return destinations', async function(){
+		await sellingPartner.refreshAccessToken('sellingpartnerapi::notifications');
+		let res = await sellingPartner.callAPI({
+			operation:'getDestinations'
+    });
+    expect(res).to.be.a('array');
+    if (res.length && res[0].destinationId){
+    	destination_id = res[0].destination_id;
+    }
+	});
+
 	it('should return destination for destination id', async function(){
 		if (destination_id){
 			try {
-				let res = await this.sellingPartner.callAPI({
+				await sellingPartner.refreshAccessToken('sellingpartnerapi::notifications');
+				let res = await sellingPartner.callAPI({
 					operation:'getDestination',
 					path:{
 						destinationId:destination_id

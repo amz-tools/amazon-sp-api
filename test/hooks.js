@@ -19,15 +19,18 @@ module.exports.mochaHooks = {
   },
 
   beforeEach:function(done){
-    this.sellingPartner = new SellingPartnerAPI({
-      region:config.region,
-      refresh_token:config.refresh_token,
-      access_token:config.access_token,
-      role_credentials:config.role_credentials,
-      options:{
-        auto_request_tokens:false
-      }
-    });
+    let skip_hook_titles = ['authorization', 'notifications'];
+    if (!skip_hook_titles.includes(this.currentTest.parent.title)){
+      this.sellingPartner = new SellingPartnerAPI({
+        region:config.region,
+        refresh_token:config.refresh_token,
+        access_token:config.access_token,
+        role_credentials:config.role_credentials,
+        options:{
+          auto_request_tokens:false
+        }
+      });
+    }
     done();
   }
 
