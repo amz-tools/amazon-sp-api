@@ -10,12 +10,15 @@
     "amazon",
     "sellingpartner",
     "sp",
-    "mws",
     "sellercentral",
     "amazon sellingpartner api",
     "amazon sp api",
     "selling partner",
-    "amazon sp api client"
+    "amazon sp api client",
+    "amazon selling partner",
+    "amazon selling partner api",
+    "mws",
+    "amazon mws"
   ],
   "author": "Jens Lübberstedt <jens@amz.tools>",
   "license": "MIT",
