@@ -26,6 +26,7 @@
     "crypto-js": "^4.0.0",
     "csvtojson": "^2.0.10",
     "fast-xml-parser": "^3.17.5",
+    "iconv-lite": "^0.6.2",
     "qs": "^6.9.4"
   },
   "devDependencies": {
