@@ -242,15 +242,23 @@ Call the .download() function to receive the content of the report. The default 
 let report = await sellingPartner.download(report_document);
 ```
 The options object has three optional properties:
-* `json`: true/false, whether or not the content should be transformed to json before returning it (from tab delimited flat-file or XML). Defaults to false. IMPORTANT: is ignored when unzip is set to false.
-* `unzip`: true/false, whether or not the content should be unzipped before returning it. Defaults to true. 
-* `file`: absolute file path to save the report to. Defaults to not saving to disk. IMPORTANT: Even when saved to disk the report content is still returned.
+* `json`: Optional (true|false), whether or not the content should be transformed to json before returning it (from tab delimited flat-file or XML). Defaults to false. IMPORTANT: is ignored when content is compressed and unzip is set to false.
+* `unzip`: Optional (true|false), whether or not the content should be unzipped before returning it. Defaults to true. 
+* `file`: Optional, absolute file path to save the report to. Defaults to not saving to disk. IMPORTANT: Even when saved to disk the report content is still returned.
+* `charset`: Optional, the charset to use for decoding the content. IMPORTANT: is ignored when content is compressed and unzip is set to false.
 
 The following call will download the report, transform it to json and save it to disk:
 ```javascript
 let report = await sellingPartner.download(report_document, {
   json:true,
   file:'<YOUR_ABSOLUTE_FILE_PATH>/report.json'
+});
+```
+
+Some reports may have an encoding other than UTF-8 and require special decoding with a different charset, i.e. the "GET_MERCHANT_LISTINGS_ALL_DATA" report is encoded as "cp1252". Proper decoding is possible with passing in the optional charset property:
+ ```javascript
+let report = await sellingPartner.download(report_document, {
+  charset:'cp1252'
 });
 ```
 
