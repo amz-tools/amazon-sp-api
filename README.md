@@ -140,9 +140,10 @@ await sellingPartner.refreshRoleCredentials();
 
 The **.callAPI()** function takes an object as input:
 * `operation`: Required, the operation you want to request [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references)
-* `path`: The input paramaters added to the path of the operation
-* `query`: The input parameters added to the query string of the operation
-* `body`: The input parameters added to the body of the operation
+* `path`: Optional, the input paramaters added to the path of the operation
+* `query`: Optional, the input parameters added to the query string of the operation
+* `body`: Optional, the input parameters added to the body of the operation
+* `options`: Optional, additional options, currently only supports `raw_result:true` as key/value, see examples for more information 
 
 ### Examples
 ```javascript
@@ -172,6 +173,19 @@ let res = await sellingPartner.callAPI({
   body:{
     reportType:'GET_FLAT_FILE_OPEN_LISTINGS_DATA',
     marketplaceIds:['A1PA6795UKMFR9']
+  }
+});
+```
+Instead of having the client handle the result and error parsing you may also have the client return the "raw" result, which will include the raw body, buffer chunks, statusCode and headers of the result. I.e. this might be helpful when the client encounters JSON.parse errors such as the ones already encountered with old finance documents ([see Known Issues](#known-issues)). To do so you pass in an options object with the key `raw_result` to `true` to the .callAPI() function:
+```javascript
+let res = await sellingPartner.callAPI({
+  operation:'listFinancialEvents',
+  query:{
+    PostedAfter:'2020-03-01T00:00:00-07:00',
+    PostedBefore:'2020-03-02T00:00:00-07:00'
+  },
+  options:{
+    raw_result:true
   }
 });
 ```
