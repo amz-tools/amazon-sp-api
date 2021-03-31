@@ -196,9 +196,10 @@ let sellingPartner = new SellingPartnerAPI({
   }
 });
 ```
-Then request a grantless token with the scope needed for the operation you want to call:
+Then request a grantless token with the scope needed for the operation you want to call and refresh the role credentials:
 ```javascript
 await sellingPartner.refreshAccessToken('sellingpartnerapi::migration');
+await sellingPartner.refreshRoleCredentials();
 ```
 Finally call the grantless operation:
 ```javascript
