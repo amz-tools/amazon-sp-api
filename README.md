@@ -19,6 +19,7 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
 * [Encrypt and upload feeds](#encrypt-and-upload-feeds)
 * [Sandbox mode](#sandbox-mode)
 * [Known Issues](#known-issues)
+* [Seller Support](#seller-support)
 
 ## Prerequisites
 Make sure that you followed the [Selling Partner API Developer Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md) and have successfully completed the steps [Registering as a developer](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#registering-as-a-developer), [Registering your Selling Partner API application](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#registering-your-selling-partner-api-application) and have a valid refresh_token (if you use the client only for your own seller account the easiest way is using the self authorization as described in the developer guide).
@@ -336,3 +337,6 @@ Since the Selling Partner API is still pretty new, not all API paths and endpoin
 Some operations don't seem to be heavy-use resistant yet, i.e. the "listCatalogItems" operation throws an "InteralFailure" error (statusCode 500) if used repetitive (although restore rate of operation is respected).
 
 Some endpoints might have issues with special charsets like UTF-8. I.e. the finances operations return invalid UTF-8 encodings for all data prior to May 2020 resulting in JSON parse errors.
+
+## Seller Support
+If you're a european seller we might be able to support you with everything else that can't be done with the API, i.e. review management, product sourcing or sales and revenue estimations for products. Feel free to visit us at [amz.tools](https://amz.tools).
