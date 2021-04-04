@@ -231,7 +231,7 @@ let res = await sellingPartner.callAPI({
 ### Restore rates
 If you set the `auto_request_throttled` option in the class constructor config object to `true` (which is the default), the client will automatically retry the call if its throttled. It will either use the restore rate from the result header field `x-amzn-ratelimit-limit` if given ([see Usage Plans and Rate Limits](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/usage-plans-rate-limits/Usage-Plans-and-Rate-Limits.md)) or otherwise use the default restore rate of the operation. If you set `auto_request_throttled` to `false` the client will throw a "QuotaExceeded" error when a request is throttled.
 
-IMPORTANT: If you are using the same operation with the same seller account across multiple class instances the restore rate logic might NOT work correct or, even worse, result in an infinite quota exceeded loop. So if you're planning to do that you should probalby set `auto_request_throttled` to `false`, catch the "QuotaExceeded" errors and handle the restore rate logic on your own.
+IMPORTANT: If you are using the same operation with the same seller account across multiple class instances the restore rate logic might NOT work correct or, even worse, result in an infinite quota exceeded loop. So if you're planning to do that you should probably set `auto_request_throttled` to `false`, catch the "QuotaExceeded" errors and handle the restore rate logic on your own.
 
 ## Download, decrypt and unzip reports
 
