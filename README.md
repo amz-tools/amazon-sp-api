@@ -190,12 +190,12 @@ All calls to the SP-API will be triggered by using the `.callAPI()` function, wh
   body:{
     ...
   },
-  full_path:'<FULL_PATH_OF_OPERATION>',
+  api_path:'<FULL_PATH_OF_OPERATION>',
+  method:'GET',
   restricted_data_token:'<RESTRICTED_DATA_TOKEN>'
   options:{
     version:'<OPERATION_ENDPOINT_VERSION>',
-    raw_result:false,
-    method:'GET'
+    raw_result:false
   }
 }
 ```
@@ -203,11 +203,12 @@ Valid properties of the object:
 
 | Name | Type | Default | Description |
 |:--|:--:|:--:|:--|
-| **operation**<br>*optional* | string | - | The operation you want to request, [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references).<br>Call `.endpoints` on class instance to retrieve a complete list of all endpoints, versions and operations supported by the client.<br>Required if `full_path` is not defined. |
+| **operation**<br>*optional* | string | - | The operation you want to request, [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references).<br>Call `.endpoints` on class instance to retrieve a complete list of all endpoints, versions and operations supported by the client.<br>Required if `api_path` is not defined. |
 | **path**<br>*optional* | object | - | The input paramaters added to the path of the operation. |
 | **query**<br>*optional* | object | - | The input paramaters added to the query string of the operation. |
 | **body**<br>*optional* | object | - | The input paramaters added to the body of the operation. |
-| **full_path**<br>*optional* | string | - | The full path of an operation. Can be used to call operations that are not yet supported or have a new version that is not yet supported by the client.<br>Required if `operation` is not defined. |
+| **api_path**<br>*optional* | string | - | The full api path of an operation. Can be used to call operations that are not yet supported or have a new version that is not yet supported by the client.<br>Required if `operation` is not defined. |
+| **method**<br>*optional* | string | - | The HTTP method to use.<br>Required only if `api_path` is defined.<br>Must be one of: `GET`, `POST`, `PUT` or `DELETE`. |
 | **restricted_data_token**<br>*optional* | string | - | A token received from a `createRestrictedDataToken` operation. Neccessary to include PII (Personally Identifiable Informaton) for some restricted operations, [see Tokens API use case guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/tokens-api-use-case-guide/tokens-API-use-case-guide-2021-03-01.md#restricted-operations) for a list of restricted operations.<br>NOTE: Your developer account must be approved for PII by Amazon in order to be able to receive PII, otherwise the token will have no effect, meaning the result of restricted operations will not include PII. |
 | **options**<br>*optional* | object | - | Additional options, see table below for all possible options properties. |
 
@@ -217,7 +218,6 @@ Valid properties of the config options:
 |:--|:--:|:--:|--|
 | **version**<br>*optional* | string | - | The endpoint's version that should be used when calling the operation. Will be preferred over an `endpoints_versions` setting.<br>NOTE: The call might still use an older version of the endpoint if the operation is not available for the specified version and `version_fallback` is set to `true`. |
 | **raw_result**<br>*optional* | boolean | false | Whether or not the client should return the "raw" result, which will include the raw body, buffer chunks, statuscode and headers of the result. This will skip the internal formatting or error checking, but might be helpful when you need additional information besides the payload or when the client encounters JSON.parse errors such as the ones already encountered with old finance documents ([see Known Issues](#known-issues)). |
-| **method**<br>*optional* | string | - | The HTTP method to use.<br>Required only if `full_path` is defined.<br>Must be one of: `GET`, `POST`, `PUT` or `DELETE`. |
 
 ### Examples
 
@@ -382,16 +382,14 @@ NOTE: If you are using the same operation with the same seller account across mu
 
 ### Unsupported endpoints/versions/operations
 
-The newest client version should have full support for all endpoints, versions and operations on release, however it might lack support for very recently added new endpoints, versions or operations. Iif you need an endpoint/version/operation that is not yet supported you can still call it by using the full_path parameter. I.e. if the new `catalogItems` version `2020-12-01` would not be supported yet we could still use the new implementation of the `getCatalogItem` operation by using the `full_path` and `method` properties:
+The newest client version should have full support for all endpoints, versions and operations on release, however it might lack support for very recently added new endpoints, versions or operations. If you need an endpoint/version/operation that is not yet supported you can still call it by using the `api_path` parameter. I.e. if the new `catalogItems` version `2020-12-01` would not be supported yet we could still use the new implementation of the `getCatalogItem` operation by using the `api_path` and `method` properties:
 ```javascript
 let res = await sellingPartner.callAPI({
-  full_path:'/catalog/2020-12-01/items/B084DWG2VQ',
+  api_path:'/catalog/2020-12-01/items/B084DWG2VQ',
+  method:'GET',
   query:{
     marketplaceIds:['A1PA6795UKMFR9'],
     includedData:['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
-  },
-  options:{
-    method:'GET'
   }
 });
 ```
