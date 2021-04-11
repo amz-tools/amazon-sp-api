@@ -30,7 +30,7 @@ describe('configErrors', async function(){
   it('should return an invalid operation error', async function(){
     try {
       let sellingPartner = new SellingPartnerAPI({
-        region:'eu',
+        region:this.config.region,
         refresh_token:this.config.refresh_token,
         access_token:this.config.access_token,
         role_credentials:this.config.role_credentials,
@@ -50,7 +50,7 @@ describe('configErrors', async function(){
   it('should return a no scope error', async function(){
     try {
       let sellingPartner = new SellingPartnerAPI({
-        region:'eu',
+        region:this.config.region,
         options:{
           only_grantless_operations:true
         }
@@ -65,7 +65,7 @@ describe('configErrors', async function(){
   it('should return a no access token or role credentials error', async function(){
     try {
       let sellingPartner = new SellingPartnerAPI({
-        region:'eu',
+        region:this.config.region,
         refresh_token:this.config.refresh_token,
         options:{
           auto_request_tokens:false
@@ -83,7 +83,7 @@ describe('configErrors', async function(){
   it('should return an unknown operation error', async function(){
     try {
       let sellingPartner = new SellingPartnerAPI({
-        region:'eu',
+        region:this.config.region,
         refresh_token:this.config.refresh_token
       });
       await sellingPartner.callAPI({
@@ -98,7 +98,7 @@ describe('configErrors', async function(){
   it('should return a no operation given error', async function(){
     try {
       let sellingPartner = new SellingPartnerAPI({
-        region:'eu',
+        region:this.config.region,
         refresh_token:this.config.refresh_token
       });
       await sellingPartner.callAPI({});
@@ -111,7 +111,7 @@ describe('configErrors', async function(){
   it('should return an invalid sandbox parameters error', async function(){
     try {
       let sellingPartner = new SellingPartnerAPI({
-        region:'eu',
+        region:this.config.region,
         refresh_token:this.config.refresh_token,
         options:{
           use_sandbox:true
@@ -130,10 +130,10 @@ describe('configErrors', async function(){
     }
   });
 
-  it('should return a invalid refresh token error', async function(){
+  it('should return an invalid refresh token error', async function(){
     try {
       let sellingPartner = new SellingPartnerAPI({
-        region:'eu',
+        region:this.config.region,
         refresh_token:'invalidRefreshToken'
       });
       await sellingPartner.callAPI({
@@ -142,6 +142,94 @@ describe('configErrors', async function(){
     } catch(e){
       expect(e).to.be.an('error');
       expect(e.code).to.equal('invalid_grant');
+    }
+  });
+
+  it('should return an invalid method error', async function(){
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        refresh_token:this.config.refresh_token
+      });
+      await sellingPartner.callAPI({
+        api_path:'/sellers/v1/marketplaceParticipations'
+      });
+    } catch(e){
+      expect(e).to.be.an('error');
+      expect(e.code).to.equal('NO_VALID_METHOD_PROVIDED');
+    }
+  });
+
+  it('should return an invalid endpoints error', async function(){
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        refresh_token:this.config.refresh_token,
+        endpoints_versions:{
+          'invalidEndpoint':'v0'
+        }
+      });
+    } catch(e){
+      expect(e).to.be.an('error');
+      expect(e.code).to.equal('VERSION_DEFINED_FOR_INVALID_ENDPOINTS');
+    }
+  });
+
+  it('should return an invalid version for endpoints error', async function(){
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        refresh_token:this.config.refresh_token,
+        endpoints_versions:{
+          'sellers':'unknownVersion'
+        }
+      });
+    } catch(e){
+      expect(e).to.be.an('error');
+      expect(e.code).to.equal('INVALID_VERSION_FOR_ENDPOINTS');
+    }
+  });
+
+  it('should return an invalid version error', async function(){
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        refresh_token:this.config.refresh_token
+      });
+      await sellingPartner.callAPI({
+        operation:'getMarketplaceParticipations',
+        options:{
+          version:'unknownVersion'
+        }
+      });
+    } catch(e){
+      expect(e).to.be.an('error');
+      expect(e.code).to.equal('INVALID_VERSION');
+    }
+  });
+
+  it('should return an operation not found for version error', async function(){
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        refresh_token:this.config.refresh_token,
+        options:{
+          version_fallback:false
+        }
+      });
+      await sellingPartner.callAPI({
+        operation:'listCatalogCategories',
+        query:{
+          MarketplaceId:this.config.marketplace_id,
+          ASIN:this.config.asin
+        },
+        options:{
+          version:'2020-12-01'
+        }
+      });
+    } catch(e){
+      expect(e).to.be.an('error');
+      expect(e.code).to.equal('OPERATION_NOT_FOUND_FOR_VERSION');
     }
   });
 
