@@ -15,13 +15,14 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
   * [Request tokens and role credentials manually](#request-tokens-and-role-credentials-manually)
 * [Call the API](#call-the-api)
   * [Examples](#examples)
+  * [Endpoints](#endpoints)
   * [Versions](#versions)
     * [Version specific operation implementations](#version-specific-operation-implementations)
     * [Defining endpoints versions on class level](#defining-endpoints-versions-on-class-level)
     * [Fallback](#fallback)
+  * [Unsupported endpoints/versions/operations](#unsupported-endpointsversionsoperations)
   * [Grantless operations](#grantless-operations)
   * [Restore rates](#restore-rates)
-  * [Unsupported endpoints/versions/operations](#unsupported-endpointsversionsoperations)
 * [Download, decrypt and unzip reports](#download-decrypt-and-unzip-reports)
 * [Encrypt and upload feeds](#encrypt-and-upload-feeds)
 * [TypeScript Support](#typescript-support)
@@ -81,7 +82,8 @@ Create client and call API:
       refresh_token:'<REFRESH_TOKEN>' // The refresh token of your app user
     });
     let res = await sellingPartner.callAPI({
-      operation:'getMarketplaceParticipations'
+      operation:'getMarketplaceParticipations',
+      endpoint:'sellers'
     });
     console.log(res);
   } catch(e){
@@ -181,9 +183,10 @@ All calls to the SP-API will be triggered by using the `.callAPI()` function, wh
 ```javascript
 {
   operation:'<OPERATION_TO_CALL>',
+  endpoint:'<ENDPOINT_OF_OPERATION>',
   path:{
     ...
-  }
+  },
   query:{
     ...
   },
@@ -203,7 +206,8 @@ Valid properties of the object:
 
 | Name | Type | Default | Description |
 |:--|:--:|:--:|:--|
-| **operation**<br>*optional* | string | - | The operation you want to request, [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references).<br>Call `.endpoints` on class instance to retrieve a complete list of all endpoints, versions and operations supported by the client.<br>Required if `api_path` is not defined. |
+| **operation**<br>*optional* | string | - | The operation you want to request, [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references).<br>May also include endpoint as shorthand dot notation.<br>Call `.endpoints` on class instance to retrieve a complete list of all endpoints, versions and operations supported by the client.<br>Required if `api_path` is not defined. |
+| **endpoint**<br>*optional* | string | - | The endpoint of the operation, ([see Endpoints](#endpoints)).<br>Call `.endpoints` on class instance to retrieve a complete list of all endpoints, versions and operations supported by the client.<br>Required if endpoint is not part of `operation` as shorthand dot notation and `api_path` is not defined. |
 | **path**<br>*optional* | object | - | The input paramaters added to the path of the operation. |
 | **query**<br>*optional* | object | - | The input paramaters added to the query string of the operation. |
 | **body**<br>*optional* | object | - | The input paramaters added to the body of the operation. |
@@ -221,9 +225,24 @@ Valid properties of the config options:
 
 ### Examples
 
+To call an operation of an API endpoint you pass in the operation and the endpoint it belongs to. See the following example:
+```javascript
+let res = await sellingPartner.callAPI({
+  operation:'getMarketplaceParticipations',
+  endpoint:'sellers'
+});
+```
+Instead of using the endpoint property you may also prepend the endpoint to the operation as shorthand dot notation:
+```javascript
+let res = await sellingPartner.callAPI({
+  operation:'sellers.getMarketplaceParticipations'
+});
+```
+Here are a few examples that use some more properties:
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'getOrderMetrics',
+  endpoint:'sales',
   query:{
     marketplaceIds:['A1PA6795UKMFR9'],
     interval:'2020-10-01T00:00:00-07:00--2020-10-01T20:00:00-07:00',
@@ -233,18 +252,22 @@ let res = await sellingPartner.callAPI({
 ```
 ```javascript
 let res = await sellingPartner.callAPI({
-  operation:'getCatalogItem',
+  operation:'catalogItems.getCatalogItem',
   path:{
     asin:'B084J4QQFT'
   },
   query:{
     MarketplaceId:'A1PA6795UKMFR9'
+  },
+  options:{
+    version:'v0'
   }
 });
 ```
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'createReport',
+  endpoint:'reports',
   body:{
     reportType:'GET_FLAT_FILE_OPEN_LISTINGS_DATA',
     marketplaceIds:['A1PA6795UKMFR9']
@@ -253,7 +276,7 @@ let res = await sellingPartner.callAPI({
 ```
 ```javascript
 let res = await sellingPartner.callAPI({
-  operation:'listFinancialEvents',
+  operation:'finances.listFinancialEvents',
   query:{
     PostedAfter:'2020-03-01T00:00:00-07:00',
     PostedBefore:'2020-03-02T00:00:00-07:00'
@@ -263,12 +286,15 @@ let res = await sellingPartner.callAPI({
   }
 });
 ```
+NOTE: As the original design of the client (< v0.4.0) didn't keep in mind the possibility of having the exact same operation name for multiple endpoints (i.e. `getShipment`, [see Issue #33](https://github.com/amz-tools/amazon-sp-api/issues/33)) and multiple versions of the same endpoint, we had to replace original operation-only based calls to the API with a new concept that includes endpoints and version-specific operation calls. This concept comes without any breaking changes, so you can still safely upgrade from any version below 0.4.0 to the latest version, but the use of `.callAPI()` without specifying an endpoint is considered deprecated, is discouraged and will trigger a console warning.
+
+### Endpoints
+The exact endpoint's name of an operation will be the references name ([see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references)) without `-` and `api` and continued with a capital letter. So the `catalog-items-api` endpoint's name will be `catalogItems`, `fba-small-and-light-api` will be `fbaSmallAndLight`, `sellers-api` will be `sellers` and so on. You can also retrieve the endpoint names and their operations and versions by calling `sellingPartner.endpoints`.
 
 ### Versions
 
 Every operation belongs to an endpoint that consists of one or more versions and each version consists of one or more operations. You will find a complete list of the endpoints with all versions and operations [here in the Selling Partner API Docs](https://github.com/amzn/selling-partner-api-docs/tree/main/references). For a complete list of all currently by the client supported endpoints with versions and operations you can just call `sellingPartner.endpoints`.
 
-NOTE: As the original design of the client (< v0.4.0) didn't keep in mind the possibility of having more versions of the same endpoint (and as such multiple versions of the same operation), we had to replace original operation-only based calls to the API with a new concept that includes endpoints and version-specific operation calls. However this concept comes without any breaking changes, so you can still safely upgrade from any version below 0.4.0 to the latest version.
 
 #### Version specific operation implementations
 
@@ -278,6 +304,7 @@ The implementation of the `getCatalogItem` operation in the `v0` version expects
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'getCatalogItem',
+  endpoint:'catalogItems',
   query:{
     MarketplaceId:'A1PA6795UKMFR9'
   },
@@ -293,6 +320,7 @@ In contrast, the implementation of the `getCatalogItem` operation in the `2021-1
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'getCatalogItem',
+  endpoint:'catalogItems',
   query:{
     marketplaceIds:['A1PA6795UKMFR9'],
     includedData:['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
@@ -329,9 +357,24 @@ I.e. the `listCatalogCategories` operation is not part of the new `catalogItems`
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'listCatalogCategories',
+  endpoint:'catalogItems',
   query:{
     MarketplaceId:'A1PA6795UKMFR9',
     ASIN:'B084DWG2VQ'
+  }
+});
+```
+
+### Unsupported endpoints/versions/operations
+
+The newest client version should have full support for all endpoints, versions and operations on release, however it might lack support for very recently added new endpoints, versions or operations. If you need an endpoint/version/operation that is not yet supported you can still call it by using the `api_path` parameter. I.e. if the new `catalogItems` version `2020-12-01` would not be supported yet we could still use the new implementation of the `getCatalogItem` operation by using the `api_path` and `method` properties:
+```javascript
+let res = await sellingPartner.callAPI({
+  api_path:'/catalog/2020-12-01/items/B084DWG2VQ',
+  method:'GET',
+  query:{
+    marketplaceIds:['A1PA6795UKMFR9'],
+    includedData:['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
   }
 });
 ```
@@ -365,6 +408,7 @@ Finally call the grantless operation:
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'getAuthorizationCode',
+  endpoint:'authorization',
   query:{
     sellingPartnerId:'<YOUR_CUSTOMERS_SELLER_ID>',
     developerId:'<YOUR_DEVELOPER_ID>',
@@ -379,21 +423,6 @@ If you set the `auto_request_throttled` option in the class constructor config o
 
 NOTE: If you are using the same operation with the same seller account across multiple class instances the restore rate logic might NOT work correct or, even worse, result in an infinite quota exceeded loop. So if you're planning to do that you should probably set `auto_request_throttled` to `false`, catch the `QuotaExceeded` errors and handle the restore rate logic on your own.
 
-
-### Unsupported endpoints/versions/operations
-
-The newest client version should have full support for all endpoints, versions and operations on release, however it might lack support for very recently added new endpoints, versions or operations. If you need an endpoint/version/operation that is not yet supported you can still call it by using the `api_path` parameter. I.e. if the new `catalogItems` version `2020-12-01` would not be supported yet we could still use the new implementation of the `getCatalogItem` operation by using the `api_path` and `method` properties:
-```javascript
-let res = await sellingPartner.callAPI({
-  api_path:'/catalog/2020-12-01/items/B084DWG2VQ',
-  method:'GET',
-  query:{
-    marketplaceIds:['A1PA6795UKMFR9'],
-    includedData:['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
-  }
-});
-```
-
 ## Download, decrypt and unzip reports
 
 The `.download()` function takes the download details (url and encryption details) received from a `getReportDocument` operation as input, downloads the content, unzips it (if result is compressed), decrypts it and returns it.
@@ -402,6 +431,7 @@ Retrieve the download details from a `getReportDocument` operation:
 ```javascript
 let report_document = await sellingPartner.callAPI({
   operation:'getReportDocument',
+  endpoint:'reports',
   path:{
     reportDocumentId:'<REPORT_DOCUMENT_ID>' // retrieve the reportDocumentId from a "getReport" operation (when processingStatus of report is "DONE")
   }
@@ -485,6 +515,7 @@ Before you can upload the feed you need to retrieve the feed upload details from
 ```javascript
 let feed_upload_details = await sellingPartner.callAPI({
   operation:'createFeedDocument',
+  endpoint:'feeds',
   body:{
     contentType:feed.contentType
   }
@@ -498,6 +529,7 @@ After uploading the feed you have to trigger the processing of the feed by calli
 ```javascript
 let feed_creation_infos = await sellingPartner.callAPI({
   operation:'createFeed',
+  endpoint:'feeds',
   body:{
     marketplaceIds:['A1PA6795UKMFR9'],
     feedType:'POST_INVENTORY_AVAILABILITY_DATA',
@@ -518,6 +550,7 @@ For example, this will test the `listCatalogItems` operation in sandbox mode:
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'listCatalogItems',
+  endpoint:'catalogItems',
   query:{
     MarketplaceId:'TEST_CASE_200',
     SellerSKU:'SKU_200'
