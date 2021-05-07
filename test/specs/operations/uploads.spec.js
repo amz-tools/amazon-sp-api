@@ -1,7 +1,9 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('uploads', async function(){
+const endpoint = 'uploads';
+
+describe(endpoint, async function(){
 
   // TODO: Define tests
 

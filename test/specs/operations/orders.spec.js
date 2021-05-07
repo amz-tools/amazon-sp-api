@@ -2,11 +2,14 @@ const chai = require('chai');
 const expect = chai.expect;
 const moment = require('moment');
 
-describe('orders', async function(){
+const endpoint = 'orders';
+
+describe(endpoint, async function(){
 
 	it('should return orders created in date range for marketplace', async function(){
 		let res = await this.sellingPartner.callAPI({
 			operation:'getOrders',
+      endpoint:endpoint,
 			query:{
         MarketplaceIds:this.config.marketplace_id,
         CreatedBefore:moment().startOf('day').toISOString(),
@@ -22,6 +25,7 @@ describe('orders', async function(){
     if (this.config.order_id){
       let res = await this.sellingPartner.callAPI({
         operation:'getOrder',
+        endpoint:endpoint,
         path:{
           orderId:this.config.order_id
         }
@@ -40,6 +44,7 @@ describe('orders', async function(){
     if (this.config.order_id){
       let res = await this.sellingPartner.callAPI({
         operation:'getOrderBuyerInfo',
+        endpoint:endpoint,
         path:{
           orderId:this.config.order_id
         }
@@ -55,6 +60,7 @@ describe('orders', async function(){
     if (this.config.order_id){
       let res = await this.sellingPartner.callAPI({
         operation:'getOrderAddress',
+        endpoint:endpoint,
         path:{
           orderId:this.config.order_id
         }
@@ -70,6 +76,7 @@ describe('orders', async function(){
     if (this.config.order_id){
       let res = await this.sellingPartner.callAPI({
         operation:'getOrderItems',
+        endpoint:endpoint,
         path:{
           orderId:this.config.order_id
         }
@@ -86,6 +93,7 @@ describe('orders', async function(){
     if (this.config.order_id){
       let res = await this.sellingPartner.callAPI({
         operation:'getOrderItemsBuyerInfo',
+        endpoint:endpoint,
         path:{
           orderId:this.config.order_id
         }

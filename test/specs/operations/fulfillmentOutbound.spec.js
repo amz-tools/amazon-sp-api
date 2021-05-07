@@ -2,13 +2,16 @@ const chai = require('chai');
 const expect = chai.expect;
 const moment = require('moment');
 
-describe('fulfillmentOutbound', async function(){
+const endpoint = 'fulfillmentOutbound';
+
+describe(endpoint, async function(){
 
   let seller_fulfillment_order_id;
 
 	it('should return fulfillment outbound orders fulfilled after date', async function(){
 		let res = await this.sellingPartner.callAPI({
 			operation:'listAllFulfillmentOrders',
+      endpoint:endpoint,
 			query:{
       	queryStartDate:moment().startOf('day').subtract(1, 'month').toISOString()
       }
@@ -25,6 +28,7 @@ describe('fulfillmentOutbound', async function(){
     if (seller_fulfillment_order_id){
       let res = await this.sellingPartner.callAPI({
         operation:'getFulfillmentOrder',
+        endpoint:endpoint,
         path:{
           sellerFulfillmentOrderId:seller_fulfillment_order_id
         }
@@ -44,6 +48,7 @@ describe('fulfillmentOutbound', async function(){
   it('should return return reason codes for sku for marketplace', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'listReturnReasonCodes',
+      endpoint:endpoint,
       query:{
         sellerSku:this.config.sku,
         marketplaceId:this.config.marketplace_id,
@@ -60,6 +65,7 @@ describe('fulfillmentOutbound', async function(){
     try {
       let res = await this.sellingPartner.callAPI({
         operation:'getFeatures',
+        endpoint:endpoint,
         query:{
           marketplaceId:this.config.marketplace_id
         }

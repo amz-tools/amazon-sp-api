@@ -1,11 +1,14 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('productPricing', async function(){
+const endpoint = 'productPricing';
+
+describe(endpoint, async function(){
 
   it('should return pricing information for asin', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'getPricing',
+      endpoint:endpoint,
       query:{
         MarketplaceId:this.config.marketplace_id,
         Asins:this.config.asin,
@@ -21,6 +24,7 @@ describe('productPricing', async function(){
     if (this.config.sku){
   		let res = await this.sellingPartner.callAPI({
   			operation:'getPricing',
+        endpoint:endpoint,
   			query:{
           MarketplaceId:this.config.marketplace_id,
           Skus:this.config.sku,
@@ -38,6 +42,7 @@ describe('productPricing', async function(){
   it('should return competitive pricing information for asin', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'getCompetitivePricing',
+      endpoint:endpoint,
       query:{
         MarketplaceId:this.config.marketplace_id,
         Asins:this.config.asin,
@@ -53,6 +58,7 @@ describe('productPricing', async function(){
     if (this.config.sku){
       let res = await this.sellingPartner.callAPI({
         operation:'getCompetitivePricing',
+        endpoint:endpoint,
         query:{
           MarketplaceId:this.config.marketplace_id,
           Skus:this.config.sku,
@@ -74,6 +80,7 @@ describe('productPricing', async function(){
     if (this.config.sku){
       let res = await this.sellingPartner.callAPI({
         operation:'getListingOffers',
+        endpoint:endpoint,
         path:{
           SellerSKU:this.config.sku
         },
@@ -101,6 +108,7 @@ describe('productPricing', async function(){
   it('should return lowest priced offers for asin', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'getItemOffers',
+      endpoint:endpoint,
       path:{
         Asin:this.config.asin
       },

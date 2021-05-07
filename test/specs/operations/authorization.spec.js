@@ -2,7 +2,9 @@ const SellingPartnerAPI = require('../../../index');
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('authorization', async function(){
+const endpoint = 'authorization';
+
+describe(endpoint, async function(){
 
 	it('should throw an invalid party id error', async function(){
     let sellingPartner = new SellingPartnerAPI({
@@ -19,6 +21,7 @@ describe('authorization', async function(){
     try {
   		let res = await sellingPartner.callAPI({
   			operation:'getAuthorizationCode',
+        endpoint:endpoint,
         query:{
           sellingPartnerId:'XXXXXXXXXXXXXX',
           developerId:'XXXXXXXXXXXX',

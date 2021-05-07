@@ -1,12 +1,15 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('fbaSmallAndLight', async function(){
+const endpoint = 'fbaSmallAndLight';
+
+describe(endpoint, async function(){
 
 	it('should return the small and light enrollment status for sku', async function(){
     if (this.config.sku){
   		let res = await this.sellingPartner.callAPI({
   			operation:'getSmallAndLightEnrollmentBySellerSKU',
+        endpoint:endpoint,
         path:{
           sellerSKU:this.config.sku
         },
@@ -29,6 +32,7 @@ describe('fbaSmallAndLight', async function(){
       try {
         let res = await this.sellingPartner.callAPI({
           operation:'getSmallAndLightEligibilityBySellerSKU',
+          endpoint:endpoint,
           path:{
             sellerSKU:this.config.sku
           },
@@ -53,6 +57,7 @@ describe('fbaSmallAndLight', async function(){
   it('should return the small and light fee estimates for asin', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'getSmallAndLightFeePreview',
+      endpoint:endpoint,
       body:{
         marketplaceId:this.config.marketplace_id,
         items:[{

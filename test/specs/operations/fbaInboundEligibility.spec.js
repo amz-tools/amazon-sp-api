@@ -1,11 +1,14 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('fbaInboundEligibility', async function(){
+const endpoint = 'fbaInboundEligibility';
+
+describe(endpoint, async function(){
 
 	it('should return inbound eligibility preview for asin', async function(){
 		let res = await this.sellingPartner.callAPI({
 			operation:'getItemEligibilityPreview',
+      endpoint:endpoint,
 			query:{
       	marketplaceIds:this.config.marketplace_id,
       	asin:this.config.asin,
@@ -22,6 +25,7 @@ describe('fbaInboundEligibility', async function(){
   it('should return commingling eligibility preview for asin', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'getItemEligibilityPreview',
+      endpoint:endpoint,
       query:{
         asin:this.config.asin,
         program:'COMMINGLING'

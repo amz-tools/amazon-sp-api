@@ -4,12 +4,15 @@ const expect = chai.expect;
 // Only run tests for fbaInventory if region is "na"
 // --> inventory summaries don't seem to be available in other regions
 // --> comparable to ListInventorySupply in MWS API
-describe('fbaInventory', async function(){
+const endpoint = 'fbaInventory';
+
+describe(endpoint, async function(){
 
 	it('should return a list of inventory summaries for sku', async function(){
     if (this.config.region === 'na' && this.config.sku){
   		let res = await this.sellingPartner.callAPI({
   			operation:'getInventorySummaries',
+        endpoint:endpoint,
         query:{
           details:true,
           sellerSkus:[this.config.sku],

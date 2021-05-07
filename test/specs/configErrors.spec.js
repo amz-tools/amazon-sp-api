@@ -27,6 +27,21 @@ describe('configErrors', async function(){
     }
   });
 
+  it('should return a no operation given error', async function(){
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        refresh_token:this.config.refresh_token,
+        access_token:this.config.access_token,
+        role_credentials:this.config.role_credentials
+      });
+      await sellingPartner.callAPI({});
+    } catch(e){
+      expect(e).to.be.an('error');
+      expect(e.code).to.equal('NO_OPERATION_GIVEN');
+    }
+  });
+
   it('should return an invalid operation error', async function(){
     try {
       let sellingPartner = new SellingPartnerAPI({
@@ -39,11 +54,47 @@ describe('configErrors', async function(){
         }
       });
       await sellingPartner.callAPI({
-        operation:'getMarketplaceParticipations'
+        operation:'sellers.getMarketplaceParticipations'
       });
     } catch(e){
       expect(e).to.be.an('error');
       expect(e.code).to.equal('INVALID_OPERATION_ERROR');
+    }
+  });
+
+  it('should return an endpoint not found error', async function(){
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        refresh_token:this.config.refresh_token,
+        access_token:this.config.access_token,
+        role_credentials:this.config.role_credentials
+      });
+      await sellingPartner.callAPI({
+        operation:'getMarketplaceParticipations',
+        endpoint:'invalidEndpoint'
+      });
+    } catch(e){
+      expect(e).to.be.an('error');
+      expect(e.code).to.equal('ENDPOINT_NOT_FOUND');
+    }
+  });
+
+  it('should return an invalid operation for endpoint error', async function(){
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        refresh_token:this.config.refresh_token,
+        access_token:this.config.access_token,
+        role_credentials:this.config.role_credentials
+      });
+      await sellingPartner.callAPI({
+        operation:'getMarketplaceParticipations',
+        endpoint:'catalogItems'
+      });
+    } catch(e){
+      expect(e).to.be.an('error');
+      expect(e.code).to.equal('INVALID_OPERATION_FOR_ENDPOINT');
     }
   });
 
@@ -72,26 +123,11 @@ describe('configErrors', async function(){
         }
       });
       await sellingPartner.callAPI({
-        operation:'getMarketplaceParticipations'
+        operation:'sellers.getMarketplaceParticipations'
       });
     } catch(e){
       expect(e).to.be.an('error');
       expect(e.code).to.equal('NO_ACCESS_TOKEN_AND_OR_ROLE_CREDENTIALS_PRESENT');
-    }
-  });
-
-  it('should return an unknown operation error', async function(){
-    try {
-      let sellingPartner = new SellingPartnerAPI({
-        region:this.config.region,
-        refresh_token:this.config.refresh_token
-      });
-      await sellingPartner.callAPI({
-        operation:'unknownOperation'
-      });
-    } catch(e){
-      expect(e).to.be.an('error');
-      expect(e.code).to.equal('OPERATION_NOT_FOUND');
     }
   });
 
@@ -108,6 +144,22 @@ describe('configErrors', async function(){
     }
   });
 
+  it('should return an unknown operation error', async function(){
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        refresh_token:this.config.refresh_token
+      });
+      await sellingPartner.callAPI({
+        operation:'unknownOperation',
+        endpoint:'sellers'
+      });
+    } catch(e){
+      expect(e).to.be.an('error');
+      expect(e.code).to.equal('OPERATION_NOT_FOUND');
+    }
+  });
+
   it('should return an invalid sandbox parameters error', async function(){
     try {
       let sellingPartner = new SellingPartnerAPI({
@@ -119,6 +171,7 @@ describe('configErrors', async function(){
       });
       await sellingPartner.callAPI({
         operation:'listCatalogItems',
+        endpoint:'catalogItems',
         query:{
           MarketplaceId:'TEST',
           SellerSKU:'TEST'
@@ -137,7 +190,7 @@ describe('configErrors', async function(){
         refresh_token:'invalidRefreshToken'
       });
       await sellingPartner.callAPI({
-        operation:'getMarketplaceParticipations'
+        operation:'sellers.getMarketplaceParticipations'
       });
     } catch(e){
       expect(e).to.be.an('error');
@@ -198,6 +251,7 @@ describe('configErrors', async function(){
       });
       await sellingPartner.callAPI({
         operation:'getMarketplaceParticipations',
+        endpoint:'sellers',
         options:{
           version:'unknownVersion'
         }
@@ -219,6 +273,7 @@ describe('configErrors', async function(){
       });
       await sellingPartner.callAPI({
         operation:'listCatalogCategories',
+        endpoint:'catalogItems',
         query:{
           MarketplaceId:this.config.marketplace_id,
           ASIN:this.config.asin
@@ -230,6 +285,22 @@ describe('configErrors', async function(){
     } catch(e){
       expect(e).to.be.an('error');
       expect(e.code).to.equal('OPERATION_NOT_FOUND_FOR_VERSION');
+    }
+  });
+
+  it('should return an invalid code parameter error', async function(){
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        options:{
+          only_grantless_operations:true
+        }
+      });
+      await sellingPartner.exchange('invalid_auth_code');
+    } catch(e){
+      expect(e).to.be.an('error');
+      expect(e.code).to.equal('invalid_request');
+      expect(e.message).to.equal('The request has an invalid parameter : code');
     }
   });
 

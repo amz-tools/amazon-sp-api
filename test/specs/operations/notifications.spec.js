@@ -2,7 +2,9 @@ const SellingPartnerAPI = require('../../../index');
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('notifications', async function(){
+const endpoint = 'notifications';
+
+describe(endpoint, async function(){
 
 	let subscription_id;
 	let destination_id;
@@ -21,6 +23,7 @@ describe('notifications', async function(){
 		try {
 			let res = await sellingPartner.callAPI({
 				operation:'getSubscription',
+				endpoint:endpoint,
 				path:{
 					notificationType:'ANY_OFFER_CHANGED'
 				}
@@ -45,6 +48,7 @@ describe('notifications', async function(){
 				await sellingPartner.refreshAccessToken('sellingpartnerapi::notifications');
 				let res = await sellingPartner.callAPI({
 					operation:'getSubscriptionById',
+					endpoint:endpoint,
 					path:{
 						subscriptionId:subscription_id,
 						notificationType:'ANY_OFFER_CHANGED'
@@ -66,7 +70,8 @@ describe('notifications', async function(){
 	it('should return destinations', async function(){
 		await sellingPartner.refreshAccessToken('sellingpartnerapi::notifications');
 		let res = await sellingPartner.callAPI({
-			operation:'getDestinations'
+			operation:'getDestinations',
+			endpoint:endpoint,
     });
     expect(res).to.be.a('array');
     if (res.length && res[0].destinationId){
@@ -80,6 +85,7 @@ describe('notifications', async function(){
 				await sellingPartner.refreshAccessToken('sellingpartnerapi::notifications');
 				let res = await sellingPartner.callAPI({
 					operation:'getDestination',
+					endpoint:endpoint,
 					path:{
 						destinationId:destination_id
 					}

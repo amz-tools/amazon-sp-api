@@ -1,11 +1,14 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('sellers', async function(){
+const endpoint = 'sellers';
+
+describe(endpoint, async function(){
 
 	it('should return list of marketplaces the seller can sell in', async function(){
 		let res = await this.sellingPartner.callAPI({
-			operation:'getMarketplaceParticipations'
+			operation:'getMarketplaceParticipations',
+      endpoint:endpoint
     });
     expect(res).to.be.a('array');
 	});
@@ -13,6 +16,7 @@ describe('sellers', async function(){
 	it('should return list of marketplaces the seller can sell in as raw result', async function(){
 		let res = await this.sellingPartner.callAPI({
 			operation:'getMarketplaceParticipations',
+      endpoint:endpoint,
 			options:{
     		raw_result:true
     	}
