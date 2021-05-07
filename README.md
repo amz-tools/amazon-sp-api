@@ -12,7 +12,8 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
   * [Setting credentials from constructor config object](#setting-credentials-from-constructor-config-object)
 * [Usage](#usage)
   * [Config params](#config-params)
-  * [Request tokens and role credentials manually](#request-tokens-and-role-credentials-manually)
+  * [Exchange an authorization code for a refresh token](#exchange-an-authorization-code-for-a-refresh-token)
+  * [Request access token and role credentials manually](#request-access-token-and-role-credentials-manually)
 * [Call the API](#call-the-api)
   * [Examples](#examples)
   * [Endpoints](#endpoints)
@@ -148,21 +149,27 @@ Valid properties of the config options:
 | **use_sandbox**<br>*optional* | boolean | false | Whether or not to use the sandbox endpoint. |
 | **only_grantless_operations**<br>*optional* | boolean | false | Whether or not to only use grantless operations. |
 
-If you only provide the `region` and `refresh_token` parameters the client will automatically request `access_token` and `role_credentials` for you (with a TTL of 1 hour) and reuse these for future api calls for the class instance.
-If you want to use the same credentials for multiple instances you can retrieve them via getters and use them as input for a new instance:
+### Exchange an authorization code for a refresh token
+If you already have a refresh token you can skip this step. If you only want to use the API for your own seller account you can just use the [self authorization](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#self-authorization) to obtain a valid refresh token.
+
+If you want to exchange an authorization code of a seller you can use the `.exchange()` function of the client. The neccessary authorization code is returned to your callback URI as `spapi_oauth_code` when a seller authorizes your application ([see authorization workflow in docs](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#authorizing-selling-partner-api-applications)) or via a call to the `getAuthorizationCode` operation if you want to authorize a seller for the SP-API who has previously authorized you for the MWS API (the `getAuthorizationCode` workflow is explained in the [Grantless operations](#grantless-operations) section).
+
+Once you have obtained the authorization_code you can exchange it for a refresh token:
 ```javascript
-let access_token = sellingPartner.access_token;
-let role_credentials = sellingPartner.role_credentials;
-
-let sellingPartnerNewInstance = new SellingPartnerAPI({
+let sellingPartner = new SellingPartnerAPI({
   region:'eu',
-  refresh_token:'<REFRESH_TOKEN>',
-  access_token:access_token,
-  role_credentials:role_credentials
+  options:{
+    only_grantless_operations:true
+  }
 });
+let res = await sellingPartner.exchange('<SELLER_AUTHORIZATION_CODE>');
+console.log(res.refresh_token);
 ```
+NOTE: You will have to create a new class instance once you have obtained the `refresh_token` and pass it inside the constructor in order to make calls to the API.
 
-### Request tokens and role credentials manually
+### Request access token and role credentials
+
+If you only provide the `region` and `refresh_token` parameters the client will automatically request `access_token` and `role_credentials` for you (with a TTL of 1 hour) and reuse these for future api calls for the class instance.
 
 Instead of having the client handle the `access_token` and `role_credentials` requests automatically, you may also refresh them manually:
 ```javascript
@@ -175,6 +182,18 @@ let sellingPartner = new SellingPartnerAPI({
 });
 await sellingPartner.refreshAccessToken();
 await sellingPartner.refreshRoleCredentials();
+```
+If you want to use the same credentials for multiple instances you can retrieve them via getters and use them as input for a new instance:
+```javascript
+let access_token = sellingPartner.access_token;
+let role_credentials = sellingPartner.role_credentials;
+
+let sellingPartnerNewInstance = new SellingPartnerAPI({
+  region:'eu',
+  refresh_token:'<REFRESH_TOKEN>',
+  access_token:access_token,
+  role_credentials:role_credentials
+});
 ```
 
 ## Call the API
