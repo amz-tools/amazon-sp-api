@@ -231,7 +231,7 @@ Valid properties of the object:
 | **query**<br>*optional* | object | - | The input paramaters added to the query string of the operation. |
 | **body**<br>*optional* | object | - | The input paramaters added to the body of the operation. |
 | **api_path**<br>*optional* | string | - | The full api path of an operation. Can be used to call operations that are not yet supported or have a new version that is not yet supported by the client.<br>Required if `operation` is not defined. |
-| **method**<br>*optional* | string | - | The HTTP method to use.<br>Required only if `api_path` is defined.<br>Must be one of: `GET`, `POST`, `PUT` or `DELETE`. |
+| **method**<br>*optional* | string | - | The HTTP method to use.<br>Required only if `api_path` is defined.<br>Must be one of: `GET`, `POST`, `PUT`,`DELETE` or `PATCH`. |
 | **restricted_data_token**<br>*optional* | string | - | A token received from a `createRestrictedDataToken` operation. Neccessary to include PII (Personally Identifiable Informaton) for some restricted operations, [see Tokens API use case guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/tokens-api-use-case-guide/tokens-API-use-case-guide-2021-03-01.md#restricted-operations) for a list of restricted operations.<br>NOTE: Your developer account must be approved for PII by Amazon in order to be able to receive PII, otherwise the token will have no effect, meaning the result of restricted operations will not include PII. |
 | **options**<br>*optional* | object | - | Additional options, see table below for all possible options properties. |
 
