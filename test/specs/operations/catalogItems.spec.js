@@ -104,4 +104,21 @@ describe(endpoint, async function(){
     }
 	});
 
+  it('should return 20 catalog items for keyword', async function(){
+    let res = await this.sellingPartner.callAPI({
+      operation:'searchCatalogItems',
+      endpoint:endpoint,
+      query:{
+        keywords:['alexa'],
+        marketplaceIds:this.config.marketplace_id,
+        includedData:['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
+      }
+    });
+    expect(res).to.be.a('object');
+    expect(res.numberOfResults).to.be.a('number');
+    expect(res.pagination).to.have.property('nextToken');
+    expect(res.items).to.be.a('array');
+    expect(res.items).to.have.lengthOf(10);
+  });
+
 });
