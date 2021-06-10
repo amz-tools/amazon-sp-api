@@ -335,7 +335,7 @@ let res = await sellingPartner.callAPI({
   }
 });
 ```
-In contrast, the implementation of the `getCatalogItem` operation in the `2021-12-01` version expects an `asin`, a `marketplaceIds` array and an `includedData` array as input:
+In contrast, the implementation of the `getCatalogItem` operation in the `2020-12-01` version expects an `asin`, a `marketplaceIds` array and an `includedData` array as input:
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'getCatalogItem',
