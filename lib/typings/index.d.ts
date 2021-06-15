@@ -1,4 +1,21 @@
 import {
+  GetOrdersQuery,
+  GetOrderPath,
+  GetOrderBuyerInfoPath,
+  GetOrderAddressPath,
+  GetOrderItemsPath,
+  GetOrderItemsQuery,
+  GetOrderItemsBuyerInfoPath,
+  GetOrderItemsBuyerInfoQuery,
+  GetOrderItemsBuyerInfoResponse,
+  GetOrderItemResponse,
+  GetOrderAddressResponse,
+  GetOrderBuyerInfoResponse,
+  GetOrderResponse,
+  GetOrdersResponse,
+} from "./operations/orders";
+
+import {
   CancelFeedPath,
   CancelFeedResponse,
   CreateFeedBody,
@@ -95,15 +112,15 @@ import { ReportDocumentType } from "./download";
 
 declare module "amazon-sp-api" {
   class SellingPartner {
-    constructor(config: Config): void;
+    constructor(config: Config);
 
-    async refreshAccessToken(): void;
+    refreshAccessToken(): Promise<void>;
 
-    async refreshRoleCredentials(): void;
+    refreshRoleCredentials(): Promise<void>;
 
-    async callAPI<TOperation extends Operation>(
+    callAPI<TOperation extends Operation>(
       req_params: ReqParams<TOperation>
-    ): ObjectType<TOperation>;
+    ): Promise<ObjectType<TOperation>>;
 
     download<T extends ReportDocumentType>(
       details: ReportDocument,
@@ -140,6 +157,12 @@ declare module "amazon-sp-api" {
     | "getPrepInstructions"
     | "getReport"
     | "getReportDocument"
+    | "getOrders"
+    | "getOrder"
+    | "getOrderBuyerInfo"
+    | "getOrderAddress"
+    | "getOrderItems"
+    | "getOrderItemsBuyerInfo"
     | string;
 
   type ObjectType<TOperation> = TOperation extends "getAuthorizationCode"
@@ -198,6 +221,20 @@ declare module "amazon-sp-api" {
     ? GetReportResponse
     : TOperation extends "getReportDocument"
     ? GetReportDocumentResponse
+    : TOperation extends "getOrders"
+    ? GetOrdersResponse
+    : TOperation extends "getOrder"
+    ? GetOrderResponse
+    : TOperation extends "getOrderBuyerInfo"
+    ? GetOrderBuyerInfoResponse
+    : TOperation extends "getOrderAddress"
+    ? GetOrderAddressResponse
+    : TOperation extends "getOrderItem"
+    ? GetOrderItemResponse
+    : TOperation extends "getOrderItemsBuyerInfo"
+    ? GetOrderItemsBuyerInfoResponse
+    : TOperation extends "createInboundShipmentPlan"
+    ? CreateInboundShipmentPlanResponse
     : any;
 
   type QueryType<
@@ -234,8 +271,6 @@ declare module "amazon-sp-api" {
     ? ListFinancialEventsQuery
     : TOperation extends "getInboundGuidance"
     ? GetInboundGuidanceQuery
-    : TOperation extends "createInboundShipmentPlan"
-    ? CreateInboundShipmentPlanResponse
     : TOperation extends "getPreorderInfo"
     ? GetPreorderInfoQuery
     : TOperation extends "confirmPreorder"
@@ -244,6 +279,12 @@ declare module "amazon-sp-api" {
     ? GetPrepInstructionsQuery
     : TOperation extends "createReport"
     ? CreateReportResponse
+    : TOperation extends "getOrders"
+    ? GetOrdersQuery
+    : TOperation extends "getOrderItems"
+    ? GetOrderItemsQuery
+    : TOperation extends "getOrderItemsBuyerInfo"
+    ? GetOrderItemsBuyerInfoQuery
     : any;
 
   type PathType<
@@ -280,6 +321,16 @@ declare module "amazon-sp-api" {
     ? GetReportPath
     : TOperation extends "getReportDocument"
     ? GetReportDocumentPath
+    : TOperation extends "getOrder"
+    ? GetOrderPath
+    : TOperation extends "getOrderAddress"
+    ? GetOrderAddressPath
+    : TOperation extends "getOrderItems"
+    ? GetOrderItemsPath
+    : TOperation extends "getOrderItemsBuyerInfo"
+    ? GetOrderItemsBuyerInfoPath
+    : TOperation extends "getOrderBuyerInfo"
+    ? GetOrderBuyerInfoPath
     : any;
 
   type BodyType<
