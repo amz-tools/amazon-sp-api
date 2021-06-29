@@ -43,5 +43,6 @@
   "scripts": {
     "test": "mocha --config ./test/.mocharc.js"
   },
-  "homepage": "https://github.com/amz-tools/amazon-sp-api"
+  "homepage": "https://github.com/amz-tools/amazon-sp-api",
+  "types": "./lib/typings/index.d.ts"
 }
