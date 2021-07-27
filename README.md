@@ -585,8 +585,6 @@ The `listCatalogItems` operation doesn't respect the restore rate yet, meaning i
 
 Some endpoints might have issues with special charsets like UTF-8. I.e. the `finances` operations return invalid UTF-8 encodings for all data prior to May 2020 resulting in JSON parse errors.
 
-The `aplusContent` endpoint is currently not working as expected. I.e. the most simple `searchContentDocuments` operation returns an `InvalidInput` error (statusCode 400).
-
 ## Seller Support
 
 If you are selling on the european market we might be able to support you with everything else that can't be done with the API, i.e. review management, product sourcing or sales and revenue estimations for products. Feel free to visit us at [https://amz.tools](https://amz.tools).
