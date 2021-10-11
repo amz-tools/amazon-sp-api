@@ -29,7 +29,7 @@ import {
   GetFeedsQuery,
   GetFeedsResponse,
 } from "./operations/feeds";
-import { Config, DownloadOptions } from "./baseTypes";
+import { Config, DownloadOptions, RoleCredentials } from "./baseTypes";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
@@ -51,7 +51,7 @@ import {
   UpdateInboundShipmentResponse,
 } from "./operations/fulfillmentInbound";
 import {
-  CreateReportBody,
+  CreateReportSpecificationBody,
   CreateReportResponse,
   GetReportDocumentPath,
   GetReportDocumentResponse,
@@ -117,6 +117,10 @@ declare module "amazon-sp-api" {
     refreshAccessToken(): Promise<void>;
 
     refreshRoleCredentials(): Promise<void>;
+
+    get access_token(): string;
+
+    get role_credentials(): RoleCredentials;
 
     callAPI<TOperation extends Operation>(
       req_params: ReqParams<TOperation>
@@ -348,7 +352,7 @@ declare module "amazon-sp-api" {
     : TOperation extends "createInboundShipment"
     ? CreateInboundShipmentBody
     : TOperation extends "createReport"
-    ? CreateReportBody
+    ? CreateReportSpecificationBody
     : any;
 
   export interface ReqParams<TOperation extends Operation> {
