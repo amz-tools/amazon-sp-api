@@ -118,6 +118,8 @@ declare module "amazon-sp-api" {
 
     refreshRoleCredentials(): Promise<void>;
 
+    exchange(auth_code:string): Promise<any>;
+
     get access_token(): string;
 
     get role_credentials(): RoleCredentials;

@@ -25,11 +25,12 @@ interface Options {
   credentials_path?: string;
   auto_request_tokens?: boolean;
   auto_request_throttled?: boolean;
+  only_grantless_operations?: boolean;
 }
 
 export interface Config {
   region: "eu" | "na" | "fe";
-  refresh_token: string;
+  refresh_token?: string;
   access_token?: string;
   role_credentials?: RoleCredentials;
   credentials?: Credentials;
