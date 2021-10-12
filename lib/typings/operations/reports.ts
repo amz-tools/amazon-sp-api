@@ -22,7 +22,7 @@ export interface GetReportDocumentResponse extends BaseResponse {
   payload?: ReportDocument;
 }
 
-export interface CreateReportSpecificationBody {
+export interface CreateReportBody {
   reportOptions?: ReportOptions;
   reportType: string;
   dataStartTime?: string;

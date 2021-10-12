@@ -343,17 +343,17 @@ declare module "amazon-sp-api" {
   > = TOperation extends "getSmallAndLightFeePreview"
     ? GetSmallAndLightFeePreviewBody
     : TOperation extends "createFeed"
-    ? CreateFeedSpecificationBody
+    ? CreateFeedBody
     : TOperation extends "createFeedDocument"
     ? CreateFeedDocumentBody
     : TOperation extends "createInboundShipmentPlan"
     ? CreateInboundShipmentPlanBody
     : TOperation extends "updateInboundShipment"
-    ? CreateInboundShipmentRequestBody
+    ? UpdateInboundShipmentBody
     : TOperation extends "createInboundShipment"
-    ? CreateInboundShipmentRequestBody
+    ? CreateInboundShipmentBody
     : TOperation extends "createReport"
-    ? CreateReportSpecificationBody
+    ? CreateReportBody
     : any;
 
   export interface ReqParams<TOperation extends Operation> {

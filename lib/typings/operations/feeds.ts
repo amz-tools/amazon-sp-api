@@ -26,7 +26,7 @@ interface Feed {
   resultFeedDocumentId?: string;
 }
 
-export interface CreateFeedSpecificationBody {
+export interface CreateFeedBody {
   feedType: string;
   marketplaceIds: string[];
   inputFeedDocumentId: string;

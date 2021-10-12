@@ -270,7 +270,13 @@ interface Amount {
   Value: number;
 }
 
-export interface CreateInboundShipmentRequestBody {
+export interface CreateInboundShipmentBody {
+  InboundShipmentHeader: InboundShipmentHeader;
+  InboundShipmentItems: InboundShipmentItem[];
+  MarketplaceId: string;
+}
+
+export interface UpdateInboundShipmentBody {
   InboundShipmentHeader: InboundShipmentHeader;
   InboundShipmentItems: InboundShipmentItem[];
   MarketplaceId: string;
