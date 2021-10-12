@@ -28,20 +28,12 @@ interface BasePath {
   shipmentId: string;
 }
 
-export interface UpdateInboundShipmentBody {
-  body: InboundShipmentRequest;
-}
-
 export interface UpdateInboundShipmentPath extends BasePath {}
 
 export interface UpdateInboundShipmentResponse extends BaseResponse {
   payload?: {
     ShipmentId: string;
   };
-}
-
-export interface CreateInboundShipmentBody {
-  body: InboundShipmentRequest;
 }
 
 export interface CreateInboundShipmentPath extends BasePath {}
@@ -278,7 +270,7 @@ interface Amount {
   Value: number;
 }
 
-interface InboundShipmentRequest {
+export interface CreateInboundShipmentRequestBody {
   InboundShipmentHeader: InboundShipmentHeader;
   InboundShipmentItems: InboundShipmentItem[];
   MarketplaceId: string;

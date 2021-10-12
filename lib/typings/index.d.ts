@@ -18,7 +18,7 @@ import {
 import {
   CancelFeedPath,
   CancelFeedResponse,
-  CreateFeedBody,
+  CreateFeedSpecificationBody,
   CreateFeedDocumentBody,
   CreateFeedDocumentResponse,
   CreateFeedResponse,
@@ -34,7 +34,6 @@ import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
   ConfirmPreorderResponse,
-  CreateInboundShipmentBody,
   CreateInboundShipmentPath,
   CreateInboundShipmentPlanBody,
   CreateInboundShipmentPlanResponse,
@@ -46,9 +45,9 @@ import {
   GetPreorderInfoResponse,
   GetPrepInstructionsQuery,
   GetPrepInstructionsResponse,
-  UpdateInboundShipmentBody,
   UpdateInboundShipmentPath,
   UpdateInboundShipmentResponse,
+  CreateInboundShipmentRequestBody,
 } from "./operations/fulfillmentInbound";
 import {
   CreateReportSpecificationBody,
@@ -344,15 +343,15 @@ declare module "amazon-sp-api" {
   > = TOperation extends "getSmallAndLightFeePreview"
     ? GetSmallAndLightFeePreviewBody
     : TOperation extends "createFeed"
-    ? CreateFeedBody
+    ? CreateFeedSpecificationBody
     : TOperation extends "createFeedDocument"
     ? CreateFeedDocumentBody
     : TOperation extends "createInboundShipmentPlan"
     ? CreateInboundShipmentPlanBody
     : TOperation extends "updateInboundShipment"
-    ? UpdateInboundShipmentBody
+    ? CreateInboundShipmentRequestBody
     : TOperation extends "createInboundShipment"
-    ? CreateInboundShipmentBody
+    ? CreateInboundShipmentRequestBody
     : TOperation extends "createReport"
     ? CreateReportSpecificationBody
     : any;
