@@ -17,5 +17,6 @@ module.exports = {
   sku:process.env.SKU,
   country_code:process.env.COUNTRY_CODE,
   currency_code:process.env.CURRENCY_CODE,
-  order_id:process.env.ORDER_ID
+  order_id:process.env.ORDER_ID,
+  seller_id:process.env.SELLER_ID
 };
