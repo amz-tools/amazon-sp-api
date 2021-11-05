@@ -214,7 +214,7 @@ All calls to the SP-API will be triggered by using the `.callAPI()` function, wh
   },
   api_path:'<FULL_PATH_OF_OPERATION>',
   method:'GET',
-  restricted_data_token:'<RESTRICTED_DATA_TOKEN>'
+  restricted_data_token:'<RESTRICTED_DATA_TOKEN>',
   options:{
     version:'<OPERATION_ENDPOINT_VERSION>',
     raw_result:false
@@ -461,7 +461,7 @@ The structure of the returned `report_document` should look like this:
 {
   reportDocumentId:'<REPORT_DOCUMENT_ID>',
   compressionAlgorithm:'GZIP', // Only included if report is compressed
-  encryptionDetails:{
+  encryptionDetails:{ // Only included if old reports endpoint version used (2020-09-04)
     standard:'AES',
     initializationVector:'<INITIALIZATION_VECTOR>',
     key:'<KEY>'
@@ -581,10 +581,10 @@ let res = await sellingPartner.callAPI({
 
 Since the Selling Partner API is still pretty new, not all API paths and endpoints have been tested for full functionality. If you find any calls not working please open up a new issue.
 
-The `listCatalogItems` operation doesn't respect the restore rate yet, meaning it restores a lot slower than the default restore rate of 6 requests per second.
+Some operations don't respect the correct restore rate yet, meaning they restore a lot slower than the default restore rate.
 
 Some endpoints might have issues with special charsets like UTF-8. I.e. the `finances` operations return invalid UTF-8 encodings for all data prior to May 2020 resulting in JSON parse errors.
 
 ## Seller Support
 
-If you are selling on the european market we might be able to support you with everything else that can't be done with the API, i.e. review management, product sourcing or sales and revenue estimations for products. Feel free to visit us at [https://amz.tools](https://amz.tools).
+If you are selling on the european market we might be able to support you with everything else that can't be done with the API, i.e. a detailed sales dashboard, review management, product sourcing or sales and revenue estimations for products. Feel free to visit us at [https://amz.tools](https://amz.tools).
