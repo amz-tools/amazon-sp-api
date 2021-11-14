@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const endpoint = 'productTypesDefinitions';
+const endpoint = 'productTypeDefinitions';
 
 describe(endpoint, async function(){
 
