@@ -109,7 +109,7 @@ describe(endpoint, async function(){
       operation:'searchCatalogItems',
       endpoint:endpoint,
       query:{
-        keywords:['alexa'],
+        keywords:['echo dot'],
         marketplaceIds:this.config.marketplace_id,
         includedData:['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
       }
