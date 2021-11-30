@@ -131,6 +131,22 @@ declare module "amazon-sp-api" {
       details: ReportDocument,
       options?: DownloadOptions
     ): T;
+      
+    upload<T>(
+        details: {
+          url: string;
+          encryptionDetails?: {
+            key: string;
+            initializationVector: string;
+          };
+        },
+        feed: {
+          content?: string;
+          file?: string;
+          contentType?: string;
+        }
+      ): T;
+  
   }
 
   type Operation =
