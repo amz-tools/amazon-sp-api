@@ -18,7 +18,6 @@ import {
 import {
   CancelFeedPath,
   CancelFeedResponse,
-  CreateFeedSpecificationBody,
   CreateFeedDocumentBody,
   CreateFeedDocumentResponse,
   CreateFeedResponse,
@@ -28,6 +27,7 @@ import {
   GetFeedResponse,
   GetFeedsQuery,
   GetFeedsResponse,
+  CreateFeedBody
 } from "./operations/feeds";
 import { Config, DownloadOptions, RoleCredentials } from "./baseTypes";
 import {
@@ -47,16 +47,17 @@ import {
   GetPrepInstructionsResponse,
   UpdateInboundShipmentPath,
   UpdateInboundShipmentResponse,
-  CreateInboundShipmentRequestBody,
+  UpdateInboundShipmentBody,
+  CreateInboundShipmentBody
 } from "./operations/fulfillmentInbound";
 import {
-  CreateReportSpecificationBody,
   CreateReportResponse,
   GetReportDocumentPath,
   GetReportDocumentResponse,
   GetReportPath,
   GetReportResponse,
   ReportDocument,
+  CreateReportBody,
 } from "./operations/reports";
 import {
   DeleteSmallAndLightEnrollmentBySellerSKUPath,
@@ -110,7 +111,7 @@ import {
 import { ReportDocumentType } from "./download";
 
 declare module "amazon-sp-api" {
-  class SellingPartner {
+  export default class SellingPartner {
     constructor(config: Config);
 
     refreshAccessToken(): Promise<void>;
@@ -376,8 +377,6 @@ declare module "amazon-sp-api" {
     operation: TOperation;
     path?: PathType<TOperation>;
     query?: QueryType<TOperation>;
-    body?: BodyType<TOperation>;
+    body?: BodyType<TOperation>; 
   }
-
-  export = SellingPartner;
 }

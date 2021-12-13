@@ -8,7 +8,8 @@ module.exports.mochaHooks = {
       region:config.region,
       refresh_token:config.refresh_token,
       options:{
-        auto_request_tokens:false
+        auto_request_tokens:false,
+        use_sandbox: true
       }
     });
     await sellingPartner.refreshAccessToken();
@@ -27,7 +28,8 @@ module.exports.mochaHooks = {
         access_token:config.access_token,
         role_credentials:config.role_credentials,
         options:{
-          auto_request_tokens:false
+          auto_request_tokens:false,
+          use_sandbox: true
         }
       });
     }

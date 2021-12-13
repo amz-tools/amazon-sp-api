@@ -8,17 +8,17 @@ const endpoint = 'fbaInventory';
 
 describe(endpoint, async function(){
 
-	it('should return a list of inventory summaries for sku', async function(){
-    if (this.config.region === 'na' && this.config.sku){
+	it('should return a list of inventory summaries', async function(){
+    if (this.config.region === 'na'){
   		let res = await this.sellingPartner.callAPI({
   			operation:'getInventorySummaries',
         endpoint:endpoint,
         query:{
           details:true,
-          sellerSkus:[this.config.sku],
+          // sellerSkus:[this.config.sku],
           granularityType:'Marketplace',
           granularityId:this.config.marketplace_id,
-          marketplaceIds:[this.config.marketplace_id]
+          marketplaceIds:[this.config.marketplace_id],
         }
       });
       expect(res).to.be.a('object');

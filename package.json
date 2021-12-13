@@ -1,5 +1,5 @@
 {
-  "name": "amazon-sp-api",
+  "name": "@cargozone/amazon-sp-api",
   "version": "0.6.4",
   "description": "Amazon Selling Partner API client",
   "main": "index.js",
@@ -38,7 +38,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:amz-tools/amazon-sp-api.git"
+    "url": "git@github.com:CargoZone/amazon-sp-api.git"
   },
   "scripts": {
     "test": "mocha --config ./test/.mocharc.js"
