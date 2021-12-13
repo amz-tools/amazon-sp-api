@@ -375,6 +375,7 @@ declare module "@cargozone/amazon-sp-api" {
 
   export interface ReqParams<TOperation extends Operation> {
     operation: TOperation;
+    endpoint?: string;
     path?: PathType<TOperation>;
     query?: QueryType<TOperation>;
     body?: BodyType<TOperation>; 

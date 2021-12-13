@@ -13,8 +13,11 @@ export interface GetInventorySummariesQuery {
 }
 
 export interface GetInventorySummariesResponse extends BaseResponse {
-  payload?: GetInventorySummariesResult;
-  pagination: Pagination;
+  // payload?: GetInventorySummariesResult;
+  // pagination: Pagination;
+  nextToken?: string;
+  granularity: Granularity;
+  inventorySummaries: InventorySummary[];
 }
 
 interface GetInventorySummariesResult {
