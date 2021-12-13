@@ -110,7 +110,7 @@ import {
 
 import { ReportDocumentType } from "./download";
 
-declare module "amazon-sp-api" {
+declare module "@cargozone/amazon-sp-api" {
   export default class SellingPartner {
     constructor(config: Config);
 
