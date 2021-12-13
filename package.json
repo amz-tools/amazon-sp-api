@@ -1,10 +1,11 @@
 {
   "name": "@cargozone/amazon-sp-api",
-  "version": "0.6.4",
+  "version": "0.0.1",
   "description": "Amazon Selling Partner API client",
   "main": "index.js",
   "directories": {
-    "lib": "./lib/"
+    "lib": "lib",
+    "test": "test"
   },
   "keywords": [
     "amazon",
@@ -38,11 +39,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:CargoZone/amazon-sp-api.git"
+    "url": "git+ssh://git@github.com/CargoZone/amazon-sp-api.git"
   },
   "scripts": {
     "test": "mocha --config ./test/.mocharc.js"
   },
-  "homepage": "https://amz.tools",
-  "types": "./lib/typings/index.d.ts"
+  "homepage": "https://cargozone.ai",
+  "types": "./lib/typings/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/CargoZone/amazon-sp-api/issues"
+  }
 }
