@@ -1,6 +1,6 @@
 {
   "name": "@cargozone/amazon-sp-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Amazon Selling Partner API client",
   "main": "index.js",
   "directories": {
