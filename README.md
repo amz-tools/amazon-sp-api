@@ -13,7 +13,7 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
 * [Usage](#usage)
   * [Config params](#config-params)
   * [Exchange an authorization code for a refresh token](#exchange-an-authorization-code-for-a-refresh-token)
-  * [Request access token and role credentials manually](#request-access-token-and-role-credentials-manually)
+  * [Request access token and role credentials](#request-access-token-and-role-credentials)
 * [Call the API](#call-the-api)
   * [Examples](#examples)
   * [Endpoints](#endpoints)
