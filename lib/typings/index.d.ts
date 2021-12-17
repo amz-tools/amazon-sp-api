@@ -1,24 +1,23 @@
 import {
-  GetOrdersQuery,
-  GetOrderPath,
-  GetOrderBuyerInfoPath,
   GetOrderAddressPath,
-  GetOrderItemsPath,
-  GetOrderItemsQuery,
+  GetOrderAddressResponse,
+  GetOrderBuyerInfoPath,
+  GetOrderBuyerInfoResponse,
+  GetOrderItemResponse,
   GetOrderItemsBuyerInfoPath,
   GetOrderItemsBuyerInfoQuery,
   GetOrderItemsBuyerInfoResponse,
-  GetOrderItemResponse,
-  GetOrderAddressResponse,
-  GetOrderBuyerInfoResponse,
+  GetOrderItemsPath,
+  GetOrderItemsQuery,
+  GetOrderPath,
   GetOrderResponse,
+  GetOrdersQuery,
   GetOrdersResponse,
 } from "./operations/orders";
 
 import {
   CancelFeedPath,
   CancelFeedResponse,
-  CreateFeedSpecificationBody,
   CreateFeedDocumentBody,
   CreateFeedDocumentResponse,
   CreateFeedResponse,
@@ -29,15 +28,19 @@ import {
   GetFeedsQuery,
   GetFeedsResponse,
 } from "./operations/feeds";
-import { Config, DownloadOptions, RoleCredentials } from "./baseTypes";
+import {Config, DownloadOptions, RoleCredentials} from "./baseTypes";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
   ConfirmPreorderResponse,
+  ConfirmTransportPath,
+  ConfirmTransportResponse,
   CreateInboundShipmentPath,
   CreateInboundShipmentPlanBody,
   CreateInboundShipmentPlanResponse,
   CreateInboundShipmentResponse,
+  EstimateTransportPath,
+  EstimateTransportResponse,
   GetInboundGuidanceQuery,
   GetInboundGuidanceResponse,
   GetPreorderInfoPath,
@@ -45,23 +48,17 @@ import {
   GetPreorderInfoResponse,
   GetPrepInstructionsQuery,
   GetPrepInstructionsResponse,
-  UpdateInboundShipmentPath,
-  UpdateInboundShipmentResponse,
-  CreateInboundShipmentRequestBody,
-  PutTransportDetailsPath,
-  PutTransportDetailsBody,
-  PutTransportDetailsResponse,
   GetTransportDetailsPath,
   GetTransportDetailsResponse,
+  PutTransportDetailsBody,
+  PutTransportDetailsPath,
+  PutTransportDetailsResponse,
+  UpdateInboundShipmentPath,
+  UpdateInboundShipmentResponse,
   VoidTransportPath,
-  VoidTransportResponse,
-  EstimateTransportPath,
-  EstimateTransportResponse,
-  ConfirmTransportPath,
-  ConfirmTransportResponse
+  VoidTransportResponse
 } from "./operations/fulfillmentInbound";
 import {
-  CreateReportSpecificationBody,
   CreateReportResponse,
   GetReportDocumentPath,
   GetReportDocumentResponse,
@@ -84,10 +81,7 @@ import {
   PutSmallAndLightEnrollmentBySellerSKUQuery,
   PutSmallAndLightEnrollmentBySellerSKUResponse,
 } from "./operations/fbaSmallAndLight";
-import {
-  GetAuthorizationCodeQuery,
-  GetAuthorizationCodeResponse,
-} from "./operations/authorization";
+import {GetAuthorizationCodeQuery, GetAuthorizationCodeResponse,} from "./operations/authorization";
 import {
   GetCatalogItemPath,
   GetCatalogItemQuery,
@@ -97,14 +91,8 @@ import {
   ListCatalogItemsQuery,
   ListCatalogItemsResponse,
 } from "./operations/catalogItems";
-import {
-  GetInventorySummariesQuery,
-  GetInventorySummariesResponse,
-} from "./operations/fbaInventory";
-import {
-  GetItemEligibilityPreviewQuery,
-  GetItemEligibilityPreviewResponse,
-} from "./operations/fbaInboundEligibility";
+import {GetInventorySummariesQuery, GetInventorySummariesResponse,} from "./operations/fbaInventory";
+import {GetItemEligibilityPreviewQuery, GetItemEligibilityPreviewResponse,} from "./operations/fbaInboundEligibility";
 import {
   ListFinancialEventGroupsByGroupIdPath,
   ListFinancialEventGroupsByGroupIdQuery,
@@ -118,7 +106,7 @@ import {
   ListFinancialEventsResponse,
 } from "./operations/finances";
 
-import { ReportDocumentType } from "./download";
+import {ReportDocumentType} from "./download";
 
 declare module "amazon-sp-api" {
   class SellingPartner {
@@ -142,7 +130,7 @@ declare module "amazon-sp-api" {
       details: ReportDocument,
       options?: DownloadOptions
     ): T;
-      
+
     upload<T>(
         details: {
           url: string;
@@ -157,7 +145,7 @@ declare module "amazon-sp-api" {
           contentType?: string;
         }
       ): T;
-  
+
   }
 
   type Operation =
@@ -410,11 +398,14 @@ declare module "amazon-sp-api" {
     ? PutTransportDetailsBody
     : any;
 
+  type ReqOptions = IReqOptions;
+
   export interface ReqParams<TOperation extends Operation> {
     operation: TOperation;
     path?: PathType<TOperation>;
     query?: QueryType<TOperation>;
     body?: BodyType<TOperation>;
+    options?: ReqOptions
   }
 
   export = SellingPartner;
