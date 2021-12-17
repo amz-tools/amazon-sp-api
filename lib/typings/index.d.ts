@@ -48,6 +48,17 @@ import {
   UpdateInboundShipmentPath,
   UpdateInboundShipmentResponse,
   CreateInboundShipmentRequestBody,
+  PutTransportDetailsPath,
+  PutTransportDetailsBody,
+  PutTransportDetailsResponse,
+  GetTransportDetailsPath,
+  GetTransportDetailsResponse,
+  VoidTransportPath,
+  VoidTransportResponse,
+  EstimateTransportPath,
+  EstimateTransportResponse,
+  ConfirmTransportPath,
+  ConfirmTransportResponse
 } from "./operations/fulfillmentInbound";
 import {
   CreateReportSpecificationBody,
@@ -184,6 +195,11 @@ declare module "amazon-sp-api" {
     | "getOrderAddress"
     | "getOrderItems"
     | "getOrderItemsBuyerInfo"
+    | "getTransportDetails"
+    | "putTransportDetails"
+    | "voidTransport"
+    | "estimateTransport"
+    | "confirmTransport"
     | string;
 
   type ObjectType<TOperation> = TOperation extends "getAuthorizationCode"
@@ -256,6 +272,16 @@ declare module "amazon-sp-api" {
     ? GetOrderItemsBuyerInfoResponse
     : TOperation extends "createInboundShipmentPlan"
     ? CreateInboundShipmentPlanResponse
+    : TOperation extends "putTransportDetails"
+    ? PutTransportDetailsResponse
+    : TOperation extends "getTransportDetails"
+    ? GetTransportDetailsResponse
+    : TOperation extends "voidTransport"
+    ? VoidTransportResponse
+    : TOperation extends "estimateTransport"
+    ? EstimateTransportResponse
+    : TOperation extends "confirmTransport"
+    ? ConfirmTransportResponse
     : any;
 
   type QueryType<
@@ -352,6 +378,16 @@ declare module "amazon-sp-api" {
     ? GetOrderItemsBuyerInfoPath
     : TOperation extends "getOrderBuyerInfo"
     ? GetOrderBuyerInfoPath
+    : TOperation extends "putTransportDetails"
+    ? PutTransportDetailsPath
+    : TOperation extends "getTransportDetails"
+    ? GetTransportDetailsPath
+    : TOperation extends "voidTransport"
+    ? VoidTransportPath
+    : TOperation extends "estimateTransport"
+    ? EstimateTransportPath
+    : TOperation extends "confirmTransport"
+    ? ConfirmTransportPath
     : any;
 
   type BodyType<
@@ -370,6 +406,8 @@ declare module "amazon-sp-api" {
     ? CreateInboundShipmentBody
     : TOperation extends "createReport"
     ? CreateReportBody
+    : TOperation extends "putTransportDetails"
+    ? PutTransportDetailsBody
     : any;
 
   export interface ReqParams<TOperation extends Operation> {
