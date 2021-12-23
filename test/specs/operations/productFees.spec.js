@@ -1,12 +1,15 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('productFees', async function(){
+const endpoint = 'productFees';
+
+describe(endpoint, async function(){
 
 	it('should return estimated product fees for sku', async function(){
     if (this.config.sku){
   		let res = await this.sellingPartner.callAPI({
   			operation:'getMyFeesEstimateForSKU',
+        endpoint:endpoint,
   			path:{
           SellerSKU:this.config.sku
         },
@@ -33,6 +36,7 @@ describe('productFees', async function(){
   it('should return estimated product fees for asin', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'getMyFeesEstimateForASIN',
+      endpoint:endpoint,
       path:{
         Asin:this.config.asin
       },

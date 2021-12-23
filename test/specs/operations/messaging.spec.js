@@ -1,12 +1,15 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('messaging', async function(){
+const endpoint = 'messaging';
+
+describe(endpoint, async function(){
 
 	it('should return available messaging types for order', async function(){
 		if (this.config.order_id){
 			let res = await this.sellingPartner.callAPI({
 				operation:'getMessagingActionsForOrder',
+				endpoint:endpoint,
 				path:{
 					amazonOrderId:this.config.order_id
 				},
@@ -32,6 +35,7 @@ describe('messaging', async function(){
 		if (this.config.order_id){
 			let res = await this.sellingPartner.callAPI({
 				operation:'GetAttributes',
+				endpoint:endpoint,
 				path:{
 					amazonOrderId:this.config.order_id
 				},

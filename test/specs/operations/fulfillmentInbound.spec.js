@@ -2,13 +2,16 @@ const chai = require('chai');
 const expect = chai.expect;
 const moment = require('moment');
 
-describe('fulfillmentInbound', async function(){
+const endpoint = 'fulfillmentInbound';
+
+describe(endpoint, async function(){
 
   let shipment_id;
 
 	it('should return inbound guidance for asin', async function(){
 		let res = await this.sellingPartner.callAPI({
 			operation:'getInboundGuidance',
+      endpoint:endpoint,
 			query:{
       	MarketplaceId:this.config.marketplace_id,
       	ASINList:this.config.asin
@@ -23,6 +26,7 @@ describe('fulfillmentInbound', async function(){
     if (this.config.sku){
       let res = await this.sellingPartner.callAPI({
         operation:'getInboundGuidance',
+        endpoint:endpoint,
         query:{
           MarketplaceId:this.config.marketplace_id,
           SellerSKUList:this.config.sku
@@ -39,6 +43,7 @@ describe('fulfillmentInbound', async function(){
   it('should return prep instructions for asin', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'getPrepInstructions',
+      endpoint:endpoint,
       query:{
         ShipToCountryCode:this.config.country_code,
         ASINList:this.config.asin
@@ -53,6 +58,7 @@ describe('fulfillmentInbound', async function(){
     if (this.config.sku){
       let res = await this.sellingPartner.callAPI({
         operation:'getPrepInstructions',
+        endpoint:endpoint,
         query:{
           ShipToCountryCode:this.config.country_code,
           SellerSKUList:this.config.sku
@@ -69,6 +75,7 @@ describe('fulfillmentInbound', async function(){
   it('should return inbound shipments for date range', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'getShipments',
+      endpoint:endpoint,
       query:{
         MarketplaceId:this.config.marketplace_id,
         ShipmentStatusList:['WORKING', 'SHIPPED', 'RECEIVING', 'CANCELLED', 'DELETED', 'CLOSED', 'ERROR', 'IN_TRANSIT', 'DELIVERED', 'CHECKED_IN'],
@@ -89,6 +96,7 @@ describe('fulfillmentInbound', async function(){
     if (shipment_id){
       let res = await this.sellingPartner.callAPI({
         operation:'getShipmentItemsByShipmentId',
+        endpoint:endpoint,
         query:{
           MarketplaceId:this.config.marketplace_id
         },
@@ -106,6 +114,7 @@ describe('fulfillmentInbound', async function(){
   it('should return inbound shipment items for date range', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'getShipmentItems',
+      endpoint:endpoint,
       query:{
         MarketplaceId:this.config.marketplace_id,
         QueryType:'DATE_RANGE',

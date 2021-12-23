@@ -2,13 +2,16 @@ const chai = require('chai');
 const expect = chai.expect;
 const moment = require('moment');
 
-describe('finances', async function(){
+const endpoint = 'finances';
+
+describe(endpoint, async function(){
 
   let event_group_id;
 
 	it('should return financial event groups for date range', async function(){
 		let res = await this.sellingPartner.callAPI({
 			operation:'listFinancialEventGroups',
+      endpoint:endpoint,
       query:{
         FinancialEventGroupStartedBefore:moment().startOf('day').toISOString(),
         FinancialEventGroupStartedAfter:moment().startOf('day').subtract(2, 'months').toISOString()
@@ -26,6 +29,7 @@ describe('finances', async function(){
     if (event_group_id){
       let res = await this.sellingPartner.callAPI({
         operation:'listFinancialEventsByGroupId',
+        endpoint:endpoint,
         path:{
           eventGroupId:event_group_id
         }
@@ -41,6 +45,7 @@ describe('finances', async function(){
     if (this.config.order_id){
       let res = await this.sellingPartner.callAPI({
         operation:'listFinancialEventsByOrderId',
+        endpoint:endpoint,
         path:{
           orderId:this.config.order_id
         }
@@ -55,6 +60,7 @@ describe('finances', async function(){
   it('should return financial events for date range', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'listFinancialEvents',
+      endpoint:endpoint,
       query:{
         PostedBefore:moment().startOf('day').toISOString(),
         PostedAfter:moment().startOf('day').subtract(2, 'months').toISOString()

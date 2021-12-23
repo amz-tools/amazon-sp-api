@@ -1,7 +1,23 @@
 import {
+  GetOrderAddressPath,
+  GetOrderAddressResponse,
+  GetOrderBuyerInfoPath,
+  GetOrderBuyerInfoResponse,
+  GetOrderItemResponse,
+  GetOrderItemsBuyerInfoPath,
+  GetOrderItemsBuyerInfoQuery,
+  GetOrderItemsBuyerInfoResponse,
+  GetOrderItemsPath,
+  GetOrderItemsQuery,
+  GetOrderPath,
+  GetOrderResponse,
+  GetOrdersQuery,
+  GetOrdersResponse,
+} from "./operations/orders";
+
+import {
   CancelFeedPath,
   CancelFeedResponse,
-  CreateFeedBody,
   CreateFeedDocumentBody,
   CreateFeedDocumentResponse,
   CreateFeedResponse,
@@ -12,16 +28,19 @@ import {
   GetFeedsQuery,
   GetFeedsResponse,
 } from "./operations/feeds";
-import { Config, DownloadOptions } from "./baseTypes";
+import {Config, DownloadOptions, RoleCredentials} from "./baseTypes";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
   ConfirmPreorderResponse,
-  CreateInboundShipmentBody,
+  ConfirmTransportPath,
+  ConfirmTransportResponse,
   CreateInboundShipmentPath,
   CreateInboundShipmentPlanBody,
   CreateInboundShipmentPlanResponse,
   CreateInboundShipmentResponse,
+  EstimateTransportPath,
+  EstimateTransportResponse,
   GetInboundGuidanceQuery,
   GetInboundGuidanceResponse,
   GetPreorderInfoPath,
@@ -29,12 +48,17 @@ import {
   GetPreorderInfoResponse,
   GetPrepInstructionsQuery,
   GetPrepInstructionsResponse,
-  UpdateInboundShipmentBody,
+  GetTransportDetailsPath,
+  GetTransportDetailsResponse,
+  PutTransportDetailsBody,
+  PutTransportDetailsPath,
+  PutTransportDetailsResponse,
   UpdateInboundShipmentPath,
   UpdateInboundShipmentResponse,
+  VoidTransportPath,
+  VoidTransportResponse
 } from "./operations/fulfillmentInbound";
 import {
-  CreateReportBody,
   CreateReportResponse,
   GetReportDocumentPath,
   GetReportDocumentResponse,
@@ -57,10 +81,7 @@ import {
   PutSmallAndLightEnrollmentBySellerSKUQuery,
   PutSmallAndLightEnrollmentBySellerSKUResponse,
 } from "./operations/fbaSmallAndLight";
-import {
-  GetAuthorizationCodeQuery,
-  GetAuthorizationCodeResponse,
-} from "./operations/authorization";
+import {GetAuthorizationCodeQuery, GetAuthorizationCodeResponse,} from "./operations/authorization";
 import {
   GetCatalogItemPath,
   GetCatalogItemQuery,
@@ -70,14 +91,8 @@ import {
   ListCatalogItemsQuery,
   ListCatalogItemsResponse,
 } from "./operations/catalogItems";
-import {
-  GetInventorySummariesQuery,
-  GetInventorySummariesResponse,
-} from "./operations/fbaInventory";
-import {
-  GetItemEligibilityPreviewQuery,
-  GetItemEligibilityPreviewResponse,
-} from "./operations/fbaInboundEligibility";
+import {GetInventorySummariesQuery, GetInventorySummariesResponse,} from "./operations/fbaInventory";
+import {GetItemEligibilityPreviewQuery, GetItemEligibilityPreviewResponse,} from "./operations/fbaInboundEligibility";
 import {
   ListFinancialEventGroupsByGroupIdPath,
   ListFinancialEventGroupsByGroupIdQuery,
@@ -91,24 +106,46 @@ import {
   ListFinancialEventsResponse,
 } from "./operations/finances";
 
-import { ReportDocumentType } from "./download";
+import {ReportDocumentType} from "./download";
 
 declare module "amazon-sp-api" {
   class SellingPartner {
-    constructor(config: Config): void;
+    constructor(config: Config);
 
-    async refreshAccessToken(): void;
+    refreshAccessToken(): Promise<void>;
 
-    async refreshRoleCredentials(): void;
+    refreshRoleCredentials(): Promise<void>;
 
-    async callAPI<TOperation extends Operation>(
+    exchange(auth_code:string): Promise<any>;
+
+    get access_token(): string;
+
+    get role_credentials(): RoleCredentials;
+
+    callAPI<TOperation extends Operation>(
       req_params: ReqParams<TOperation>
-    ): ObjectType<TOperation>;
+    ): Promise<ObjectType<TOperation>>;
 
     download<T extends ReportDocumentType>(
       details: ReportDocument,
       options?: DownloadOptions
     ): T;
+
+    upload<T>(
+        details: {
+          url: string;
+          encryptionDetails?: {
+            key: string;
+            initializationVector: string;
+          };
+        },
+        feed: {
+          content?: string;
+          file?: string;
+          contentType?: string;
+        }
+      ): T;
+
   }
 
   type Operation =
@@ -140,6 +177,17 @@ declare module "amazon-sp-api" {
     | "getPrepInstructions"
     | "getReport"
     | "getReportDocument"
+    | "getOrders"
+    | "getOrder"
+    | "getOrderBuyerInfo"
+    | "getOrderAddress"
+    | "getOrderItems"
+    | "getOrderItemsBuyerInfo"
+    | "getTransportDetails"
+    | "putTransportDetails"
+    | "voidTransport"
+    | "estimateTransport"
+    | "confirmTransport"
     | string;
 
   type ObjectType<TOperation> = TOperation extends "getAuthorizationCode"
@@ -198,6 +246,30 @@ declare module "amazon-sp-api" {
     ? GetReportResponse
     : TOperation extends "getReportDocument"
     ? GetReportDocumentResponse
+    : TOperation extends "getOrders"
+    ? GetOrdersResponse
+    : TOperation extends "getOrder"
+    ? GetOrderResponse
+    : TOperation extends "getOrderBuyerInfo"
+    ? GetOrderBuyerInfoResponse
+    : TOperation extends "getOrderAddress"
+    ? GetOrderAddressResponse
+    : TOperation extends "getOrderItem"
+    ? GetOrderItemResponse
+    : TOperation extends "getOrderItemsBuyerInfo"
+    ? GetOrderItemsBuyerInfoResponse
+    : TOperation extends "createInboundShipmentPlan"
+    ? CreateInboundShipmentPlanResponse
+    : TOperation extends "putTransportDetails"
+    ? PutTransportDetailsResponse
+    : TOperation extends "getTransportDetails"
+    ? GetTransportDetailsResponse
+    : TOperation extends "voidTransport"
+    ? VoidTransportResponse
+    : TOperation extends "estimateTransport"
+    ? EstimateTransportResponse
+    : TOperation extends "confirmTransport"
+    ? ConfirmTransportResponse
     : any;
 
   type QueryType<
@@ -234,8 +306,6 @@ declare module "amazon-sp-api" {
     ? ListFinancialEventsQuery
     : TOperation extends "getInboundGuidance"
     ? GetInboundGuidanceQuery
-    : TOperation extends "createInboundShipmentPlan"
-    ? CreateInboundShipmentPlanResponse
     : TOperation extends "getPreorderInfo"
     ? GetPreorderInfoQuery
     : TOperation extends "confirmPreorder"
@@ -244,6 +314,12 @@ declare module "amazon-sp-api" {
     ? GetPrepInstructionsQuery
     : TOperation extends "createReport"
     ? CreateReportResponse
+    : TOperation extends "getOrders"
+    ? GetOrdersQuery
+    : TOperation extends "getOrderItems"
+    ? GetOrderItemsQuery
+    : TOperation extends "getOrderItemsBuyerInfo"
+    ? GetOrderItemsBuyerInfoQuery
     : any;
 
   type PathType<
@@ -280,6 +356,26 @@ declare module "amazon-sp-api" {
     ? GetReportPath
     : TOperation extends "getReportDocument"
     ? GetReportDocumentPath
+    : TOperation extends "getOrder"
+    ? GetOrderPath
+    : TOperation extends "getOrderAddress"
+    ? GetOrderAddressPath
+    : TOperation extends "getOrderItems"
+    ? GetOrderItemsPath
+    : TOperation extends "getOrderItemsBuyerInfo"
+    ? GetOrderItemsBuyerInfoPath
+    : TOperation extends "getOrderBuyerInfo"
+    ? GetOrderBuyerInfoPath
+    : TOperation extends "putTransportDetails"
+    ? PutTransportDetailsPath
+    : TOperation extends "getTransportDetails"
+    ? GetTransportDetailsPath
+    : TOperation extends "voidTransport"
+    ? VoidTransportPath
+    : TOperation extends "estimateTransport"
+    ? EstimateTransportPath
+    : TOperation extends "confirmTransport"
+    ? ConfirmTransportPath
     : any;
 
   type BodyType<
@@ -298,13 +394,18 @@ declare module "amazon-sp-api" {
     ? CreateInboundShipmentBody
     : TOperation extends "createReport"
     ? CreateReportBody
+    : TOperation extends "putTransportDetails"
+    ? PutTransportDetailsBody
     : any;
+
+  type ReqOptions = IReqOptions;
 
   export interface ReqParams<TOperation extends Operation> {
     operation: TOperation;
     path?: PathType<TOperation>;
     query?: QueryType<TOperation>;
     body?: BodyType<TOperation>;
+    options?: ReqOptions
   }
 
   export = SellingPartner;

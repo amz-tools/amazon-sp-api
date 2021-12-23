@@ -1,9 +1,5 @@
 import { BaseResponse, ProcessingStatus } from "../baseTypes";
 
-export interface CreateReportBody {
-  body: CreateReportSpecification;
-}
-
 export interface CreateReportResponse extends BaseResponse {
   payload?: {
     reportId: string;
@@ -26,7 +22,7 @@ export interface GetReportDocumentResponse extends BaseResponse {
   payload?: ReportDocument;
 }
 
-interface CreateReportSpecification {
+export interface CreateReportBody {
   reportOptions?: ReportOptions;
   reportType: string;
   dataStartTime?: string;

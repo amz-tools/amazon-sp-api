@@ -12,16 +12,18 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
   * [Setting credentials from constructor config object](#setting-credentials-from-constructor-config-object)
 * [Usage](#usage)
   * [Config params](#config-params)
-  * [Request tokens and role credentials manually](#request-tokens-and-role-credentials-manually)
+  * [Exchange an authorization code for a refresh token](#exchange-an-authorization-code-for-a-refresh-token)
+  * [Request access token and role credentials](#request-access-token-and-role-credentials)
 * [Call the API](#call-the-api)
   * [Examples](#examples)
+  * [Endpoints](#endpoints)
   * [Versions](#versions)
     * [Version specific operation implementations](#version-specific-operation-implementations)
     * [Defining endpoints versions on class level](#defining-endpoints-versions-on-class-level)
     * [Fallback](#fallback)
+  * [Unsupported endpoints/versions/operations](#unsupported-endpointsversionsoperations)
   * [Grantless operations](#grantless-operations)
   * [Restore rates](#restore-rates)
-  * [Unsupported endpoints/versions/operations](#unsupported-endpointsversionsoperations)
 * [Download, decrypt and unzip reports](#download-decrypt-and-unzip-reports)
 * [Encrypt and upload feeds](#encrypt-and-upload-feeds)
 * [TypeScript Support](#typescript-support)
@@ -31,7 +33,7 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
 
 ## Prerequisites
 
-Make sure that you followed the [Selling Partner API Developer Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md) and have successfully completed the steps [Registering as a developer](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#registering-as-a-developer), [Registering your Selling Partner API application](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#registering-your-selling-partner-api-application) and have a valid refresh token (if you use the client only for your own seller account the easiest way is using the self authorization as described in the developer guide).
+Make sure that you followed the [Selling Partner API Developer Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md) and have successfully completed the steps [Registering as a developer](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#registering-as-a-developer), [Registering your application](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#registering-your-application) and have a valid refresh token (if you use the client only for your own seller account the easiest way is using the self authorization as described in the developer guide).
 
 ## Installation
 ```bash
@@ -44,11 +46,11 @@ Before you can use the client you need to add your app client and aws user crede
 
 ### Setting credentials from environment variables
 
-* `SELLING_PARTNER_APP_CLIENT_ID`=<YOUR_APP_CLIENT_ID> ([see SP Developer Guide "Viewing your developer information"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#viewing-your-developer-information))
-* `SELLING_PARTNER_APP_CLIENT_SECRET`=<YOUR_APP_CLIENT_SECRET> ([see SP Developer Guide "Viewing your developer information"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#viewing-your-developer-information))
-* `AWS_SELLING_PARTNER_ACCESS_KEY_ID` or `AWS_ACCESS_KEY_ID`=<YOUR_AWS_USER_ID> ([see SP Developer Guide "Create an IAM user"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#step-2-create-an-iam-user))
-* `AWS_SELLING_PARTNER_SECRET_ACCESS_KEY` or `AWS_SECRET_ACCESS_KEY`=<YOUR_AWS_USER_SECRET> ([see SP Developer Guide "Create an IAM user"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#step-2-create-an-iam-user))
-* `AWS_SELLING_PARTNER_ROLE`=<YOUR_AWS_SELLING_PARTNER_API_ROLE> ([see SP Developer Guide "Create an IAM role"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#step-4-create-an-iam-role))
+* `SELLING_PARTNER_APP_CLIENT_ID`=<YOUR_APP_CLIENT_ID> ([see SP Developer Guide "Viewing your developer information"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#viewing-your-developer-information))
+* `SELLING_PARTNER_APP_CLIENT_SECRET`=<YOUR_APP_CLIENT_SECRET> ([see SP Developer Guide "Viewing your developer information"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#viewing-your-developer-information))
+* `AWS_SELLING_PARTNER_ACCESS_KEY_ID` or `AWS_ACCESS_KEY_ID`=<YOUR_AWS_USER_ID> ([see SP Developer Guide "Create an IAM user"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#step-2-create-an-iam-user))
+* `AWS_SELLING_PARTNER_SECRET_ACCESS_KEY` or `AWS_SECRET_ACCESS_KEY`=<YOUR_AWS_USER_SECRET> ([see SP Developer Guide "Create an IAM user"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#step-2-create-an-iam-user))
+* `AWS_SELLING_PARTNER_ROLE`=<YOUR_AWS_SELLING_PARTNER_API_ROLE> ([see SP Developer Guide "Create an IAM role"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#step-4-create-an-iam-role))
 
 ### Setting credentials from file
 
@@ -81,7 +83,8 @@ Create client and call API:
       refresh_token:'<REFRESH_TOKEN>' // The refresh token of your app user
     });
     let res = await sellingPartner.callAPI({
-      operation:'getMarketplaceParticipations'
+      operation:'getMarketplaceParticipations',
+      endpoint:'sellers'
     });
     console.log(res);
   } catch(e){
@@ -146,21 +149,27 @@ Valid properties of the config options:
 | **use_sandbox**<br>*optional* | boolean | false | Whether or not to use the sandbox endpoint. |
 | **only_grantless_operations**<br>*optional* | boolean | false | Whether or not to only use grantless operations. |
 
-If you only provide the `region` and `refresh_token` parameters the client will automatically request `access_token` and `role_credentials` for you (with a TTL of 1 hour) and reuse these for future api calls for the class instance.
-If you want to use the same credentials for multiple instances you can retrieve them via getters and use them as input for a new instance:
+### Exchange an authorization code for a refresh token
+If you already have a refresh token you can skip this step. If you only want to use the API for your own seller account you can just use the [self authorization](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#self-authorization) to obtain a valid refresh token.
+
+If you want to exchange an authorization code of a seller you can use the `.exchange()` function of the client. The neccessary authorization code is returned to your callback URI as `spapi_oauth_code` when a seller authorizes your application ([see authorization workflow in docs](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#authorizing-selling-partner-api-applications)) or via a call to the `getAuthorizationCode` operation if you want to authorize a seller for the SP-API who has previously authorized you for the MWS API (the `getAuthorizationCode` workflow is explained in the [Grantless operations](#grantless-operations) section).
+
+Once you have obtained the authorization_code you can exchange it for a refresh token:
 ```javascript
-let access_token = sellingPartner.access_token;
-let role_credentials = sellingPartner.role_credentials;
-
-let sellingPartnerNewInstance = new SellingPartnerAPI({
+let sellingPartner = new SellingPartnerAPI({
   region:'eu',
-  refresh_token:'<REFRESH_TOKEN>',
-  access_token:access_token,
-  role_credentials:role_credentials
+  options:{
+    only_grantless_operations:true
+  }
 });
+let res = await sellingPartner.exchange('<SELLER_AUTHORIZATION_CODE>');
+console.log(res.refresh_token);
 ```
+NOTE: You will have to create a new class instance once you have obtained the `refresh_token` and pass it inside the constructor in order to make calls to the API.
 
-### Request tokens and role credentials manually
+### Request access token and role credentials
+
+If you only provide the `region` and `refresh_token` parameters the client will automatically request `access_token` and `role_credentials` for you (with a TTL of 1 hour) and reuse these for future api calls for the class instance.
 
 Instead of having the client handle the `access_token` and `role_credentials` requests automatically, you may also refresh them manually:
 ```javascript
@@ -174,6 +183,18 @@ let sellingPartner = new SellingPartnerAPI({
 await sellingPartner.refreshAccessToken();
 await sellingPartner.refreshRoleCredentials();
 ```
+If you want to use the same credentials for multiple instances you can retrieve them via getters and use them as input for a new instance:
+```javascript
+let access_token = sellingPartner.access_token;
+let role_credentials = sellingPartner.role_credentials;
+
+let sellingPartnerNewInstance = new SellingPartnerAPI({
+  region:'eu',
+  refresh_token:'<REFRESH_TOKEN>',
+  access_token:access_token,
+  role_credentials:role_credentials
+});
+```
 
 ## Call the API
 
@@ -181,9 +202,10 @@ All calls to the SP-API will be triggered by using the `.callAPI()` function, wh
 ```javascript
 {
   operation:'<OPERATION_TO_CALL>',
+  endpoint:'<ENDPOINT_OF_OPERATION>',
   path:{
     ...
-  }
+  },
   query:{
     ...
   },
@@ -192,7 +214,7 @@ All calls to the SP-API will be triggered by using the `.callAPI()` function, wh
   },
   api_path:'<FULL_PATH_OF_OPERATION>',
   method:'GET',
-  restricted_data_token:'<RESTRICTED_DATA_TOKEN>'
+  restricted_data_token:'<RESTRICTED_DATA_TOKEN>',
   options:{
     version:'<OPERATION_ENDPOINT_VERSION>',
     raw_result:false
@@ -203,12 +225,13 @@ Valid properties of the object:
 
 | Name | Type | Default | Description |
 |:--|:--:|:--:|:--|
-| **operation**<br>*optional* | string | - | The operation you want to request, [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references).<br>Call `.endpoints` on class instance to retrieve a complete list of all endpoints, versions and operations supported by the client.<br>Required if `api_path` is not defined. |
+| **operation**<br>*optional* | string | - | The operation you want to request, [see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references).<br>May also include endpoint as shorthand dot notation.<br>Call `.endpoints` on class instance to retrieve a complete list of all endpoints, versions and operations supported by the client.<br>Required if `api_path` is not defined. |
+| **endpoint**<br>*optional* | string | - | The endpoint of the operation, ([see Endpoints](#endpoints)).<br>Call `.endpoints` on class instance to retrieve a complete list of all endpoints, versions and operations supported by the client.<br>Required if endpoint is not part of `operation` as shorthand dot notation and `api_path` is not defined. |
 | **path**<br>*optional* | object | - | The input paramaters added to the path of the operation. |
 | **query**<br>*optional* | object | - | The input paramaters added to the query string of the operation. |
 | **body**<br>*optional* | object | - | The input paramaters added to the body of the operation. |
 | **api_path**<br>*optional* | string | - | The full api path of an operation. Can be used to call operations that are not yet supported or have a new version that is not yet supported by the client.<br>Required if `operation` is not defined. |
-| **method**<br>*optional* | string | - | The HTTP method to use.<br>Required only if `api_path` is defined.<br>Must be one of: `GET`, `POST`, `PUT` or `DELETE`. |
+| **method**<br>*optional* | string | - | The HTTP method to use.<br>Required only if `api_path` is defined.<br>Must be one of: `GET`, `POST`, `PUT`,`DELETE` or `PATCH`. |
 | **restricted_data_token**<br>*optional* | string | - | A token received from a `createRestrictedDataToken` operation. Neccessary to include PII (Personally Identifiable Informaton) for some restricted operations, [see Tokens API use case guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/tokens-api-use-case-guide/tokens-API-use-case-guide-2021-03-01.md#restricted-operations) for a list of restricted operations.<br>NOTE: Your developer account must be approved for PII by Amazon in order to be able to receive PII, otherwise the token will have no effect, meaning the result of restricted operations will not include PII. |
 | **options**<br>*optional* | object | - | Additional options, see table below for all possible options properties. |
 
@@ -221,9 +244,24 @@ Valid properties of the config options:
 
 ### Examples
 
+To call an operation of an API endpoint you pass in the operation and the endpoint it belongs to. See the following example:
+```javascript
+let res = await sellingPartner.callAPI({
+  operation:'getMarketplaceParticipations',
+  endpoint:'sellers'
+});
+```
+Instead of using the endpoint property you may also prepend the endpoint to the operation as shorthand dot notation:
+```javascript
+let res = await sellingPartner.callAPI({
+  operation:'sellers.getMarketplaceParticipations'
+});
+```
+Here are a few examples that use some more properties:
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'getOrderMetrics',
+  endpoint:'sales',
   query:{
     marketplaceIds:['A1PA6795UKMFR9'],
     interval:'2020-10-01T00:00:00-07:00--2020-10-01T20:00:00-07:00',
@@ -233,18 +271,22 @@ let res = await sellingPartner.callAPI({
 ```
 ```javascript
 let res = await sellingPartner.callAPI({
-  operation:'getCatalogItem',
+  operation:'catalogItems.getCatalogItem',
   path:{
     asin:'B084J4QQFT'
   },
   query:{
     MarketplaceId:'A1PA6795UKMFR9'
+  },
+  options:{
+    version:'v0'
   }
 });
 ```
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'createReport',
+  endpoint:'reports',
   body:{
     reportType:'GET_FLAT_FILE_OPEN_LISTINGS_DATA',
     marketplaceIds:['A1PA6795UKMFR9']
@@ -253,7 +295,7 @@ let res = await sellingPartner.callAPI({
 ```
 ```javascript
 let res = await sellingPartner.callAPI({
-  operation:'listFinancialEvents',
+  operation:'finances.listFinancialEvents',
   query:{
     PostedAfter:'2020-03-01T00:00:00-07:00',
     PostedBefore:'2020-03-02T00:00:00-07:00'
@@ -263,12 +305,15 @@ let res = await sellingPartner.callAPI({
   }
 });
 ```
+NOTE: As the original design of the client (< v0.4.0) didn't keep in mind the possibility of having the exact same operation name for multiple endpoints (i.e. `getShipment`, [see Issue #33](https://github.com/amz-tools/amazon-sp-api/issues/33)) and multiple versions of the same endpoint, we had to replace original operation-only based calls to the API with a new concept that includes endpoints and version-specific operation calls. This concept comes without any breaking changes, so you can still safely upgrade from any version below 0.4.0 to the latest version, but the use of `.callAPI()` without specifying an endpoint is considered deprecated, is discouraged and will trigger a console warning.
+
+### Endpoints
+The exact endpoint's name of an operation will be the references name ([see SP API References](https://github.com/amzn/selling-partner-api-docs/tree/main/references)) without `-` and `api` and continued with a capital letter. So the `catalog-items-api` endpoint's name will be `catalogItems`, `fba-small-and-light-api` will be `fbaSmallAndLight`, `sellers-api` will be `sellers` and so on. You can also retrieve the endpoint names and their operations and versions by calling `sellingPartner.endpoints`.
 
 ### Versions
 
 Every operation belongs to an endpoint that consists of one or more versions and each version consists of one or more operations. You will find a complete list of the endpoints with all versions and operations [here in the Selling Partner API Docs](https://github.com/amzn/selling-partner-api-docs/tree/main/references). For a complete list of all currently by the client supported endpoints with versions and operations you can just call `sellingPartner.endpoints`.
 
-NOTE: As the original design of the client (< v0.4.0) didn't keep in mind the possibility of having more versions of the same endpoint (and as such multiple versions of the same operation), we had to replace original operation-only based calls to the API with a new concept that includes endpoints and version-specific operation calls. However this concept comes without any breaking changes, so you can still safely upgrade from any version below 0.4.0 to the latest version.
 
 #### Version specific operation implementations
 
@@ -278,6 +323,7 @@ The implementation of the `getCatalogItem` operation in the `v0` version expects
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'getCatalogItem',
+  endpoint:'catalogItems',
   query:{
     MarketplaceId:'A1PA6795UKMFR9'
   },
@@ -289,10 +335,11 @@ let res = await sellingPartner.callAPI({
   }
 });
 ```
-In contrast, the implementation of the `getCatalogItem` operation in the `2021-12-01` version expects an `asin`, a `marketplaceIds` array and an `includedData` array as input:
+In contrast, the implementation of the `getCatalogItem` operation in the `2020-12-01` version expects an `asin`, a `marketplaceIds` array and an `includedData` array as input:
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'getCatalogItem',
+  endpoint:'catalogItems',
   query:{
     marketplaceIds:['A1PA6795UKMFR9'],
     includedData:['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
@@ -329,6 +376,7 @@ I.e. the `listCatalogCategories` operation is not part of the new `catalogItems`
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'listCatalogCategories',
+  endpoint:'catalogItems',
   query:{
     MarketplaceId:'A1PA6795UKMFR9',
     ASIN:'B084DWG2VQ'
@@ -336,9 +384,23 @@ let res = await sellingPartner.callAPI({
 });
 ```
 
+### Unsupported endpoints/versions/operations
+
+The newest client version should have full support for all endpoints, versions and operations on release, however it might lack support for very recently added new endpoints, versions or operations. If you need an endpoint/version/operation that is not yet supported you can still call it by using the `api_path` parameter. I.e. if the new `catalogItems` version `2020-12-01` would not be supported yet we could still use the new implementation of the `getCatalogItem` operation by using the `api_path` and `method` properties:
+```javascript
+let res = await sellingPartner.callAPI({
+  api_path:'/catalog/2020-12-01/items/B084DWG2VQ',
+  method:'GET',
+  query:{
+    marketplaceIds:['A1PA6795UKMFR9'],
+    includedData:['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
+  }
+});
+```
+
 ### Grantless operations
 
-Some operations don't require an explicit authorization by a seller, [see list of grantless operations](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/developer-guide/SellingPartnerApiDeveloperGuide.md#grantless-operations-1). A grantless operation needs another access token than other operations and as such a grantless token is NOT the `access_token` you can provide in the constructor config object. However if the `auto_request_tokens` option is set to `true` the client should handle everything for you.
+Some operations don't require an explicit authorization by a seller, [see list of grantless operations](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#grantless-operations-1). A grantless operation needs another access token than other operations and as such a grantless token is NOT the `access_token` you can provide in the constructor config object. However if the `auto_request_tokens` option is set to `true` the client should handle everything for you.
 
 If you do the token request manually you need to create a grantless token by calling `refreshAccessToken` with the scope of the corresponding endpoint. Currently there are only two different scopes: `sellingpartnerapi::migration` for authorization endpoint and `sellingpartnerapi::notifications` for notifications endpoint.
 
@@ -365,6 +427,7 @@ Finally call the grantless operation:
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'getAuthorizationCode',
+  endpoint:'authorization',
   query:{
     sellingPartnerId:'<YOUR_CUSTOMERS_SELLER_ID>',
     developerId:'<YOUR_DEVELOPER_ID>',
@@ -379,21 +442,6 @@ If you set the `auto_request_throttled` option in the class constructor config o
 
 NOTE: If you are using the same operation with the same seller account across multiple class instances the restore rate logic might NOT work correct or, even worse, result in an infinite quota exceeded loop. So if you're planning to do that you should probably set `auto_request_throttled` to `false`, catch the `QuotaExceeded` errors and handle the restore rate logic on your own.
 
-
-### Unsupported endpoints/versions/operations
-
-The newest client version should have full support for all endpoints, versions and operations on release, however it might lack support for very recently added new endpoints, versions or operations. If you need an endpoint/version/operation that is not yet supported you can still call it by using the `api_path` parameter. I.e. if the new `catalogItems` version `2020-12-01` would not be supported yet we could still use the new implementation of the `getCatalogItem` operation by using the `api_path` and `method` properties:
-```javascript
-let res = await sellingPartner.callAPI({
-  api_path:'/catalog/2020-12-01/items/B084DWG2VQ',
-  method:'GET',
-  query:{
-    marketplaceIds:['A1PA6795UKMFR9'],
-    includedData:['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
-  }
-});
-```
-
 ## Download, decrypt and unzip reports
 
 The `.download()` function takes the download details (url and encryption details) received from a `getReportDocument` operation as input, downloads the content, unzips it (if result is compressed), decrypts it and returns it.
@@ -402,6 +450,7 @@ Retrieve the download details from a `getReportDocument` operation:
 ```javascript
 let report_document = await sellingPartner.callAPI({
   operation:'getReportDocument',
+  endpoint:'reports',
   path:{
     reportDocumentId:'<REPORT_DOCUMENT_ID>' // retrieve the reportDocumentId from a "getReport" operation (when processingStatus of report is "DONE")
   }
@@ -412,7 +461,7 @@ The structure of the returned `report_document` should look like this:
 {
   reportDocumentId:'<REPORT_DOCUMENT_ID>',
   compressionAlgorithm:'GZIP', // Only included if report is compressed
-  encryptionDetails:{
+  encryptionDetails:{ // Only included if old reports endpoint version used (2020-09-04)
     standard:'AES',
     initializationVector:'<INITIALIZATION_VECTOR>',
     key:'<KEY>'
@@ -485,6 +534,7 @@ Before you can upload the feed you need to retrieve the feed upload details from
 ```javascript
 let feed_upload_details = await sellingPartner.callAPI({
   operation:'createFeedDocument',
+  endpoint:'feeds',
   body:{
     contentType:feed.contentType
   }
@@ -498,6 +548,7 @@ After uploading the feed you have to trigger the processing of the feed by calli
 ```javascript
 let feed_creation_infos = await sellingPartner.callAPI({
   operation:'createFeed',
+  endpoint:'feeds',
   body:{
     marketplaceIds:['A1PA6795UKMFR9'],
     feedType:'POST_INVENTORY_AVAILABILITY_DATA',
@@ -518,6 +569,7 @@ For example, this will test the `listCatalogItems` operation in sandbox mode:
 ```javascript
 let res = await sellingPartner.callAPI({
   operation:'listCatalogItems',
+  endpoint:'catalogItems',
   query:{
     MarketplaceId:'TEST_CASE_200',
     SellerSKU:'SKU_200'
@@ -529,10 +581,10 @@ let res = await sellingPartner.callAPI({
 
 Since the Selling Partner API is still pretty new, not all API paths and endpoints have been tested for full functionality. If you find any calls not working please open up a new issue.
 
-Some operations don't seem to be heavy-use resistant yet, i.e. the `listCatalogItems` operation throws an `InteralFailure` error (statusCode 500) if used repetitive (although restore rate of operation is respected).
+Some operations don't respect the correct restore rate yet, meaning they restore a lot slower than the default restore rate.
 
 Some endpoints might have issues with special charsets like UTF-8. I.e. the `finances` operations return invalid UTF-8 encodings for all data prior to May 2020 resulting in JSON parse errors.
 
 ## Seller Support
 
-If you are selling on the european market we might be able to support you with everything else that can't be done with the API, i.e. review management, product sourcing or sales and revenue estimations for products. Feel free to visit us at [https://amz.tools](https://amz.tools).
+If you are selling on the european market we might be able to support you with everything else that can't be done with the API, i.e. a detailed sales dashboard, review management, product sourcing or sales and revenue estimations for products. Feel free to visit us at [https://amz.tools](https://amz.tools).

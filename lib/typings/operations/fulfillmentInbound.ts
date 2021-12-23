@@ -28,11 +28,7 @@ interface BasePath {
   shipmentId: string;
 }
 
-export interface UpdateInboundShipmentBody {
-  body: InboundShipmentRequest;
-}
-
-export interface UpdateInboundShipmentPath extends BasePath {}
+export interface UpdateInboundShipmentPath extends BasePath { }
 
 export interface UpdateInboundShipmentResponse extends BaseResponse {
   payload?: {
@@ -40,16 +36,12 @@ export interface UpdateInboundShipmentResponse extends BaseResponse {
   };
 }
 
-export interface CreateInboundShipmentBody {
-  body: InboundShipmentRequest;
-}
-
-export interface CreateInboundShipmentPath extends BasePath {}
+export interface CreateInboundShipmentPath extends BasePath { }
 
 export interface CreateInboundShipmentResponse
-  extends UpdateInboundShipmentResponse {}
+  extends UpdateInboundShipmentResponse { }
 
-export interface GetPreorderInfoPath extends BasePath {}
+export interface GetPreorderInfoPath extends BasePath { }
 
 export interface GetPreorderInfoQuery {
   MarketplaceId: string;
@@ -278,7 +270,13 @@ interface Amount {
   Value: number;
 }
 
-interface InboundShipmentRequest {
+export interface CreateInboundShipmentBody {
+  InboundShipmentHeader: InboundShipmentHeader;
+  InboundShipmentItems: InboundShipmentItem[];
+  MarketplaceId: string;
+}
+
+export interface UpdateInboundShipmentBody {
   InboundShipmentHeader: InboundShipmentHeader;
   InboundShipmentItems: InboundShipmentItem[];
   MarketplaceId: string;
@@ -317,4 +315,220 @@ interface InboundShipmentItem {
   QuantityInCase?: number;
   ReleaseDate?: string;
   PrepDetailsList?: PrepDetails[];
+}
+
+export interface PutTransportDetailsPath extends BasePath { }
+
+export interface PutTransportDetailsBody {
+  IsPartnered: boolean;
+  ShipmentType: ShipmentType;
+  TransportDetails: TransportDetailInput;
+}
+
+type ShipmentType = "SP" | "LTL";
+
+interface TransportDetailInput {
+  PartneredSmallParcelData?: PartneredSmallParcelDataInput;
+  NonPartneredSmallParcelData?: NonPartneredSmallParcelDataInput;
+  PartneredLtlData?: PartneredLtlDataInput;
+  NonPartneredLtlData?: NonPartneredLtlDataInput;
+}
+
+interface PartneredSmallParcelDataInput {
+  PackageList?: PartneredSmallParcelPackageInput[];
+  CarrierName?: string;
+}
+
+interface PartneredSmallParcelPackageInput {
+  Dimensions: Dimensions;
+  Weight: Weight;
+}
+
+interface NonPartneredSmallParcelDataInput {
+  CarrierName: string;
+  PackageList: NonPartneredSmallParcelPackageInput[];
+}
+
+interface NonPartneredSmallParcelPackageInput {
+  TrackingId: string;
+}
+
+interface PartneredLtlDataInput {
+  Contact?: Contact;
+  BoxCount?: number;
+  SellerFreightClass?: SellerFreightClass;
+  FreightReadyDate?: string;
+  PalletList?: Pallet[];
+  TotalWeight?: Weight;
+  SellerDeclaredValue: Amount;
+}
+
+interface NonPartneredLtlDataInput {
+  CarrierName: string;
+  ProNumber: string;
+}
+
+interface Dimensions {
+  Length: number;
+  Width: number;
+  Height: number;
+  Unit: UnitOfMeasurement;
+}
+
+type UnitOfMeasurement = "inches" | "centimeters";
+
+interface Weight {
+  Value: number;
+  Unit: UnitOfWeight;
+}
+
+type UnitOfWeight = "pounds" | "kilograms";
+
+interface Contact {
+  Name: string;
+  Phone: string;
+  Email: string;
+  Fax?: string;
+}
+
+interface Pallet {
+  Dimensions: Dimensions;
+  Weight?: Weight;
+  IsStacked: boolean;
+}
+
+export interface PutTransportDetailsResponse extends BaseResponse {
+  payload?: CommonTransportResult;
+}
+
+interface CommonTransportResult {
+  TransportResult?: TransportResult;
+}
+
+interface TransportResult {
+  TransportStatus: TransportStatus;
+  ErrorCode?: string;
+  ErrorDescription?: string;
+}
+
+type TransportStatus =
+  | "WORKING"
+  | "ESTIMATING"
+  | "ESTIMATED"
+  | "ERROR_ON_ESTIMATING"
+  | "CONFIRMING"
+  | "CONFIRMED"
+  | "ERROR_ON_CONFIRMING"
+  | "VOIDING"
+  | "VOIDED"
+  | "ERROR_IN_VOIDING"
+  | "ERROR";
+
+export interface GetTransportDetailsPath extends BasePath { }
+
+export interface GetTransportDetailsResponse extends BaseResponse {
+  payload?: GetTransportDetailsResult;
+}
+
+interface GetTransportDetailsResult {
+  TransportContent?: TransportContent;
+}
+
+interface TransportContent {
+  TransportHeader: TransportHeader;
+  TransportDetails: TransportDetailOutput;
+  TransportResult: TransportResult;
+}
+
+interface TransportHeader {
+  SellerId: string;
+  ShipmentId: string;
+  IsPartnered: string;
+  ShipmentType: ShipmentType;
+}
+
+interface TransportDetailOutput {
+  PartneredSmallParcelData?: PartneredSmallParcelDataOutput;
+  NonPartneredSmallParcelData?: NonPartneredSmallParcelDataOutput;
+  PartneredLtlData?: PartneredLtlDataOutput;
+  NonPartneredLtlData?: NonPartneredLtlDataOutput;
+}
+
+interface PartneredSmallParcelDataOutput {
+  PackageList: PartneredSmallParcelPackageOutput[];
+  PartneredEstimate?: PartneredEstimate;
+}
+
+interface PartneredSmallParcelPackageOutput {
+  Dimensions: Dimensions;
+  Weight: Weight;
+  CarrierName: string;
+  TrackingId: string;
+  PackageStatus: PackageStatus;
+}
+
+interface PartneredEstimate {
+  Amount: Amount;
+  ConfirmDeadline?: string;
+  VoidDeadline?: string;
+}
+
+interface NonPartneredSmallParcelDataOutput {
+  PackageList: NonPartneredSmallParcelPackageOutput[];
+}
+
+interface NonPartneredSmallParcelPackageOutput {
+  CarrierName: string;
+  TrackingId: string;
+  PackageStatus: PackageStatus;
+}
+
+interface PartneredLtlDataOutput {
+  Contact: Contact;
+  BoxCount: number;
+  SellerFreightClass?: SellerFreightClass;
+  FreightReadyDate: string;
+  PalletList: Pallet[];
+  TotalWeight: Weight;
+  SellerDeclaredValue?: Amount;
+  AmazonCalculatedValue?: Amount;
+  PreviewPickupDate: string;
+  PreviewDeliveryDate: string;
+  PreviewFreightClass: SellerFreightClass;
+  AmazonReferenceId: string;
+  IsBillOfLadingAvailable: boolean;
+  PartneredEstimate?: PartneredEstimate;
+  CarrierName: string;
+}
+
+interface NonPartneredLtlDataOutput {
+  CarrierName: string;
+  ProNumber: string;
+}
+
+type PackageStatus =
+  | "SHIPPED"
+  | "IN_TRANSIT"
+  | "DELIVERED"
+  | "CHECKED_IN"
+  | "RECEIVING"
+  | "CLOSED"
+  | "DELETED";
+
+export interface VoidTransportPath extends BasePath { }
+
+export interface VoidTransportResponse extends BaseResponse {
+  payload?: CommonTransportResult;
+}
+
+export interface EstimateTransportPath extends BasePath { }
+
+export interface EstimateTransportResponse extends BaseResponse {
+  payload?: CommonTransportResult;
+}
+
+export interface ConfirmTransportPath extends BasePath { }
+
+export interface ConfirmTransportResponse extends BaseResponse {
+  payload?: CommonTransportResult;
 }

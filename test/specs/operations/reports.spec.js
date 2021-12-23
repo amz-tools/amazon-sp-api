@@ -2,7 +2,9 @@ const chai = require('chai');
 const expect = chai.expect;
 const moment= require('moment');
 
-describe('reports', async function(){
+const endpoint = 'reports';
+
+describe(endpoint, async function(){
 
   let report_id;
   let report_document_id;
@@ -12,6 +14,7 @@ describe('reports', async function(){
 	it('should return report details for open listings inventory reports', async function(){
 		let res = await this.sellingPartner.callAPI({
 			operation:'getReports',
+      endpoint:endpoint,
 			query:{
         reportTypes:'GET_FLAT_FILE_OPEN_LISTINGS_DATA'
       }
@@ -26,6 +29,7 @@ describe('reports', async function(){
     if (report_id){
       let res = await this.sellingPartner.callAPI({
         operation:'getReport',
+        endpoint:endpoint,
         path:{
           reportId:report_id
         }
@@ -46,6 +50,7 @@ describe('reports', async function(){
   it('should return report schedules for open listings inventory reports', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'getReportSchedules',
+      endpoint:endpoint,
       query:{
         reportTypes:['GET_FLAT_FILE_OPEN_LISTINGS_DATA']
       }
@@ -60,6 +65,7 @@ describe('reports', async function(){
     if (report_schedule_id){
       let res = await this.sellingPartner.callAPI({
         operation:'getReportSchedule',
+        endpoint:endpoint,
         path:{
           reportScheduleId:report_schedule_id
         }
@@ -77,6 +83,7 @@ describe('reports', async function(){
     if (report_document_id){
       let res = await this.sellingPartner.callAPI({
         operation:'getReportDocument',
+        endpoint:endpoint,
         path:{
           reportDocumentId:report_document_id
         }

@@ -1,12 +1,15 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('solicitations', async function(){
+const endpoint = 'solicitations';
+
+describe(endpoint, async function(){
 
   it('should return list of solicitation types available for order', async function(){
     if (this.config.order_id){
       let res = await this.sellingPartner.callAPI({
         operation:'getSolicitationActionsForOrder',
+        endpoint:endpoint,
         path:{
           amazonOrderId:this.config.order_id
         },
