@@ -105,6 +105,10 @@ import {
   ListFinancialEventsQuery,
   ListFinancialEventsResponse,
 } from "./operations/finances";
+import {
+  CreateRestrictedDataTokenBody,
+  CreateRestrictedDataTokenResponse
+} from "./operations/tokens";
 
 import {ReportDocumentType} from "./download";
 
@@ -188,6 +192,7 @@ declare module "amazon-sp-api" {
     | "voidTransport"
     | "estimateTransport"
     | "confirmTransport"
+    | "createRestrictedDataToken"
     | string;
 
   type ObjectType<TOperation> = TOperation extends "getAuthorizationCode"
@@ -270,6 +275,8 @@ declare module "amazon-sp-api" {
     ? EstimateTransportResponse
     : TOperation extends "confirmTransport"
     ? ConfirmTransportResponse
+    : TOperation extends "createRestrictedDataToken"
+    ? CreateRestrictedDataTokenResponse
     : any;
 
   type QueryType<
@@ -396,6 +403,8 @@ declare module "amazon-sp-api" {
     ? CreateReportBody
     : TOperation extends "putTransportDetails"
     ? PutTransportDetailsBody
+    : TOperation extends "createRestrictedDataToken"
+    ? CreateRestrictedDataTokenBody
     : any;
 
   type ReqOptions = IReqOptions;
