@@ -532,3 +532,144 @@ export interface ConfirmTransportPath extends BasePath { }
 export interface ConfirmTransportResponse extends BaseResponse {
   payload?: CommonTransportResult;
 }
+
+export interface GetLabelsPath extends BasePath { }
+
+export interface GetLabelsQuery {
+  PageType: PageType;
+  LabelType: LabelType;
+  NumberOfPackages?: number;
+  PackageLabelsToPrint?: string[];
+  NumberOfPallets?: number;
+  PageSize?: number;
+  PageStartIndex?: number;
+}
+
+type PageType =
+  | "PackageLabel_Letter_2"
+  | "PackageLabel_Letter_4"
+  | "PackageLabel_Letter_6"
+  | "PackageLabel_Letter_6_CarrierLeft"
+  | "PackageLabel_A4_2"
+  | "PackageLabel_A4_4"
+  | "PackageLabel_Plain_Paper"
+  | "PackageLabel_Plain_Paper_CarrierBottom"
+  | "PackageLabel_Thermal"
+  | "PackageLabel_Thermal_Unified"
+  | "PackageLabel_Thermal_NonPCP"
+  | "PackageLabel_Thermal_No_Carrier_Rotation";
+
+type LabelType =
+  | "BARCODE_2D"
+  | "UNIQUE"
+  | "PALLET";
+
+export interface GetLabelsResponse extends BaseResponse {
+  payload?: LabelDownloadURL;
+}
+
+interface LabelDownloadURL {
+  DownloadURL?: string;
+}
+
+export interface GetBillOfLadingPath extends BasePath { }
+
+export interface GetBillOfLadingResponse extends BaseResponse {
+  payload?: BillOfLadingDownloadURL;
+}
+
+interface BillOfLadingDownloadURL {
+  DownloadURL?: string;
+}
+
+export interface GetShipmentsQuery {
+  ShipmentStatusList?: ShipmentStatusList[];
+  ShipmentIdList?: string[];
+  LastUpdatedAfter?: string;
+  LastUpdatedBefore?: string;
+  QueryType: GetShipmentsQueryType;
+  NextToken?: string;
+  MarketplaceId: string;
+}
+
+export interface GetShipmentsResponse extends BaseResponse {
+  payload?: GetShipmentsResult;
+}
+
+type ShipmentStatusList =
+  | "WORKING"
+  | "SHIPPED"
+  | "RECEIVING"
+  | "CANCELLED"
+  | "DELETED"
+  | "CLOSED"
+  | "ERROR"
+  | "IN_TRANSIT"
+  | "DELIVERED"
+  | "CHECKED_IN";
+
+type GetShipmentsQueryType =
+  | "SHIPMENT"
+  | "DATE_RANGE"
+  | "NEXT_TOKEN";
+
+interface GetShipmentsResult {
+  ShipmentData?: InboundShipmentInfo[];
+  NextToken?: string;
+}
+
+interface InboundShipmentInfo {
+  ShipmentId?: string;
+  ShipmentName?: string;
+  ShipFromAddress: Address;
+  DestinationFulfillmentCenterId?: string;
+  ShipmentStatus?: ShipmentStatus;
+  LabelPrepType?: LabelPrepType;
+  AreCasesRequired: boolean;
+  ConfirmedNeedByDate?: string;
+  BoxContentsSource?: BoxContentsSource;
+  EstimatedBoxContentsFee?: BoxContentsFeeDetails;
+}
+
+type BoxContentsSource = 
+  | "NONE"
+  | "FEED"
+  | "2D_BARCODE"
+  | "INTERACTIVE"
+
+interface BoxContentsFeeDetails {
+  TotalUnits?: number;
+  FeePerUnit?: Amount;
+  TotalFee?: Amount;
+}
+
+export interface GetShipmentItemsByShipmentIdPath extends BasePath { }
+
+export interface GetShipmentItemsByShipmentIdQuery {
+  MarketplaceId: string;
+}
+
+export interface GetShipmentItemsByShipmentIdResponse extends BaseResponse {
+  payload?: GetShipmentItemsResult;
+}
+
+interface GetShipmentItemsResult {
+  ItemData?: InboundShipmentItem[];
+  NextToken?: string;
+}
+
+export interface GetShipmentItemsQuery {
+  LastUpdatedAfter?: string;
+  LastUpdatedBefore?: string;
+  QueryType: GetShipmentItemsQueryType;
+  NextToken?: string;
+  MarketplaceId: string;
+}
+
+export interface GetShipmentItemsResponse extends BaseResponse {
+  payload?: GetShipmentItemsResult;
+}
+
+type GetShipmentItemsQueryType =
+  | "DATE_RANGE"
+  | "NEXT_TOKEN";
