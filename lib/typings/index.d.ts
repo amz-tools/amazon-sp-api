@@ -36,23 +36,37 @@ import {
   ConfirmTransportPath,
   ConfirmTransportResponse,
   CreateInboundShipmentPath,
+  CreateInboundShipmentBody,
+  CreateInboundShipmentResponse,
   CreateInboundShipmentPlanBody,
   CreateInboundShipmentPlanResponse,
-  CreateInboundShipmentResponse,
   EstimateTransportPath,
   EstimateTransportResponse,
+  GetBillOfLadingPath,
+  GetBillOfLadingResponse,
   GetInboundGuidanceQuery,
   GetInboundGuidanceResponse,
+  GetLabelsPath,
+  GetLabelsQuery,
+  GetLabelsResponse,
   GetPreorderInfoPath,
   GetPreorderInfoQuery,
   GetPreorderInfoResponse,
   GetPrepInstructionsQuery,
   GetPrepInstructionsResponse,
+  GetShipmentsQuery,
+  GetShipmentsResponse,
+  GetShipmentItemsByShipmentIdPath,
+  GetShipmentItemsByShipmentIdQuery,
+  GetShipmentItemsByShipmentIdResponse,
+  GetShipmentItemsQuery,
+  GetShipmentItemsResponse,
   GetTransportDetailsPath,
   GetTransportDetailsResponse,
   PutTransportDetailsBody,
   PutTransportDetailsPath,
   PutTransportDetailsResponse,
+  UpdateInboundShipmentBody,
   UpdateInboundShipmentPath,
   UpdateInboundShipmentResponse,
   VoidTransportPath,
@@ -188,6 +202,11 @@ declare module "amazon-sp-api" {
     | "voidTransport"
     | "estimateTransport"
     | "confirmTransport"
+    | "getLabels"
+    | "getBillOfLading"
+    | "getShipments"
+    | "getShipmentItemsByShipmentId"
+    | "getShipmentItems"
     | string;
 
   type ObjectType<TOperation> = TOperation extends "getAuthorizationCode"
@@ -270,6 +289,16 @@ declare module "amazon-sp-api" {
     ? EstimateTransportResponse
     : TOperation extends "confirmTransport"
     ? ConfirmTransportResponse
+    : TOperation extends "getLabels"
+    ? GetLabelsResponse
+    : TOperation extends "getBillOfLading"
+    ? GetBillOfLadingResponse
+    : TOperation extends "getShipments"
+    ? GetShipmentsResponse
+    : TOperation extends "getShipmentItemsByShipmentId"
+    ? GetShipmentItemsByShipmentIdResponse
+    : TOperation extends "getShipmentItems"
+    ? GetShipmentItemsResponse
     : any;
 
   type QueryType<
@@ -320,6 +349,14 @@ declare module "amazon-sp-api" {
     ? GetOrderItemsQuery
     : TOperation extends "getOrderItemsBuyerInfo"
     ? GetOrderItemsBuyerInfoQuery
+    : TOperation extends "getLabels"
+    ? GetLabelsQuery
+    : TOperation extends "getShipments"
+    ? GetShipmentsQuery
+    : TOperation extends "getShipmentItemsByShipmentId"
+    ? GetShipmentItemsByShipmentIdQuery
+    : TOperation extends "getShipmentItems"
+    ? GetShipmentItemsQuery
     : any;
 
   type PathType<
@@ -376,6 +413,12 @@ declare module "amazon-sp-api" {
     ? EstimateTransportPath
     : TOperation extends "confirmTransport"
     ? ConfirmTransportPath
+    : TOperation extends "getLabels"
+    ? GetLabelsPath
+    : TOperation extends "getBillOfLading"
+    ? GetBillOfLadingPath
+    : TOperation extends "getShipmentItemsByShipmentId"
+    ? GetShipmentItemsByShipmentIdPath
     : any;
 
   type BodyType<
