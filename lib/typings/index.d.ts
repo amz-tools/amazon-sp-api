@@ -27,7 +27,7 @@ import {
   GetFeedResponse,
   GetFeedsQuery,
   GetFeedsResponse,
-  CreateFeedBody
+  CreateFeedBody,
 } from "./operations/feeds";
 import { Config, DownloadOptions, RoleCredentials } from "./baseTypes";
 import {
@@ -48,7 +48,7 @@ import {
   UpdateInboundShipmentPath,
   UpdateInboundShipmentResponse,
   UpdateInboundShipmentBody,
-  CreateInboundShipmentBody
+  CreateInboundShipmentBody,
 } from "./operations/fulfillmentInbound";
 import {
   CreateReportResponse,
@@ -118,7 +118,7 @@ declare module "@cargozone/amazon-sp-api" {
 
     refreshRoleCredentials(): Promise<void>;
 
-    exchange(auth_code:string): Promise<any>;
+    exchange(auth_code: string): Promise<any>;
 
     get access_token(): string;
 
@@ -132,22 +132,21 @@ declare module "@cargozone/amazon-sp-api" {
       details: ReportDocument,
       options?: DownloadOptions
     ): T;
-      
+
     upload<T>(
-        details: {
-          url: string;
-          encryptionDetails?: {
-            key: string;
-            initializationVector: string;
-          };
-        },
-        feed: {
-          content?: string;
-          file?: string;
-          contentType?: string;
-        }
-      ): T;
-  
+      details: {
+        url: string;
+        encryptionDetails?: {
+          key: string;
+          initializationVector: string;
+        };
+      },
+      feed: {
+        content?: string;
+        file?: string;
+        contentType?: string;
+      }
+    ): T;
   }
 
   type Operation =
@@ -259,125 +258,127 @@ declare module "@cargozone/amazon-sp-api" {
     ? CreateInboundShipmentPlanResponse
     : any;
 
-  type QueryType<
-    TOperation extends Operation
-  > = TOperation extends "getAuthorizationCode"
-    ? GetAuthorizationCodeQuery
-    : TOperation extends "listCatalogItems"
-    ? ListCatalogItemsQuery
-    : TOperation extends "getCatalogItem"
-    ? GetCatalogItemQuery
-    : TOperation extends "listCatalogCategories"
-    ? ListCatalogCategoriesQuery
-    : TOperation extends "getItemEligibilityPreview"
-    ? GetItemEligibilityPreviewQuery
-    : TOperation extends "getInventorySummaries"
-    ? GetInventorySummariesQuery
-    : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
-    ? GetSmallAndLightEnrollmentBySellerSKUQuery
-    : TOperation extends "putSmallAndLightEnrollmentBySellerSKU"
-    ? PutSmallAndLightEnrollmentBySellerSKUQuery
-    : TOperation extends "deleteSmallAndLightEnrollmentBySellerSKU"
-    ? DeleteSmallAndLightEnrollmentBySellerSKUQuery
-    : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
-    ? GetSmallAndLightEligibilityBySellerSKUQuery
-    : TOperation extends "getFeeds"
-    ? GetFeedsQuery
-    : TOperation extends "listFinancialEventGroups"
-    ? ListFinancialEventGroupsQuery
-    : TOperation extends "listFinancialEventsByGroupId"
-    ? ListFinancialEventGroupsByGroupIdQuery
-    : TOperation extends "listFinancialEventsByOrderId"
-    ? ListFinancialEventsByOrderIdQuery
-    : TOperation extends "listFinancialEvents"
-    ? ListFinancialEventsQuery
-    : TOperation extends "getInboundGuidance"
-    ? GetInboundGuidanceQuery
-    : TOperation extends "getPreorderInfo"
-    ? GetPreorderInfoQuery
-    : TOperation extends "confirmPreorder"
-    ? ConfirmPreorderQuery
-    : TOperation extends "getPrepInstructions"
-    ? GetPrepInstructionsQuery
-    : TOperation extends "createReport"
-    ? CreateReportResponse
-    : TOperation extends "getOrders"
-    ? GetOrdersQuery
-    : TOperation extends "getOrderItems"
-    ? GetOrderItemsQuery
-    : TOperation extends "getOrderItemsBuyerInfo"
-    ? GetOrderItemsBuyerInfoQuery
-    : any;
+  type QueryType<TOperation extends Operation> =
+    TOperation extends "getAuthorizationCode"
+      ? GetAuthorizationCodeQuery
+      : TOperation extends "listCatalogItems"
+      ? ListCatalogItemsQuery
+      : TOperation extends "getCatalogItem"
+      ? GetCatalogItemQuery
+      : TOperation extends "listCatalogCategories"
+      ? ListCatalogCategoriesQuery
+      : TOperation extends "getItemEligibilityPreview"
+      ? GetItemEligibilityPreviewQuery
+      : TOperation extends "getInventorySummaries"
+      ? GetInventorySummariesQuery
+      : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
+      ? GetSmallAndLightEnrollmentBySellerSKUQuery
+      : TOperation extends "putSmallAndLightEnrollmentBySellerSKU"
+      ? PutSmallAndLightEnrollmentBySellerSKUQuery
+      : TOperation extends "deleteSmallAndLightEnrollmentBySellerSKU"
+      ? DeleteSmallAndLightEnrollmentBySellerSKUQuery
+      : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
+      ? GetSmallAndLightEligibilityBySellerSKUQuery
+      : TOperation extends "getFeeds"
+      ? GetFeedsQuery
+      : TOperation extends "listFinancialEventGroups"
+      ? ListFinancialEventGroupsQuery
+      : TOperation extends "listFinancialEventsByGroupId"
+      ? ListFinancialEventGroupsByGroupIdQuery
+      : TOperation extends "listFinancialEventsByOrderId"
+      ? ListFinancialEventsByOrderIdQuery
+      : TOperation extends "listFinancialEvents"
+      ? ListFinancialEventsQuery
+      : TOperation extends "getInboundGuidance"
+      ? GetInboundGuidanceQuery
+      : TOperation extends "getPreorderInfo"
+      ? GetPreorderInfoQuery
+      : TOperation extends "confirmPreorder"
+      ? ConfirmPreorderQuery
+      : TOperation extends "getPrepInstructions"
+      ? GetPrepInstructionsQuery
+      : TOperation extends "createReport"
+      ? CreateReportResponse
+      : TOperation extends "getOrders"
+      ? GetOrdersQuery
+      : TOperation extends "getOrderItems"
+      ? GetOrderItemsQuery
+      : TOperation extends "getOrderItemsBuyerInfo"
+      ? GetOrderItemsBuyerInfoQuery
+      : any;
 
-  type PathType<
-    TOperation extends Operation
-  > = TOperation extends "getCatalogItem"
-    ? GetCatalogItemPath
-    : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
-    ? GetSmallAndLightEnrollmentBySellerSKUPath
-    : TOperation extends "putSmallAndLightEnrollmentBySellerSKU"
-    ? PutSmallAndLightEnrollmentBySellerSKUPath
-    : TOperation extends "deleteSmallAndLightEnrollmentBySellerSKU"
-    ? DeleteSmallAndLightEnrollmentBySellerSKUPath
-    : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
-    ? GetSmallAndLightEligibilityBySellerSKUPath
-    : TOperation extends "getFeed"
-    ? GetFeedPath
-    : TOperation extends "cancelFeed"
-    ? CancelFeedPath
-    : TOperation extends "getFeedDocument"
-    ? GetFeedDocumentPath
-    : TOperation extends "listFinancialEventsByGroupId"
-    ? ListFinancialEventGroupsByGroupIdPath
-    : TOperation extends "listFinancialEventsByOrderId"
-    ? ListFinancialEventsByOrderIdPath
-    : TOperation extends "updateInboundShipment"
-    ? UpdateInboundShipmentPath
-    : TOperation extends "createInboundShipment"
-    ? CreateInboundShipmentPath
-    : TOperation extends "getPreorderInfo"
-    ? GetPreorderInfoPath
-    : TOperation extends "confirmPreorder"
-    ? ConfirmPreorderPath
-    : TOperation extends "getReport"
-    ? GetReportPath
-    : TOperation extends "getReportDocument"
-    ? GetReportDocumentPath
-    : TOperation extends "getOrder"
-    ? GetOrderPath
-    : TOperation extends "getOrderAddress"
-    ? GetOrderAddressPath
-    : TOperation extends "getOrderItems"
-    ? GetOrderItemsPath
-    : TOperation extends "getOrderItemsBuyerInfo"
-    ? GetOrderItemsBuyerInfoPath
-    : TOperation extends "getOrderBuyerInfo"
-    ? GetOrderBuyerInfoPath
-    : any;
+  type PathType<TOperation extends Operation> =
+    TOperation extends "getCatalogItem"
+      ? GetCatalogItemPath
+      : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
+      ? GetSmallAndLightEnrollmentBySellerSKUPath
+      : TOperation extends "putSmallAndLightEnrollmentBySellerSKU"
+      ? PutSmallAndLightEnrollmentBySellerSKUPath
+      : TOperation extends "deleteSmallAndLightEnrollmentBySellerSKU"
+      ? DeleteSmallAndLightEnrollmentBySellerSKUPath
+      : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
+      ? GetSmallAndLightEligibilityBySellerSKUPath
+      : TOperation extends "getFeed"
+      ? GetFeedPath
+      : TOperation extends "cancelFeed"
+      ? CancelFeedPath
+      : TOperation extends "getFeedDocument"
+      ? GetFeedDocumentPath
+      : TOperation extends "listFinancialEventsByGroupId"
+      ? ListFinancialEventGroupsByGroupIdPath
+      : TOperation extends "listFinancialEventsByOrderId"
+      ? ListFinancialEventsByOrderIdPath
+      : TOperation extends "updateInboundShipment"
+      ? UpdateInboundShipmentPath
+      : TOperation extends "createInboundShipment"
+      ? CreateInboundShipmentPath
+      : TOperation extends "getPreorderInfo"
+      ? GetPreorderInfoPath
+      : TOperation extends "confirmPreorder"
+      ? ConfirmPreorderPath
+      : TOperation extends "getReport"
+      ? GetReportPath
+      : TOperation extends "getReportDocument"
+      ? GetReportDocumentPath
+      : TOperation extends "getOrder"
+      ? GetOrderPath
+      : TOperation extends "getOrderAddress"
+      ? GetOrderAddressPath
+      : TOperation extends "getOrderItems"
+      ? GetOrderItemsPath
+      : TOperation extends "getOrderItemsBuyerInfo"
+      ? GetOrderItemsBuyerInfoPath
+      : TOperation extends "getOrderBuyerInfo"
+      ? GetOrderBuyerInfoPath
+      : any;
 
-  type BodyType<
-    TOperation extends Operation
-  > = TOperation extends "getSmallAndLightFeePreview"
-    ? GetSmallAndLightFeePreviewBody
-    : TOperation extends "createFeed"
-    ? CreateFeedBody
-    : TOperation extends "createFeedDocument"
-    ? CreateFeedDocumentBody
-    : TOperation extends "createInboundShipmentPlan"
-    ? CreateInboundShipmentPlanBody
-    : TOperation extends "updateInboundShipment"
-    ? UpdateInboundShipmentBody
-    : TOperation extends "createInboundShipment"
-    ? CreateInboundShipmentBody
-    : TOperation extends "createReport"
-    ? CreateReportBody
-    : any;
+  type BodyType<TOperation extends Operation> =
+    TOperation extends "getSmallAndLightFeePreview"
+      ? GetSmallAndLightFeePreviewBody
+      : TOperation extends "createFeed"
+      ? CreateFeedBody
+      : TOperation extends "createFeedDocument"
+      ? CreateFeedDocumentBody
+      : TOperation extends "createInboundShipmentPlan"
+      ? CreateInboundShipmentPlanBody
+      : TOperation extends "updateInboundShipment"
+      ? UpdateInboundShipmentBody
+      : TOperation extends "createInboundShipment"
+      ? CreateInboundShipmentBody
+      : TOperation extends "createReport"
+      ? CreateReportBody
+      : any;
 
   export interface ReqParams<TOperation extends Operation> {
     operation: TOperation;
     endpoint?: string;
     path?: PathType<TOperation>;
     query?: QueryType<TOperation>;
-    body?: BodyType<TOperation>; 
+    body?: BodyType<TOperation>;
+    options?: ReqOptions;
+  }
+
+  export interface ReqOptions {
+    version?: string;
   }
 }

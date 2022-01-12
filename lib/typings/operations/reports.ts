@@ -1,9 +1,10 @@
 import { BaseResponse, ProcessingStatus } from "../baseTypes";
 
 export interface CreateReportResponse extends BaseResponse {
-  payload?: {
-    reportId: string;
-  };
+  // payload?: {
+  //   reportId: string;
+  // };
+  reportId: string;
 }
 
 export interface GetReportPath {
@@ -11,7 +12,18 @@ export interface GetReportPath {
 }
 
 export interface GetReportResponse extends BaseResponse {
-  payload?: Report;
+  // payload?: Report;
+  marketplaceIds?: string[];
+  reportId: string;
+  reportType: string;
+  dataStartTime?: string;
+  dataEndTime?: string;
+  reportScheduleId?: string;
+  createdTime: string;
+  processingStatus: ProcessingStatus;
+  processingStartTime?: string;
+  processingEndTime?: string;
+  reportDocumentId?: string;
 }
 
 export interface GetReportDocumentPath {
@@ -19,7 +31,11 @@ export interface GetReportDocumentPath {
 }
 
 export interface GetReportDocumentResponse extends BaseResponse {
-  payload?: ReportDocument;
+  // payload?: ReportDocument;
+  reportDocumentId: string;
+  url: string;
+  encryptionDetails: ReportDocumentEncryptionDetails;
+  compressionAlgorithm: "GZIP";
 }
 
 export interface CreateReportBody {
