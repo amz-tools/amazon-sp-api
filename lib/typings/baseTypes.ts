@@ -27,6 +27,7 @@ interface Options {
   auto_request_throttled?: boolean;
   only_grantless_operations?: boolean;
   use_sandbox?: boolean;
+  user_agent?: string;
 }
 
 export interface Config {
