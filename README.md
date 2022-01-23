@@ -123,7 +123,7 @@ The class constructor takes a config object with the following structure as inpu
     version_fallback:true,
     use_sandbox:false,
     only_grantless_operations:false,
-    user_agent: 'AppId/AppVersionId (Language=LanguageNameAndOptionallyVersion)'
+    user_agent:'amazon-sp-api/<CLIENT_VERSION> (Language=Node.js/<NODE_VERSION>; Platform=<OS_PLATFORM>/<OS_RELEASE>)'
   }
 }
 ```
@@ -149,7 +149,7 @@ Valid properties of the config options:
 | **version_fallback**<br>*optional* | boolean | true | Whether or not the client should try to use an older version of an endpoint if the operation is not defined for the desired version. |
 | **use_sandbox**<br>*optional* | boolean | false | Whether or not to use the sandbox endpoint. |
 | **only_grantless_operations**<br>*optional* | boolean | false | Whether or not to only use grantless operations. |
-| **user_agent**<br>*optional* | string | undefined | Custom User-Agent header for Selling Partner API calls. <a href='https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#include-a-user-agent-header-in-all-requests'>Click for details</a> |
+| **user_agent**<br>*optional* | string | amazon-sp-api/<CLIENT_VERSION> (Language=Node.js/<NODE_VERSION>; Platform=<OS_PLATFORM>/<OS_RELEASE>) | A custom user-agent header ([see desired format in docs](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#include-a-user-agent-header-in-all-requests)). |
 
 ### Exchange an authorization code for a refresh token
 If you already have a refresh token you can skip this step. If you only want to use the API for your own seller account you can just use the [self authorization](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#self-authorization) to obtain a valid refresh token.
