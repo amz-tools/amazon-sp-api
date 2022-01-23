@@ -566,7 +566,10 @@ All TypeScript related information can be found in [lib/typings](https://github.
 
 ## Sandbox mode
 
-You can easily enable sandbox mode by setting `use_sandbox` in the constructor config options to `true`. When using the sandbox you have to make sure to use the correct request parameters for the operation you want to test. You can find these inside the [api models definitions](https://github.com/amzn/selling-partner-api-models/tree/main/models) by searching the corresponding json file for `x-amazon-spds-sandbox-behaviors`.
+You can easily enable sandbox mode by setting `use_sandbox` in the constructor config options to `true`. General information on sandbox setup and behaviour can be found [in the corresponding section in the Selling Partner API Developer Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#how-to-make-a-sandbox-call-to-the-selling-partner-api).
+
+When using the sandbox you have to make sure to use the correct request parameters for the operation you want to test. You can find these inside the [api models definitions](https://github.com/amzn/selling-partner-api-models/tree/main/models) by searching the corresponding json file for `x-amzn-api-sandbox`.
+
 For example, this will test the `listCatalogItems` operation in sandbox mode:
 ```javascript
 let res = await sellingPartner.callAPI({
