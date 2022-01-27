@@ -120,6 +120,7 @@ The class constructor takes a config object with the following structure as inpu
     credentials_path:'~/.amzspapi/credentials',
     auto_request_tokens:true,
     auto_request_throttled:true,
+    console_warn_on_request_retry:false,
     version_fallback:true,
     use_sandbox:false,
     only_grantless_operations:false,
@@ -146,6 +147,7 @@ Valid properties of the config options:
 | **credentials_path**<br>*optional* | string | ~/.amzspapi/credentials | A custom absolute path to your credentials file location. |
 | **auto_request_tokens**<br>*optional* | boolean | true | Whether or not the client should retrieve new access and role credentials if non given or expired. |
 | **auto_request_throttled**<br>*optional* | boolean | true | Whether or not the client should automatically retry a request when throttled. |
+| **console_warn_on_request_retry**<br>*optional* | boolean | false | Console warning every time the client retries a request when throttled. |
 | **version_fallback**<br>*optional* | boolean | true | Whether or not the client should try to use an older version of an endpoint if the operation is not defined for the desired version. |
 | **use_sandbox**<br>*optional* | boolean | false | Whether or not to use the sandbox endpoint. |
 | **only_grantless_operations**<br>*optional* | boolean | false | Whether or not to only use grantless operations. |
@@ -442,7 +444,7 @@ let res = await sellingPartner.callAPI({
 
 If you set the `auto_request_throttled` option in the class constructor config object to `true` (which is the default), the client will automatically retry the call if its throttled. It will either use the restore rate from the result header field `x-amzn-ratelimit-limit` if given ([see Usage Plans and Rate Limits](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/usage-plans-rate-limits/Usage-Plans-and-Rate-Limits.md)) or otherwise use the default restore rate of the operation. If you set `auto_request_throttled` to `false` the client will throw a `QuotaExceeded` error when a request is throttled.
 
-NOTE: If you are using the same operation with the same seller account across multiple class instances the restore rate logic might NOT work correct or, even worse, result in an infinite quota exceeded loop. So if you're planning to do that you should probably set `auto_request_throttled` to `false`, catch the `QuotaExceeded` errors and handle the restore rate logic on your own.
+NOTE: If you are using the same operation with the same seller account across multiple class instances the restore rate logic might NOT work correct or, even worse, result in an infinite quota exceeded loop. So if you're planning to do that you should probably set `auto_request_throttled` to `false`, catch the `QuotaExceeded` errors and handle the restore rate logic on your own. For testing purposes you can set `auto_request_throttled` to `true` and you will see console warning every time the client retries a call.
 
 ## Download, decrypt and unzip reports
 

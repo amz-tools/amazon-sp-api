@@ -25,6 +25,7 @@ interface Options {
   credentials_path?: string;
   auto_request_tokens?: boolean;
   auto_request_throttled?: boolean;
+  console_warn_on_request_retry?: boolean;
   only_grantless_operations?: boolean;
   use_sandbox?: boolean;
   user_agent?: string;
