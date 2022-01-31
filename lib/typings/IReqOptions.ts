@@ -1,4 +1,4 @@
-interface IReqOptions {
-    version?: string
-    raw_result?: boolean
+export interface IReqOptions {
+  version?: string;
+  raw_result?: boolean;
 }

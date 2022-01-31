@@ -19,6 +19,7 @@ import {
   CancelFeedPath,
   CancelFeedResponse,
   CreateFeedDocumentBody,
+  CreateFeedBody,
   CreateFeedDocumentResponse,
   CreateFeedResponse,
   GetFeedDocumentPath,
@@ -28,7 +29,7 @@ import {
   GetFeedsQuery,
   GetFeedsResponse,
 } from "./operations/feeds";
-import {Config, DownloadOptions, RoleCredentials} from "./baseTypes";
+import { Config, DownloadOptions, RoleCredentials } from "./baseTypes";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
@@ -64,13 +65,14 @@ import {
   GetTransportDetailsPath,
   GetTransportDetailsResponse,
   PutTransportDetailsBody,
+  CreateReportBody,
   PutTransportDetailsPath,
   PutTransportDetailsResponse,
   UpdateInboundShipmentBody,
   UpdateInboundShipmentPath,
   UpdateInboundShipmentResponse,
   VoidTransportPath,
-  VoidTransportResponse
+  VoidTransportResponse,
 } from "./operations/fulfillmentInbound";
 import {
   CreateReportResponse,
@@ -95,7 +97,10 @@ import {
   PutSmallAndLightEnrollmentBySellerSKUQuery,
   PutSmallAndLightEnrollmentBySellerSKUResponse,
 } from "./operations/fbaSmallAndLight";
-import {GetAuthorizationCodeQuery, GetAuthorizationCodeResponse,} from "./operations/authorization";
+import {
+  GetAuthorizationCodeQuery,
+  GetAuthorizationCodeResponse,
+} from "./operations/authorization";
 import {
   GetCatalogItemPath,
   GetCatalogItemQuery,
@@ -105,8 +110,14 @@ import {
   ListCatalogItemsQuery,
   ListCatalogItemsResponse,
 } from "./operations/catalogItems";
-import {GetInventorySummariesQuery, GetInventorySummariesResponse,} from "./operations/fbaInventory";
-import {GetItemEligibilityPreviewQuery, GetItemEligibilityPreviewResponse,} from "./operations/fbaInboundEligibility";
+import {
+  GetInventorySummariesQuery,
+  GetInventorySummariesResponse,
+} from "./operations/fbaInventory";
+import {
+  GetItemEligibilityPreviewQuery,
+  GetItemEligibilityPreviewResponse,
+} from "./operations/fbaInboundEligibility";
 import {
   ListFinancialEventGroupsByGroupIdPath,
   ListFinancialEventGroupsByGroupIdQuery,
@@ -121,10 +132,12 @@ import {
 } from "./operations/finances";
 import {
   CreateRestrictedDataTokenBody,
-  CreateRestrictedDataTokenResponse
+  CreateRestrictedDataTokenResponse,
 } from "./operations/tokens";
 
-import {ReportDocumentType} from "./download";
+import { IReqOptions } from "./IReqOptions";
+
+import { ReportDocumentType } from "./download";
 
 declare module "amazon-sp-api" {
   class SellingPartner {
@@ -134,7 +147,7 @@ declare module "amazon-sp-api" {
 
     refreshRoleCredentials(): Promise<void>;
 
-    exchange(auth_code:string): Promise<any>;
+    exchange(auth_code: string): Promise<any>;
 
     get access_token(): string;
 
@@ -144,26 +157,22 @@ declare module "amazon-sp-api" {
       req_params: ReqParams<TOperation>
     ): Promise<ObjectType<TOperation>>;
 
-    download<T extends ReportDocumentType>(
-      details: ReportDocument,
-      options?: DownloadOptions
-    ): T;
+    download<T extends ReportDocumentType>(details: ReportDocument, options?: DownloadOptions): T;
 
     upload<T>(
-        details: {
-          url: string;
-          encryptionDetails?: {
-            key: string;
-            initializationVector: string;
-          };
-        },
-        feed: {
-          content?: string;
-          file?: string;
-          contentType?: string;
-        }
-      ): T;
-
+      details: {
+        url: string;
+        encryptionDetails?: {
+          key: string;
+          initializationVector: string;
+        };
+      },
+      feed: {
+        content?: string;
+        file?: string;
+        contentType?: string;
+      }
+    ): T;
   }
 
   type Operation =
@@ -308,9 +317,7 @@ declare module "amazon-sp-api" {
     ? GetShipmentItemsResponse
     : any;
 
-  type QueryType<
-    TOperation extends Operation
-  > = TOperation extends "getAuthorizationCode"
+  type QueryType<TOperation extends Operation> = TOperation extends "getAuthorizationCode"
     ? GetAuthorizationCodeQuery
     : TOperation extends "listCatalogItems"
     ? ListCatalogItemsQuery
@@ -366,9 +373,7 @@ declare module "amazon-sp-api" {
     ? GetShipmentItemsQuery
     : any;
 
-  type PathType<
-    TOperation extends Operation
-  > = TOperation extends "getCatalogItem"
+  type PathType<TOperation extends Operation> = TOperation extends "getCatalogItem"
     ? GetCatalogItemPath
     : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
     ? GetSmallAndLightEnrollmentBySellerSKUPath
@@ -428,9 +433,7 @@ declare module "amazon-sp-api" {
     ? GetShipmentItemsByShipmentIdPath
     : any;
 
-  type BodyType<
-    TOperation extends Operation
-  > = TOperation extends "getSmallAndLightFeePreview"
+  type BodyType<TOperation extends Operation> = TOperation extends "getSmallAndLightFeePreview"
     ? GetSmallAndLightFeePreviewBody
     : TOperation extends "createFeed"
     ? CreateFeedBody
@@ -457,8 +460,6 @@ declare module "amazon-sp-api" {
     path?: PathType<TOperation>;
     query?: QueryType<TOperation>;
     body?: BodyType<TOperation>;
-    options?: ReqOptions
+    options?: ReqOptions;
   }
-
-  export = SellingPartner;
 }
