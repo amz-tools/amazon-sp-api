@@ -47,12 +47,12 @@ export interface ListFinancialEventsQuery {
 export interface ListFinancialEventsResponse
   extends ListFinancialEventGroupsByGroupIdResponse {}
 
-interface ListFinancialEventGroupsPayload {
+export interface ListFinancialEventGroupsPayload {
   NextToken?: string;
   FinancialEventGroupList?: FinancialEventGroup[];
 }
 
-interface FinancialEventGroup {
+export interface FinancialEventGroup {
   FinancialEventGroupId?: string;
   ProcessingStatus?: string;
   FundTransferStatus?: string;
@@ -66,17 +66,17 @@ interface FinancialEventGroup {
   FinancialEventGroupEnd?: string;
 }
 
-interface Currency {
+export interface Currency {
   CurrencyCode?: string;
   CurrencyAmount?: number;
 }
 
-interface ListFinancialEventsPayload {
+export interface ListFinancialEventsPayload {
   FinancialEvents?: FinancialEvents;
   NextToken?: string;
 }
 
-interface FinancialEvents {
+export interface FinancialEvents {
   ShipmentEventList?: ShipmentEvent[];
   RefundEventList?: ShipmentEvent[];
   GuaranteeClaimEventList?: ShipmentEvent[];
@@ -101,7 +101,7 @@ interface FinancialEvents {
   AffordabilityExpenseReversalEventList?: AffordabilityExpenseEvent[];
 }
 
-interface ShipmentEvent {
+export interface ShipmentEvent {
   AmazonOrderId?: string;
   SellerOrderId?: string;
   MarketplaceName?: string;
@@ -117,22 +117,22 @@ interface ShipmentEvent {
   ShipmentItemAdjustmentList?: ShipmentItem[];
 }
 
-interface ChargeComponent {
+export interface ChargeComponent {
   ChargeType?: string;
   ChargeAmount?: Currency;
 }
 
-interface FeeComponent {
+export interface FeeComponent {
   FeeType?: string;
   FeeAmount?: Currency;
 }
 
-interface DirectPayment {
+export interface DirectPayment {
   DirectPaymentType?: string;
   DirectPaymentAmount?: Currency;
 }
 
-interface ShipmentItem {
+export interface ShipmentItem {
   SellerSKU?: string;
   OrderItemId?: string;
   OrderAdjustmentItemId?: string;
@@ -148,18 +148,18 @@ interface ShipmentItem {
   CostOfPointsReturned?: Currency;
 }
 
-interface TaxWithheldComponent {
+export interface TaxWithheldComponent {
   TaxCollectionModel?: string;
   TaxesWithheld?: ChargeComponent[];
 }
 
-interface Promotion {
+export interface Promotion {
   PromotionType?: string;
   PromotionId?: string;
   PromotionAmount?: Currency;
 }
 
-interface PayWithAmazonEvent {
+export interface PayWithAmazonEvent {
   SellerOrderId?: string;
   TransactionPostedDate?: string;
   BusinessObjectType?: string;
@@ -172,7 +172,7 @@ interface PayWithAmazonEvent {
   StoreName?: string;
 }
 
-interface SolutionProviderCreditEvent {
+export interface SolutionProviderCreditEvent {
   ProviderTransactionType?: string;
   SellerOrderId?: string;
   MarketplaceId?: string;
@@ -185,7 +185,7 @@ interface SolutionProviderCreditEvent {
   TransactionCreationDate?: string;
 }
 
-interface RetrochargeEvent {
+export interface RetrochargeEvent {
   RetrochargeEventType?: string;
   AmazonOrderId?: string;
   PostedDate?: string;
@@ -195,7 +195,7 @@ interface RetrochargeEvent {
   RetrochargeTaxWithheldList?: TaxWithheldComponent[];
 }
 
-interface RentalTransactionEvent {
+export interface RentalTransactionEvent {
   AmazonOrderId?: string;
   RentalEventType?: string;
   ExtensionLength?: number;
@@ -208,7 +208,7 @@ interface RentalTransactionEvent {
   RentalTaxWithheldList?: TaxWithheldComponent[];
 }
 
-interface ProductAdsPaymentEvent {
+export interface ProductAdsPaymentEvent {
   postedDate?: string;
   transactionType?: string;
   invoiceId?: string;
@@ -217,7 +217,7 @@ interface ProductAdsPaymentEvent {
   transactionValue?: Currency;
 }
 
-interface ServiceFeeEvent {
+export interface ServiceFeeEvent {
   AmazonOrderId?: string;
   FeeReason?: string;
   FeeList?: FeeComponent[];
@@ -227,7 +227,7 @@ interface ServiceFeeEvent {
   ASIN?: string;
 }
 
-interface SellerDealPaymentEvent {
+export interface SellerDealPaymentEvent {
   postedDate?: string;
   dealId?: string;
   dealDescription?: string;
@@ -238,7 +238,7 @@ interface SellerDealPaymentEvent {
   totalAmount?: Currency;
 }
 
-interface DebtRecoveryEvent {
+export interface DebtRecoveryEvent {
   DebtRecoveryType?: string;
   RecoveryAmount?: Currency;
   OverPaymentCredit?: Currency;
@@ -246,32 +246,32 @@ interface DebtRecoveryEvent {
   ChargeInstrumentList?: ChargeInstrument[];
 }
 
-interface DebtRecoveryItem {
+export interface DebtRecoveryItem {
   RecoveryAmount?: Currency;
   OriginalAmount?: Currency;
   GroupBeginDate?: string;
   GroupEndDate?: string;
 }
 
-interface ChargeInstrument {
+export interface ChargeInstrument {
   Description?: string;
   Tail?: string;
   Amount?: Currency;
 }
 
-interface LoanServicingEvent {
+export interface LoanServicingEvent {
   LoanAmount?: Currency;
   LoanServicingEvent?: string;
 }
 
-interface AdjustmentEvent {
+export interface AdjustmentEvent {
   AdjustmentType?: string;
   PostedDate?: string;
   AdjustmentAmount?: Currency;
   AdjustmentItemList?: AdjustmentItem[];
 }
 
-interface AdjustmentItem {
+export interface AdjustmentItem {
   Quantity?: string;
   PerUnitAmount?: Currency;
   TotalAmount?: Currency;
@@ -281,7 +281,7 @@ interface AdjustmentItem {
   ASIN?: string;
 }
 
-interface SAFETReimbursementEvent {
+export interface SAFETReimbursementEvent {
   PostedDate?: string;
   SAFETClaimId: string;
   ReimbursedAmount?: Currency;
@@ -289,13 +289,13 @@ interface SAFETReimbursementEvent {
   SAFETReimbursementItemList?: SAFETReimbursementItem[];
 }
 
-interface SAFETReimbursementItem {
+export interface SAFETReimbursementItem {
   itemChargeList?: ChargeComponent[];
   productDescription?: string;
   quantity?: string;
 }
 
-interface SellerReviewEnrollmentPaymentEvent {
+export interface SellerReviewEnrollmentPaymentEvent {
   PostedDate?: string;
   EnrollmentId?: string;
   ParentASIN?: string;
@@ -304,14 +304,14 @@ interface SellerReviewEnrollmentPaymentEvent {
   TotalAmount?: Currency;
 }
 
-interface FBALiquidationEvent {
+export interface FBALiquidationEvent {
   PostedDate?: string;
   OriginalRemovalOrderId?: string;
   LiquidationProceedsAmount?: Currency;
   LiquidationFeeAmount?: Currency;
 }
 
-interface CouponPaymentEvent {
+export interface CouponPaymentEvent {
   PostedDate?: string;
   CouponId?: string;
   SellerCouponDescription?: string;
@@ -322,14 +322,14 @@ interface CouponPaymentEvent {
   TotalAmount?: Currency;
 }
 
-interface ImagingServicesFeeEvent {
+export interface ImagingServicesFeeEvent {
   ImagingRequestBillingItemID?: string;
   ASIN?: string;
   PostedDate?: string;
   FeeList?: FeeComponent[];
 }
 
-interface NetworkComminglingTransactionEvent {
+export interface NetworkComminglingTransactionEvent {
   TransactionType?: string;
   PostedDate?: string;
   NetCoTransactionID?: string;
@@ -340,7 +340,7 @@ interface NetworkComminglingTransactionEvent {
   TaxAmount?: Currency;
 }
 
-interface AffordabilityExpenseEvent {
+export interface AffordabilityExpenseEvent {
   AmazonOrderId?: string;
   PostedDate?: string;
   MarketplaceId?: string;
