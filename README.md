@@ -221,6 +221,7 @@ All calls to the SP-API will be triggered by using the `.callAPI()` function, wh
   restricted_data_token:'<RESTRICTED_DATA_TOKEN>',
   options:{
     version:'<OPERATION_ENDPOINT_VERSION>',
+    restore_rate:'<RESTORE_RATE_IN_SECONDS>',
     raw_result:false
   }
 }
@@ -244,6 +245,7 @@ Valid properties of the config options:
 | Name | Type | Default | Description |
 |:--|:--:|:--:|--|
 | **version**<br>*optional* | string | - | The endpoint's version that should be used when calling the operation. Will be preferred over an `endpoints_versions` setting.<br>NOTE: The call might still use an older version of the endpoint if the operation is not available for the specified version and `version_fallback` is set to `true`. |
+| **restore_rate**<br>*optional* | string | - | The restore rate (in seconds) that should be used when calling the operation. Will be preferred over the default restore rate of the operation. |
 | **raw_result**<br>*optional* | boolean | false | Whether or not the client should return the "raw" result, which will include the raw body, buffer chunks, statuscode and headers of the result. This will skip the internal formatting or error checking, but might be helpful when you need additional information besides the payload or when the client encounters JSON.parse errors such as the ones already encountered with old finance documents ([see Known Issues](#known-issues)). |
 
 ### Examples
@@ -443,7 +445,7 @@ let res = await sellingPartner.callAPI({
 
 ### Restore rates
 
-If you set the `auto_request_throttled` option in the class constructor config object to `true` (which is the default), the client will automatically retry the call if its throttled. It will either use the restore rate from the result header field `x-amzn-ratelimit-limit` if given ([see Usage Plans and Rate Limits](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/usage-plans-rate-limits/Usage-Plans-and-Rate-Limits.md)) or otherwise use the default restore rate of the operation. For testing purposes you can also set `debug_log` to `true`, which will trigger a console log every time the client retries a call. If you set `auto_request_throttled` to `false` the client will throw a `QuotaExceeded` error when a request is throttled.
+If you set the `auto_request_throttled` option in the class constructor config object to `true` (which is the default), the client will automatically retry the call if its throttled. It will either use the restore rate from the result header field `x-amzn-ratelimit-limit` if given ([see Usage Plans and Rate Limits](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/usage-plans-rate-limits/Usage-Plans-and-Rate-Limits.md)), or the value of `restore_rate` option in `.callAPI()` function if given, or otherwise use the default restore rate of the operation. For testing purposes you can also set `debug_log` to `true`, which will trigger a console log every time the client retries a call. If you set `auto_request_throttled` to `false` the client will throw a `QuotaExceeded` error when a request is throttled.
 
 NOTE: If you are using the same operation with the same seller account across multiple class instances the restore rate logic might NOT work correct or, even worse, result in an infinite quota exceeded loop. So if you're planning to do that you should probably set `auto_request_throttled` to `false`, catch the `QuotaExceeded` errors and handle the restore rate logic on your own.
 
