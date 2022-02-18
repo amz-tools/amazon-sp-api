@@ -121,4 +121,17 @@ describe(endpoint, async function(){
     expect(res.items).to.have.lengthOf(10);
   });
 
+  it('should return an empty items array for special chars sku', async function(){
+    let res = await this.sellingPartner.callAPI({
+      operation:'listCatalogItems',
+      endpoint:endpoint,
+      query:{
+        MarketplaceId:this.config.marketplace_id,
+        SellerSKU:'#+ =,?~_-|/!*?()'
+      }
+    });
+    expect(res).to.be.a('object');
+    expect(res.Items).to.be.a('array');
+  });
+
 });
