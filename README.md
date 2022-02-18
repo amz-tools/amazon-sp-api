@@ -401,6 +401,7 @@ let res = await sellingPartner.callAPI({
   }
 });
 ```
+NOTE: If your `api_path` includes special characters that require encoding (i.e. an SKU that contains UTF-8 characters) you will have to encode these characters manually before passing your `api_path` to `.callAPI()`.
 
 ### Grantless operations
 
