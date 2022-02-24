@@ -245,7 +245,7 @@ Valid properties of the config options:
 | Name | Type | Default | Description |
 |:--|:--:|:--:|--|
 | **version**<br>*optional* | string | - | The endpoint's version that should be used when calling the operation. Will be preferred over an `endpoints_versions` setting.<br>NOTE: The call might still use an older version of the endpoint if the operation is not available for the specified version and `version_fallback` is set to `true`. |
-| **restore_rate**<br>*optional* | string | - | The restore rate (in seconds) that should be used when calling the operation. Will be preferred over the default restore rate of the operation. |
+| **restore_rate**<br>*optional* | number | - | The restore rate (in seconds) that should be used when calling the operation. Will be preferred over the default restore rate of the operation. |
 | **raw_result**<br>*optional* | boolean | false | Whether or not the client should return the "raw" result, which will include the raw body, buffer chunks, statuscode and headers of the result. This will skip the internal formatting or error checking, but might be helpful when you need additional information besides the payload or when the client encounters JSON.parse errors such as the ones already encountered with old finance documents ([see Known Issues](#known-issues)). |
 
 ### Examples
