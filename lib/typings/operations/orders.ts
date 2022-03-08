@@ -139,11 +139,14 @@ interface OrderItemBuyerInfoList{
     OrderItemBuyerInfo?: OrderItemBuyerInfo[];
 }
 
+// Unused type
+/*
 interface OrderItemsBuyerInfoList{
     OrderItems: OrderItemBuyerInfoList;
     NextToken?: string;
     AmazonOrderId: string;
 }
+*/
 
 interface OrderItem{
     ASIN: string;
@@ -184,11 +187,14 @@ interface OrderItemList{
     OrderItem?: OrderItem[];
 }
 
+// Unused type
+/*
 interface OrderItemsList{
     OrderItems: OrderItemList;
     NextToken?: string;
     AmazonOrderId?: string;
 }
+*/
 
 interface TaxClassification{
     Name?: string;
