@@ -53,7 +53,7 @@ export interface GetOrderItemsBuyerInfoResponse extends BaseResponse{
 }
 
 export interface GetOrderItemResponse extends BaseResponse{
-    payload?: OrderItemList
+    payload?: OrderItemsList
 }
 
 export interface GetOrderAddressResponse extends BaseResponse{
@@ -187,14 +187,11 @@ interface OrderItemList{
     OrderItem?: OrderItem[];
 }
 
-// Unused type
-/*
 interface OrderItemsList{
     OrderItems: OrderItemList;
     NextToken?: string;
     AmazonOrderId?: string;
 }
-*/
 
 interface TaxClassification{
     Name?: string;
