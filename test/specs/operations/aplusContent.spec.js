@@ -33,7 +33,7 @@ describe(endpoint, async function(){
         },
         query:{
           marketplaceId:this.config.marketplace_id,
-          includedDataSet:['CONTENTS', 'METADATA']
+          includedDataSet:['METADATA']
         }
       });
       expect(res).to.be.a('object');
