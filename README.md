@@ -595,6 +595,8 @@ Some operations don't respect the correct restore rate yet, meaning they restore
 
 Some endpoints might have issues with special charsets like UTF-8. I.e. the `finances` operations return invalid UTF-8 encodings for all data prior to May 2020 resulting in JSON parse errors.
 
+Having SKUs that will increase character length above 40 when encoded might not work with certain endpoints. The reason is that Amazon counts its length before decoding it and throws an `Invalid 'sku' provided` error ([see Issue #126](https://github.com/amz-tools/amazon-sp-api/issues/126)).
+
 ## Seller Support
 
 If you are selling on the european market we might be able to support you with everything else that can't be done with the API, i.e. a detailed sales dashboard, review management, product sourcing or sales and revenue estimations for products. Feel free to visit us at [https://amz.tools](https://amz.tools).
