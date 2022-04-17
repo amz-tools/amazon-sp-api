@@ -9,7 +9,7 @@ const endpoint = 'fbaInventory';
 describe(endpoint, async function(){
 
 	it('should return a list of inventory summaries for sku', async function(){
-    if (this.config.region === 'na' && this.config.sku){
+    if (this.config.sku){
   		let res = await this.sellingPartner.callAPI({
   			operation:'getInventorySummaries',
         endpoint:endpoint,
