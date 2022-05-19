@@ -41,7 +41,7 @@ describe(endpoint, async function(){
         asin:this.config.asin
       },
       query:{
-        marketplaceIds:['A1PA6795UKMFR9'],
+        marketplaceIds:[this.config.marketplace_id],
         includedData:['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
       },
       options:{
@@ -167,7 +167,6 @@ describe(endpoint, async function(){
         version:'2022-04-01'
       }
     });
-    console.log("res", res)
     expect(res).to.be.a('object');
     expect(res.asin).to.be.a('string');
 	});
