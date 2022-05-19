@@ -134,4 +134,41 @@ describe(endpoint, async function(){
     expect(res.Items).to.be.a('array');
   });
 
+  it('should return a catalog item (2022-04-01) for SKU', async function(){
+    let res = await this.sellingPartner.callAPI({
+      operation:'searchCatalogItems',
+      endpoint:endpoint,
+      query:{
+        identifiers: [this.config.sku],
+        identifiersType: "SKU",
+        marketplaceIds:[this.config.marketplace_id],
+        sellerId: this.config.seller_id,
+        includedData:['images']
+      },
+      options:{
+        version:'2022-04-01'
+      }
+    });
+    expect(res).to.be.a('object');
+    expect(res.items[0].asin).to.be.a('string');
+  });
+
+  it('should return a catalog item (2022-04-01)', async function(){
+    let res = await this.sellingPartner.callAPI({
+      operation:'getCatalogItem',
+      endpoint:endpoint,
+      path:{
+        asin:this.config.asin
+      },
+      query:{
+        marketplaceIds: [this.config.marketplace_id]
+      },
+      options:{
+        version:'2022-04-01'
+      }
+    });
+    console.log("res", res)
+    expect(res).to.be.a('object');
+    expect(res.asin).to.be.a('string');
+	});
 });
