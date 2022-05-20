@@ -16,11 +16,11 @@ describe(endpoint, async function(){
         body:{
           FeesEstimateRequest:{
             MarketplaceId:this.config.marketplace_id,
-            Identifier:'19.99',
+            Identifier:this.config.sku,
             PriceToEstimateFees:{
               ListingPrice:{
                 CurrencyCode:this.config.currency_code,
-                Amount:'19.99'
+                Amount:19.99
               }
             }
           }
@@ -43,11 +43,11 @@ describe(endpoint, async function(){
       body:{
         FeesEstimateRequest:{
           MarketplaceId:this.config.marketplace_id,
-          Identifier:'19.99',
+          Identifier:this.config.asin,
           PriceToEstimateFees:{
             ListingPrice:{
               CurrencyCode:this.config.currency_code,
-              Amount:'19.99'
+              Amount:19.99
             }
           }
         }
@@ -55,6 +55,42 @@ describe(endpoint, async function(){
     });
     expect(res).to.be.a('object');
     expect(res.FeesEstimateResult).to.be.a('object');
+  });
+
+  it('should return estimated product fees for sku and asin', async function(){
+    let res = await this.sellingPartner.callAPI({
+      operation:'getMyFeesEstimates',
+      endpoint:endpoint,
+      body:[{
+        FeesEstimateRequest:{
+          MarketplaceId:this.config.marketplace_id,
+          Identifier:this.config.sku,
+          PriceToEstimateFees:{
+            ListingPrice:{
+              CurrencyCode:this.config.currency_code,
+              Amount:19.99
+            }
+          }
+        },
+        IdType:'SellerSKU',
+        IdValue:this.config.sku
+      },{
+        FeesEstimateRequest:{
+          MarketplaceId:this.config.marketplace_id,
+          Identifier:this.config.asin,
+          PriceToEstimateFees:{
+            ListingPrice:{
+              CurrencyCode:this.config.currency_code,
+              Amount:19.99
+            }
+          }
+        },
+        IdType:'ASIN',
+        IdValue:this.config.sain
+      }]
+    });
+    expect(res).to.be.a('array');
+    expect(res).to.have.lengthOf(2);
   });
 
 });
