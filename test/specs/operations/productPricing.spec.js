@@ -127,4 +127,49 @@ describe(endpoint, async function(){
     // expect(res.Offers).to.be.a('array');
   });
 
+  it('should return lowest priced offers for asin as batch request', async function(){
+    let res = await this.sellingPartner.callAPI({
+      operation:'getItemOffersBatch',
+      endpoint:endpoint,
+      body:{
+        requests:[{
+          uri:'/products/pricing/v0/items/' + this.config.asin + '/offers',
+          method:'GET',
+          queryParams:{
+            MarketplaceId:this.config.marketplace_id,
+            ItemCondition:'New'
+          }
+        }]
+      }
+    });
+    expect(res).to.be.a('object');
+    expect(res.responses).to.be.a('array');
+    expect(res.responses).to.have.lengthOf(1);
+  });
+
+  it('should return lowest priced offers for sku as batch request', async function(){
+    if (this.config.sku){
+      let res = await this.sellingPartner.callAPI({
+        operation:'getListingOffersBatch',
+        endpoint:endpoint,
+        body:{
+          requests:[{
+            uri:'/products/pricing/v0/listings/' + this.config.sku + '/offers',
+            method:'GET',
+            queryParams:{
+              MarketplaceId:this.config.marketplace_id,
+              ItemCondition:'New'
+            }
+          }]
+        }
+      });
+      expect(res).to.be.a('object');
+      expect(res.responses).to.be.a('array');
+      expect(res.responses).to.have.lengthOf(1);
+    } else {
+      this.skip();
+    }
+  });
+
+
 });
