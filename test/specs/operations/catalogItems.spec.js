@@ -139,10 +139,10 @@ describe(endpoint, async function(){
       operation:'searchCatalogItems',
       endpoint:endpoint,
       query:{
-        identifiers: [this.config.sku],
-        identifiersType: "SKU",
+        identifiers:[this.config.sku],
+        identifiersType:'SKU',
         marketplaceIds:[this.config.marketplace_id],
-        sellerId: this.config.seller_id,
+        sellerId:this.config.seller_id,
         includedData:['images']
       },
       options:{
@@ -161,7 +161,7 @@ describe(endpoint, async function(){
         asin:this.config.asin
       },
       query:{
-        marketplaceIds: [this.config.marketplace_id]
+        marketplaceIds:[this.config.marketplace_id]
       },
       options:{
         version:'2022-04-01'
