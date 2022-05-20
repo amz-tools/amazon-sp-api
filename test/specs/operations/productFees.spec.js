@@ -58,39 +58,43 @@ describe(endpoint, async function(){
   });
 
   it('should return estimated product fees for sku and asin', async function(){
-    let res = await this.sellingPartner.callAPI({
-      operation:'getMyFeesEstimates',
-      endpoint:endpoint,
-      body:[{
-        FeesEstimateRequest:{
-          MarketplaceId:this.config.marketplace_id,
-          Identifier:this.config.sku,
-          PriceToEstimateFees:{
-            ListingPrice:{
-              CurrencyCode:this.config.currency_code,
-              Amount:19.99
+    if (this.config.sku){
+      let res = await this.sellingPartner.callAPI({
+        operation:'getMyFeesEstimates',
+        endpoint:endpoint,
+        body:[{
+          FeesEstimateRequest:{
+            MarketplaceId:this.config.marketplace_id,
+            Identifier:this.config.sku,
+            PriceToEstimateFees:{
+              ListingPrice:{
+                CurrencyCode:this.config.currency_code,
+                Amount:19.99
+              }
             }
-          }
-        },
-        IdType:'SellerSKU',
-        IdValue:this.config.sku
-      },{
-        FeesEstimateRequest:{
-          MarketplaceId:this.config.marketplace_id,
-          Identifier:this.config.asin,
-          PriceToEstimateFees:{
-            ListingPrice:{
-              CurrencyCode:this.config.currency_code,
-              Amount:19.99
+          },
+          IdType:'SellerSKU',
+          IdValue:this.config.sku
+        },{
+          FeesEstimateRequest:{
+            MarketplaceId:this.config.marketplace_id,
+            Identifier:this.config.asin,
+            PriceToEstimateFees:{
+              ListingPrice:{
+                CurrencyCode:this.config.currency_code,
+                Amount:19.99
+              }
             }
-          }
-        },
-        IdType:'ASIN',
-        IdValue:this.config.sain
-      }]
-    });
-    expect(res).to.be.a('array');
-    expect(res).to.have.lengthOf(2);
+          },
+          IdType:'ASIN',
+          IdValue:this.config.sain
+        }]
+      });
+      expect(res).to.be.a('array');
+      expect(res).to.have.lengthOf(2);
+    } else {
+      this.skip();
+    }
   });
 
 });
