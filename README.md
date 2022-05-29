@@ -6,7 +6,7 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
 ! Thank you for using our module!
 ! Interested in supporting us to build the best Amazon Seller Tool out there?
 - We are currently hiring Full Stack Developers (Techstack React/NextJS/MongoDB/Node).
-! Just drop as a line at info@amz.tools or visit us at amz.tools.
+! Just drop us a line at info@amz.tools or visit us at amz.tools.
 ! We'll definitely get back to you!
 ```
 
@@ -605,8 +605,6 @@ Since the Selling Partner API is still pretty new, not all API paths and endpoin
 Some operations don't respect the correct restore rate yet, meaning they restore a lot slower than the default restore rate.
 
 Some endpoints might have issues with special charsets like UTF-8. I.e. the `finances` operations return invalid UTF-8 encodings for all data prior to May 2020 resulting in JSON parse errors.
-
-Having SKUs that will increase character length above 40 when encoded might not work with certain endpoints. The reason is that Amazon counts its length before decoding it and throws an `Invalid 'sku' provided` error ([see Issue #126](https://github.com/amz-tools/amazon-sp-api/issues/126)).
 
 ## Seller Support
 
