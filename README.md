@@ -12,34 +12,32 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
 
 ## Contents
 
-- [amazon-sp-api (client for the Amazon Selling Partner API)](#amazon-sp-api-client-for-the-amazon-selling-partner-api)
-  - [Contents](#contents)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Getting Started](#getting-started)
-    - [Setting credentials from environment variables](#setting-credentials-from-environment-variables)
-    - [Setting credentials from file](#setting-credentials-from-file)
-    - [Setting credentials from constructor config object](#setting-credentials-from-constructor-config-object)
-  - [Usage](#usage)
-    - [Config params](#config-params)
-    - [Exchange an authorization code for a refresh token](#exchange-an-authorization-code-for-a-refresh-token)
-    - [Request access token and role credentials](#request-access-token-and-role-credentials)
-  - [Call the API](#call-the-api)
-    - [Examples](#examples)
-    - [Endpoints](#endpoints)
-    - [Versions](#versions)
-      - [Version specific operation implementations](#version-specific-operation-implementations)
-      - [Defining endpoints versions on class level](#defining-endpoints-versions-on-class-level)
-      - [Fallback](#fallback)
-    - [Unsupported endpoints/versions/operations](#unsupported-endpointsversionsoperations)
-    - [Grantless operations](#grantless-operations)
-    - [Restore rates](#restore-rates)
-  - [Download, decrypt and unzip reports](#download-decrypt-and-unzip-reports)
-  - [Encrypt and upload feeds](#encrypt-and-upload-feeds)
-  - [TypeScript Support](#typescript-support)
-  - [Sandbox mode](#sandbox-mode)
-  - [Known Issues](#known-issues)
-  - [Seller Support](#seller-support)
+* [Prerequisites](#prerequisites)
+* [Installation](#installation)
+* [Getting Started](#getting-started)
+  * [Setting credentials from environment variables](#setting-credentials-from-environment-variables)
+  * [Setting credentials from file](#setting-credentials-from-file)
+  * [Setting credentials from constructor config object](#setting-credentials-from-constructor-config-object)
+* [Usage](#usage)
+  * [Config params](#config-params)
+  * [Exchange an authorization code for a refresh token](#exchange-an-authorization-code-for-a-refresh-token)
+  * [Request access token and role credentials](#request-access-token-and-role-credentials)
+* [Call the API](#call-the-api)
+  * [Examples](#examples)
+  * [Endpoints](#endpoints)
+  * [Versions](#versions)
+    * [Version specific operation implementations](#version-specific-operation-implementations)
+    * [Defining endpoints versions on class level](#defining-endpoints-versions-on-class-level)
+    * [Fallback](#fallback)
+  * [Unsupported endpoints/versions/operations](#unsupported-endpointsversionsoperations)
+  * [Grantless operations](#grantless-operations)
+  * [Restore rates](#restore-rates)
+* [Download, decrypt and unzip reports](#download-decrypt-and-unzip-reports)
+* [Encrypt and upload feeds](#encrypt-and-upload-feeds)
+* [TypeScript Support](#typescript-support)
+* [Sandbox mode](#sandbox-mode)
+* [Known Issues](#known-issues)
+* [Seller Support](#seller-support)
 
 ## Prerequisites
 
@@ -60,6 +58,7 @@ Before you can use the client you need to add your app client and aws user crede
 * `SELLING_PARTNER_APP_CLIENT_SECRET`=<YOUR_APP_CLIENT_SECRET> ([see SP Developer Guide "Viewing your developer information"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#viewing-your-developer-information))
 * `AWS_SELLING_PARTNER_ACCESS_KEY_ID` or `AWS_ACCESS_KEY_ID`=<YOUR_AWS_USER_ID> ([see SP Developer Guide "Create an IAM user"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#step-2-create-an-iam-user))
 * `AWS_SELLING_PARTNER_SECRET_ACCESS_KEY` or `AWS_SECRET_ACCESS_KEY`=<YOUR_AWS_USER_SECRET> ([see SP Developer Guide "Create an IAM user"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#step-2-create-an-iam-user))
+* `AWS_SELLING_PARTNER_SESSION_TOKEN` or `AWS_SESSION_TOKEN`=<YOUR_AWS_SESSION_TOKEN> (only necessary when using temporary AWS STS security credentials, [see "Using temporary credentials with AWS resources"](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html))
 * `AWS_SELLING_PARTNER_ROLE`=<YOUR_AWS_SELLING_PARTNER_API_ROLE> ([see SP Developer Guide "Create an IAM role"](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#step-4-create-an-iam-role))
 
 ### Setting credentials from file
@@ -70,6 +69,7 @@ SELLING_PARTNER_APP_CLIENT_ID=<YOUR_APP_CLIENT_ID>
 SELLING_PARTNER_APP_CLIENT_SECRET=<YOUR_APP_CLIENT_SECRET>
 AWS_ACCESS_KEY_ID=<YOUR_AWS_USER_ID>
 AWS_SECRET_ACCESS_KEY=<YOUR_AWS_USER_SECRET>
+AWS_SESSION_TOKEN=<YOUR_AWS_SESSION_TOKEN> // Only necessary when using temporary AWS STS security credentials
 AWS_SELLING_PARTNER_ROLE=<YOUR_AWS_SELLING_PARTNER_API_ROLE>
 ```
 
@@ -148,7 +148,7 @@ Valid properties of the config object:
 | **access_token**<br>*optional*       | string |    -    | The temporary access token requested with the refresh token of the app user.                                                                                                                                                                                                                                                                                           |
 | **role_credentials**<br>*optional*   | object |    -    | The temporary role credentials for the sellingpartner api role of the iam user. Must include the three properties `id`, `secret` and `security_token` with their corresponding values.                                                                                                                                                                                 |
 | **endpoints_versions**<br>*optional* | object |    -    | Defines the version to use for an endpoint as key/value pairs, i.e. `"reports":"2021-06-30"`. If none given the client is using the first (meaning the oldest) version for an endpoint.<br>Call `.endpoints` on class instance to retrieve a complete list of all endpoints, versions and operations supported by the client.                                          |
-| **credentials**<br>*optional*        | object |    -    | The app client and aws user credentials. Must include the five credentials properties `SELLING_PARTNER_APP_CLIENT_ID`, `SELLING_PARTNER_APP_CLIENT_SECRET`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SELLING_PARTNER_ROLE` with their corresponding values.<br>NOTE: Should only be used if you have no means of using environment vars or credentials file! |
+| **credentials**<br>*optional*        | object |    -    | The app client and aws user credentials. Must include the five credentials properties `SELLING_PARTNER_APP_CLIENT_ID`, `SELLING_PARTNER_APP_CLIENT_SECRET`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SELLING_PARTNER_ROLE` with their corresponding values. Must also include `AWS_SESSION_TOKEN` when using temporary AWS STS security credentials.<br>NOTE: Should only be used if you have no means of using environment vars or credentials file! |
 | **options**<br>*optional*            | object |    -    | Additional options, see table below for all possible options properties.                                                                                                                                                                                                                                                                                               |
 
 Valid properties of the config options:
