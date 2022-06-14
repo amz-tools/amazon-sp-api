@@ -51,7 +51,8 @@ describe(endpoint, async function(){
           'EXPECTED_SALES_VELOCITY_TOO_LOW',
           'UNCOMMINGLING_FNSKU_ON_SHIPMENT',
           'INVALID_ASIN_PRICE',
-          'INVALID_PACKAGE_DIMENSIONS'
+          'INVALID_PACKAGE_DIMENSIONS',
+          'INVALID_PACKAGE_WEIGHT'
         ]).to.include(e.code);
       }
     } else {
