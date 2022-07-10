@@ -498,7 +498,7 @@ You may also include an options object as a 2nd parameter to the `.download()` f
 | **json**<br>*optional*    | boolean |  false  | Whether or not the content should be transformed to json before returning it (from tab delimited flat-file or XML).        |
 | **unzip**<br>*optional*   | boolean |  true   | Whether or not the content should be unzipped before returning it.                                                         |
 | **file**<br>*optional*    | string  |    -    | The absolute file path to save the report to.<br>NOTE: Even when saved to disk the report content is still returned.       |
-| **charset**<br>*optional* | string  |  utf8   | The charset to use for decoding the content.<br>NOTE: Is ignored when content is compressed and `unzip` is set to `false`. |
+| **charset**<br>*optional* | string  |  utf8   | The charset to use for decoding the content. If not defined, it uses per default the charset returned in `content-type` header or `utf8` if no charset found in `content-type` header.<br>NOTE: Is ignored when content is compressed and `unzip` is set to `false`. |
 
 The following call will download the report, transform it to json and save it to disk:
 ```javascript
@@ -508,10 +508,10 @@ let report = await sellingPartner.download(report_document, {
 });
 ```
 
-Some reports may have an encoding other than UTF-8 and require special decoding with a different charset, i.e. the `GET_MERCHANT_LISTINGS_ALL_DATA` report is encoded as `cp1252`. Proper decoding is possible with passing in the optional charset property:
+Some reports may have an encoding other than UTF-8 and require special decoding with a different charset, i.e. the `GET_MERCHANT_LISTINGS_ALL_DATA` report is encoded as `cp1252` for eu region marketplaces. The right charset to use for decoding is taken from the return header `content-type`, but you may force the use of a specific charset for decoding by passing in the optional charset property:
  ```javascript
 let report = await sellingPartner.download(report_document, {
-  charset:'cp1252'
+  charset:'cp1252' 
 });
 ```
 
