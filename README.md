@@ -604,7 +604,7 @@ Since the Selling Partner API is still pretty new, not all API paths and endpoin
 
 Some operations don't respect the correct restore rate yet, meaning they restore a lot slower than the default restore rate.
 
-Some endpoints might have issues with special charsets like UTF-8. I.e. the `finances` operations return invalid UTF-8 encodings for all data prior to May 2020 resulting in JSON parse errors.
+There is an issue with values of arrays as part of the query, when a value contains a `,`. Due to Amazon expecting array values in query separated by `,` it will wrongfully split up values containing a `,` into two separate values. This is already a [known issue communicated to Amazon](https://github.com/amzn/selling-partner-api-docs/issues/2374).
 
 ## Seller Support
 
