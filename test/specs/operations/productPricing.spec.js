@@ -20,6 +20,29 @@ describe(endpoint, async function(){
     expect(res[0].ASIN).to.equal(this.config.asin);
   });
 
+  it('should return pricing information for asins array', async function(){
+    if (this.config.asin2){
+      let asins = [this.config.asin, this.config.asin2];
+      let res = await this.sellingPartner.callAPI({
+        operation:'getPricing',
+        endpoint:endpoint,
+        query:{
+          MarketplaceId:this.config.marketplace_id,
+          Asins:asins,
+          ItemType:'Asin'
+        }
+      });
+      expect(res).to.be.a('array');
+      expect(res).to.have.lengthOf(2);
+      res.map((res_val) => {
+        expect(res_val.status).to.be.a('string');
+        expect(asins).to.include(res_val.ASIN);
+      });
+    } else {
+      this.skip();
+    }
+  });
+
 	it('should return pricing information for sku', async function(){
     if (this.config.sku){
   		let res = await this.sellingPartner.callAPI({
@@ -38,6 +61,29 @@ describe(endpoint, async function(){
       this.skip();
     }
 	});
+
+  it('should return pricing information for skus array', async function(){
+    if (this.config.sku2){
+      let skus = [this.config.sku, this.config.sku2];
+      let res = await this.sellingPartner.callAPI({
+        operation:'getPricing',
+        endpoint:endpoint,
+        query:{
+          MarketplaceId:this.config.marketplace_id,
+          Skus:skus,
+          ItemType:'Sku'
+        }
+      });
+      expect(res).to.be.a('array');
+      expect(res).to.have.lengthOf(2);
+      res.map((res_val) => {
+        expect(res_val.status).to.be.a('string');
+        expect(skus).to.include(res_val.SellerSKU);
+      });
+    } else {
+      this.skip();
+    }
+  });
 
   it('should return competitive pricing information for asin', async function(){
     let res = await this.sellingPartner.callAPI({
@@ -171,5 +217,23 @@ describe(endpoint, async function(){
     }
   });
 
+  it('should return ClientError status for special chars skus array', async function(){
+    let skus = ['#+ =?~_-|/!*?()', '@#+ =?~_-|/!*?[]'];
+    let res = await this.sellingPartner.callAPI({
+      operation:'getPricing',
+      endpoint:endpoint,
+      query:{
+        MarketplaceId:this.config.marketplace_id,
+        Skus:skus,
+        ItemType:'Sku'
+      }
+    });
+    expect(res).to.be.a('array');
+    expect(res).to.have.lengthOf(2);
+    res.map((res_val) => {
+      expect(res_val.status).to.be.equal('ClientError');
+      expect(skus).to.include(res_val.SellerSKU);
+    });
+  });
 
 });
