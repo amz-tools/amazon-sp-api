@@ -258,6 +258,8 @@ Valid properties of the config options:
 | **version**<br>*optional*      | string  |    -    | The endpoint's version that should be used when calling the operation. Will be preferred over an `endpoints_versions` setting.<br>NOTE: The call might still use an older version of the endpoint if the operation is not available for the specified version and `version_fallback` is set to `true`.                                                                                                                                       |
 | **restore_rate**<br>*optional* | number  |    -    | The restore rate (in seconds) that should be used when calling the operation. Will be preferred over the default restore rate of the operation.                                                                                                                                                                                                                                                                                              |
 | **raw_result**<br>*optional*   | boolean |  false  | Whether or not the client should return the "raw" result, which will include the raw body, buffer chunks, statuscode and headers of the result. This will skip the internal formatting or error checking, but might be helpful when you need additional information besides the payload or when the client encounters JSON.parse errors such as the ones already encountered with old finance documents ([see Known Issues](#known-issues)). |
+| **response_timeout**<br>*optional* | number | -    | Milliseconds; if exceeded request will abort with an `API_RESPONSE_TIMEOUT` error code. Response timeout is the time between sending request and receiving the first byte of the response. Includes DNS and connection time. |
+| **deadline_timeout**<br>*optional* | number | -    | Milliseconds; if exceeded request will abort with an `API_DEADLINE_TIMEOUT` error code. Deadline is the time from start of the request to receiving response body in full. If the deadline is too short large responses may not load at all on slow connections. |
 
 ### Examples
 
@@ -322,6 +324,29 @@ let res = await sellingPartner.callAPI({
   }
 });
 ```
+```javascript
+try {
+  let res = await sellingPartner.callAPI({
+    operation: 'getCompetitivePricing',
+    endpoint: 'productPricing',
+    query: {
+      Asins: ['B00Z7T970I','B01BHHE9VK'],
+      ItemType: "Asin",
+      MarketplaceId: 'A1PA6795UKMFR9'
+    },
+    options: {
+      version: 'v0',
+      raw_result: true,
+      response_timeout: 10000,
+      deadline_timeout: 30000
+    }
+  });
+} catch(err) {
+  if(err.code && err.code ==='API_RESPONSE_TIMEOUT') console.log('SP-API ERROR: response timeout: ' + err.timeout + 'ms exceeded.',err.message);
+  if(err.code && err.code ==='API_DEADLINE_TIMEOUT') console.log('SP-API ERROR: deadline timeout: ' + err.timeout + 'ms exceeded.',err.message);
+}
+```
+
 NOTE: As the original design of the client (< v0.4.0) didn't keep in mind the possibility of having the exact same operation name for multiple endpoints (i.e. `getShipment`, [see Issue #33](https://github.com/amz-tools/amazon-sp-api/issues/33)) and multiple versions of the same endpoint, we had to replace original operation-only based calls to the API with a new concept that includes endpoints and version-specific operation calls. This concept comes without any breaking changes, so you can still safely upgrade from any version below 0.4.0 to the latest version, but the use of `.callAPI()` without specifying an endpoint is considered deprecated, is discouraged and will trigger a console warning.
 
 ### Endpoints
