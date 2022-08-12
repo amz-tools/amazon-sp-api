@@ -1,6 +1,6 @@
 {
   "name": "amazon-sp-api",
-  "version": "0.7.10",
+  "version": "0.7.9",
   "description": "Amazon Selling Partner API client",
   "main": "index.js",
   "directories": {
@@ -25,16 +25,16 @@
   "dependencies": {
     "crypto-js": "^4.1.1",
     "csvtojson": "^2.0.10",
-    "fast-xml-parser": "^4.0.7",
+    "fast-xml-parser": "^4.0.9",
     "iconv-lite": "^0.6.3",
     "qs": "^6.11.0"
   },
   "devDependencies": {
-    "@types/node": "^17.0.24",
+    "@types/node": "^18.7.2",
     "chai": "^4.3.6",
-    "dotenv": "^16.0.0",
-    "mocha": "^9.2.2",
-    "moment": "^2.29.2"
+    "dotenv": "^16.0.1",
+    "mocha": "^10.0.0",
+    "moment": "^2.29.4"
   },
   "repository": {
     "type": "git",
