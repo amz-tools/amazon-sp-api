@@ -160,29 +160,6 @@ describe('configErrors', async function(){
     }
   });
 
-  it('should return an invalid sandbox parameters error', async function(){
-    try {
-      let sellingPartner = new SellingPartnerAPI({
-        region:this.config.region,
-        refresh_token:this.config.refresh_token,
-        options:{
-          use_sandbox:true
-        }
-      });
-      await sellingPartner.callAPI({
-        operation:'listCatalogItems',
-        endpoint:'catalogItems',
-        query:{
-          MarketplaceId:'TEST',
-          SellerSKU:'TEST'
-        }
-      });
-    } catch(e){
-      expect(e).to.be.an('error');
-      expect(e.code).to.equal('INVALID_SANDBOX_PARAMETERS');
-    }
-  });
-
   it('should return an invalid refresh token error', async function(){
     try {
       let sellingPartner = new SellingPartnerAPI({

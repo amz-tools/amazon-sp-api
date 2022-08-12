@@ -5,34 +5,6 @@ const endpoint = 'catalogItems';
 
 describe(endpoint, async function(){
 
-	it('should return a list of catalog items', async function(){
-		let res = await this.sellingPartner.callAPI({
-			operation:'listCatalogItems',
-      endpoint:endpoint,
-			query:{
-      	MarketplaceId:this.config.marketplace_id,
-      	Query:'samsung'
-      }
-    });
-    expect(res).to.be.a('object');
-    expect(res.Items).to.be.a('array');
-	});
-
-	it('should return a catalog item (v0)', async function(){
-		let res = await this.sellingPartner.callAPI({
-			operation:'getCatalogItem',
-      endpoint:endpoint,
-			path:{
-				asin:this.config.asin
-			},
-			query:{
-      	MarketplaceId:this.config.marketplace_id
-      }
-    });
-    expect(res).to.be.a('object');
-    expect(res.Identifiers).to.be.a('object');
-	});
-
   it('should return a catalog item (2020-12-01)', async function(){
     let res = await this.sellingPartner.callAPI({
       operation:'getCatalogItem',
@@ -119,19 +91,6 @@ describe(endpoint, async function(){
     expect(res.pagination).to.have.property('nextToken');
     expect(res.items).to.be.a('array');
     expect(res.items).to.have.lengthOf(10);
-  });
-
-  it('should return an empty items array for special chars sku', async function(){
-    let res = await this.sellingPartner.callAPI({
-      operation:'listCatalogItems',
-      endpoint:endpoint,
-      query:{
-        MarketplaceId:this.config.marketplace_id,
-        SellerSKU:'#+ =,?~_-|/!*?()'
-      }
-    });
-    expect(res).to.be.a('object');
-    expect(res.Items).to.be.a('array');
   });
 
   it('should return a catalog item (2022-04-01) for SKU', async function(){
