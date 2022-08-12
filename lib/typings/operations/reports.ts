@@ -1,9 +1,7 @@
 import { BaseResponse, ProcessingStatus } from "../baseTypes";
 
 export interface CreateReportResponse extends BaseResponse {
-  payload?: {
-    reportId: string;
-  };
+  reportId: string;
 }
 
 export interface GetReportPath {
