@@ -178,7 +178,7 @@ interface OrderItem{
     TaxCollection?: TaxCollection;
     SerialNumberRequired?: boolean;
     IsTransparency?: boolean;
-    IossNumber?: String;
+    IossNumber?: string;
     StoreChainStoreId?: string;
     DeemedResellerCategory?: DeemedResellerCategory;
 }
@@ -223,7 +223,7 @@ interface Address{
     AddressLine2?: string;
     AddressLine3?: string;
     City?: string;
-    Country?: String;
+    Country?: string;
     District?: string;
     StateOrRegion?: string;
     Municipality?: string;
