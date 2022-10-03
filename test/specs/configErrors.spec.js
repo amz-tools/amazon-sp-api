@@ -281,4 +281,37 @@ describe('configErrors', async function(){
     }
   });
 
+    it('should return an invalid security token error', async function(){
+      try {
+        let sellingPartner = new SellingPartnerAPI({
+          region:this.config.region,
+          refresh_token:this.config.refresh_token,
+          options:{
+            auto_request_tokens:false
+          }
+        });
+        await sellingPartner.refreshAccessToken();
+        await sellingPartner.refreshRoleCredentials();
+        let access_token = sellingPartner.access_token;
+        let role_credentials = sellingPartner.role_credentials;
+
+        let sellingPartner2 = new SellingPartnerAPI({
+          region:this.config.region,
+          refresh_token:this.config.refresh_token,
+          access_token:access_token,
+          role_credentials:{
+            id:role_credentials.id,
+            secret:role_credentials.secret,
+            security_token:'InvalidSecurityToken'
+          }
+        });
+        await sellingPartner2.callAPI({
+          operation:'sellers.getMarketplaceParticipations'
+        });
+      } catch(e){
+        expect(e).to.be.an('error');
+        expect(e.code).to.equal('SECURITY_TOKEN_INVALID');
+      }
+    });
+
 });
