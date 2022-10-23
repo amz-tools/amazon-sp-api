@@ -502,6 +502,9 @@ NOTE: If you are using the same operation with the same seller account across mu
 
 You may set timeouts to stop requests, i.e. to prevent scripts from "hanging" forever because a request is not finishing. The three different timeout types are `response`, `idle` and `deadline`. You may set these inside the class constructor config options to be used for all requests started via `.callAPI()` or via the config options of the `.callAPI()` method for that specific call only. The latter will override the timeouts set via class config options.
 
+NOTE:
+The `.download()` method will NOT use the timeouts defined in class constructor config options. You have to provide the timeouts to each `.download()` call inside its options object.
+
 See the table below for valid properties of the timeouts object:
 
 | Name                           |  Type   | Default | Description                                                                                                                                                                                                                                                                                                                                                                                                                                  |
@@ -543,12 +546,13 @@ let report = await sellingPartner.download(report_document);
 ```
 You may also include an options object as a 2nd parameter to the `.download()` function, i.e. to enable a json result or to additionally save the report to a file. It supports four optional properties:
 
-| Name                      |  Type   | Default | Description                                                                                                                |
-| :------------------------ | :-----: | :-----: | -------------------------------------------------------------------------------------------------------------------------- |
-| **json**<br>*optional*    | boolean |  false  | Whether or not the content should be transformed to json before returning it (from tab delimited flat-file or XML).        |
-| **unzip**<br>*optional*   | boolean |  true   | Whether or not the content should be unzipped before returning it.                                                         |
-| **file**<br>*optional*    | string  |    -    | The absolute file path to save the report to.<br>NOTE: Even when saved to disk the report content is still returned.       |
-| **charset**<br>*optional* | string  |  utf8   | The charset to use for decoding the content. If not defined, it uses per default the charset returned in `content-type` header or `utf8` if no charset found in `content-type` header.<br>NOTE: Is ignored when content is compressed and `unzip` is set to `false`. |
+| Name                       |  Type   | Default | Description                                                                                                                |
+| :------------------------- | :-----: | :-----: | -------------------------------------------------------------------------------------------------------------------------- |
+| **json**<br>*optional*     | boolean |  false  | Whether or not the content should be transformed to json before returning it (from tab delimited flat-file or XML).        |
+| **unzip**<br>*optional*    | boolean |  true   | Whether or not the content should be unzipped before returning it.                                                         |
+| **file**<br>*optional*     | string  |    -    | The absolute file path to save the report to.<br>NOTE: Even when saved to disk the report content is still returned.       |
+| **charset**<br>*optional*  | string  |  utf8   | The charset to use for decoding the content. If not defined, it uses per default the charset returned in `content-type` header or `utf8` if no charset found in `content-type` header.<br>NOTE: Is ignored when content is compressed and `unzip` is set to `false`. |
+| **timeouts**<br>*optional* | object  | -       | Allows to set timeouts for download requests. Valid keys are `response`, `idle` and `deadline`. Please see detailed information in the [Timeouts](#timeouts) section. |
 
 The following call will download the report, transform it to json and save it to disk:
 ```javascript
