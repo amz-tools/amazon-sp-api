@@ -32,6 +32,7 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
   * [Unsupported endpoints/versions/operations](#unsupported-endpointsversionsoperations)
   * [Grantless operations](#grantless-operations)
   * [Restore rates](#restore-rates)
+  * [Timeouts](#timeouts)
 * [Download, decrypt and unzip reports](#download-decrypt-and-unzip-reports)
 * [Encrypt and upload feeds](#encrypt-and-upload-feeds)
 * [TypeScript Support](#typescript-support)
@@ -135,7 +136,10 @@ The class constructor takes a config object with the following structure as inpu
     use_sandbox:false,
     only_grantless_operations:false,
     user_agent:'amazon-sp-api/<CLIENT_VERSION> (Language=Node.js/<NODE_VERSION>; Platform=<OS_PLATFORM>/<OS_RELEASE>)',
-    debug_log:false
+    debug_log:false,
+    timeouts:{
+      ...
+    }
   }
 }
 ```
@@ -163,6 +167,7 @@ Valid properties of the config options:
 | **only_grantless_operations**<br>*optional* | boolean |                                                 false                                                 | Whether or not to only use grantless operations.                                                                                                                                                                                   |
 | **user_agent**<br>*optional*                | string  | amazon-sp-api/<CLIENT_VERSION> (Language=Node.js/<NODE_VERSION>; Platform=<OS_PLATFORM>/<OS_RELEASE>) | A custom user-agent header ([see desired format in docs](https://developer-docs.amazon.com/amazon-shipping/docs/include-a-user-agent-header-in-all-requests)). |
 | **debug_log**<br>*optional*                 | boolean |                                                 false                                                 | Whether or not the client should print console logs for debugging purposes.                                                                                                                                                        |
+| **timeouts**<br>*optional* | object | -    | Allows to set timeouts for requests. Valid keys are `response`, `idle` and `deadline`. Please see detailed information in the [Timeouts](#timeouts) section. |
 
 ### Exchange an authorization code for a refresh token
 If you already have a refresh token you can skip this step. If you only want to use the API for your own seller account you can just use the [self authorization](https://developer-docs.amazon.com/amazon-shipping/docs/self-authorization) to obtain a valid refresh token.
@@ -233,7 +238,10 @@ All calls to the SP-API will be triggered by using the `.callAPI()` function, wh
   options:{
     version:'<OPERATION_ENDPOINT_VERSION>',
     restore_rate:'<RESTORE_RATE_IN_SECONDS>',
-    raw_result:false
+    raw_result:false,
+    timeouts:{
+      ...
+    }
   }
 }
 ```
@@ -258,8 +266,7 @@ Valid properties of the config options:
 | **version**<br>*optional*      | string  |    -    | The endpoint's version that should be used when calling the operation. Will be preferred over an `endpoints_versions` setting.<br>NOTE: The call might still use an older version of the endpoint if the operation is not available for the specified version and `version_fallback` is set to `true`.                                                                                                                                       |
 | **restore_rate**<br>*optional* | number  |    -    | The restore rate (in seconds) that should be used when calling the operation. Will be preferred over the default restore rate of the operation.                                                                                                                                                                                                                                                                                              |
 | **raw_result**<br>*optional*   | boolean |  false  | Whether or not the client should return the "raw" result, which will include the raw body, buffer chunks, statuscode and headers of the result. This will skip the internal formatting or error checking, but might be helpful when you need additional information besides the payload or when the client encounters JSON.parse errors such as the ones already encountered with old finance documents ([see Known Issues](#known-issues)). |
-| **response_timeout**<br>*optional* | number | -    | Milliseconds; if exceeded request will abort with an `API_RESPONSE_TIMEOUT` error code. Response timeout is the time between sending request and receiving the first byte of the response. Includes DNS and connection time. |
-| **deadline_timeout**<br>*optional* | number | -    | Milliseconds; if exceeded request will abort with an `API_DEADLINE_TIMEOUT` error code. Deadline is the time from start of the request to receiving response body in full. If the deadline is too short large responses may not load at all on slow connections. |
+| **timeouts**<br>*optional* | object | -    | Allows to set timeouts for requests. Valid keys are `response`, `idle` and `deadline`. Please see detailed information in the [Timeouts](#timeouts) section. |
 
 ### Examples
 
@@ -331,19 +338,25 @@ try {
     endpoint: 'productPricing',
     query: {
       Asins: ['B00Z7T970I','B01BHHE9VK'],
-      ItemType: "Asin",
+      ItemType: 'Asin',
       MarketplaceId: 'A1PA6795UKMFR9'
     },
     options: {
       version: 'v0',
       raw_result: true,
-      response_timeout: 10000,
-      deadline_timeout: 30000
+      timeouts:{
+        response:5000,
+        idle:10000,
+        deadline:30000
+      }
     }
   });
 } catch(err) {
-  if(err.code && err.code ==='API_RESPONSE_TIMEOUT') console.log('SP-API ERROR: response timeout: ' + err.timeout + 'ms exceeded.',err.message);
-  if(err.code && err.code ==='API_DEADLINE_TIMEOUT') console.log('SP-API ERROR: deadline timeout: ' + err.timeout + 'ms exceeded.',err.message);
+  if (err.code){
+    if (err.code ==='API_RESPONSE_TIMEOUT') console.log('SP-API ERROR: response timeout: ' + err.timeout + 'ms exceeded.',err.message);
+    if (err.code ==='API_IDLE_TIMEOUT') console.log('SP-API ERROR: idle timeout: ' + err.timeout + 'ms exceeded.',err.message);
+    if (err.code ==='API_DEADLINE_TIMEOUT') console.log('SP-API ERROR: deadline timeout: ' + err.timeout + 'ms exceeded.',err.message);
+  } 
 }
 ```
 
@@ -484,6 +497,18 @@ let res = await sellingPartner.callAPI({
 If you set the `auto_request_throttled` option in the class constructor config object to `true` (which is the default), the client will automatically retry the call if its throttled. It will either use the restore rate from the result header field `x-amzn-ratelimit-limit` if given ([see Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)), or the value of `restore_rate` option in `.callAPI()` function if given, or otherwise use the default restore rate of the operation. For testing purposes you can also set `debug_log` to `true`, which will trigger a console log every time the client retries a call. If you set `auto_request_throttled` to `false` the client will throw a `QuotaExceeded` error when a request is throttled.
 
 NOTE: If you are using the same operation with the same seller account across multiple class instances the restore rate logic might NOT work correct or, even worse, result in an infinite quota exceeded loop. So if you're planning to do that you should probably set `auto_request_throttled` to `false`, catch the `QuotaExceeded` errors and handle the restore rate logic on your own.
+
+### Timeouts
+
+You may set timeouts to stop requests, i.e. to prevent scripts from "hanging" forever because a request is not finishing. The three different timeout types are `response`, `idle` and `deadline`. You may set these inside the class constructor config options to be used for all requests started via `.callAPI()` or via the config options of the `.callAPI()` method for that specific call only. The latter will override the timeouts set via class config options.
+
+See the table below for valid properties of the timeouts object:
+
+| Name                           |  Type   | Default | Description                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| :----------------------------- | :-----: | :-----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **response**<br>*optional* | number | -    | Timeout (in milliseconds) until a response timeout is fired. If exceeded the request will abort with an `API_RESPONSE_TIMEOUT` error. Response timeout is the time between sending the request and receiving the first byte of the response. Includes DNS and connection time. |
+| **idle**<br>*optional* | number | -    | Timeout (in milliseconds) until an idle timeout is fired. if exceeded the request will abort with an `API_IDLE_TIMEOUT` error. Idle is the time between receiving the last chunk of the reponse and waiting for the next chunk to be received. Might be fired if a request is stalled before finished (i.e. when internet connection is lost). |
+| **deadline**<br>*optional* | number | -    | Timeout (in milliseconds) until a deadline timeout is fired. If exceeded the request will abort with an `API_DEADLINE_TIMEOUT` error. Deadline is the time from the start of the request to receiving the response body in full. If the deadline is too short large responses may not load at all on slow connections. |
 
 ## Download, decrypt and unzip reports
 
