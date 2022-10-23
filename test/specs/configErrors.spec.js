@@ -281,4 +281,60 @@ describe('configErrors', async function(){
     }
   });
 
+  it('should return a response timeout error', async function(){
+    let response_timeout = 5;
+    let res;
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        refresh_token:this.config.refresh_token,
+        options:{
+          version_fallback:false,
+          timeouts:{
+            response:response_timeout
+          }
+        }
+      });
+      res = await sellingPartner.callAPI({
+        operation:'getMarketplaceParticipations',
+        endpoint:'sellers'
+      });
+    } catch(e){
+      res = e;
+    }
+    expect(res).to.be.an('error');
+    expect(res.code).to.equal('API_RESPONSE_TIMEOUT');
+    expect(res.timeout).to.equal(response_timeout);
+  });
+
+  it('should return a deadline timeout error', async function(){
+    let deadline_timeout = 5;
+    let res;
+    try {
+      let sellingPartner = new SellingPartnerAPI({
+        region:this.config.region,
+        refresh_token:this.config.refresh_token,
+        options:{
+          timeouts:{
+            response:10
+          }
+        }
+      });
+      res = await sellingPartner.callAPI({
+        operation:'getMarketplaceParticipations',
+        endpoint:'sellers',
+        options:{
+          timeouts:{
+            deadline:deadline_timeout
+          }
+        }
+      });
+    } catch(e){
+      res = e;
+    }
+    expect(res).to.be.an('error');
+    expect(res.code).to.equal('API_DEADLINE_TIMEOUT');
+    expect(res.timeout).to.equal(deadline_timeout);
+  });
+
 });
