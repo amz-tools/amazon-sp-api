@@ -232,6 +232,7 @@ describe(endpoint, async function(){
     expect(res).to.have.lengthOf(2);
     res.map((res_val) => {
       expect(res_val.status).to.be.equal('ClientError');
+      expect(skus).to.include(res_val.SellerSKU);
     });
   });
 
