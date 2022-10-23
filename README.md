@@ -636,14 +636,13 @@ You can easily enable sandbox mode by setting `use_sandbox` in the constructor c
 
 When using the sandbox you have to make sure to use the correct request parameters for the operation you want to test. You can find these inside the api models definitions in the docs by searching the corresponding json file for `x-amzn-api-sandbox`.
 
-For example, this will test the `listCatalogItems` operation in sandbox mode:
+For example, this will test the `getPricing` operation in sandbox mode:
 ```javascript
 let res = await sellingPartner.callAPI({
-  operation:'listCatalogItems',
-  endpoint:'catalogItems',
+  operation:'getPricing',
+  endpoint:'productPricing',
   query:{
-    MarketplaceId:'TEST_CASE_200',
-    SellerSKU:'SKU_200'
+    MarketplaceId:'TEST_CASE_400'
   }
 });
 ```

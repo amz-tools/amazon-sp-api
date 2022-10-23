@@ -1,22 +1,5 @@
 import { BaseResponse } from "../baseTypes";
 
-export interface ListCatalogItemsQuery {
-  MarketplaceId: string;
-  Query?: string;
-  QueryContextId?: string;
-  SellerSKU?: string;
-  UPC?: string;
-  EAN?: string;
-  ISBN?: string;
-  JAN?: string;
-}
-
-export interface ListCatalogItemsResponse extends BaseResponse {
-  payload?: {
-    Items?: ListCatalogItem[];
-  };
-}
-
 export interface GetCatalogItemQuery {
   MarketplaceId: string;
 }

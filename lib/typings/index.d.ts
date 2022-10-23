@@ -104,8 +104,6 @@ import {
   GetCatalogItemResponse,
   ListCatalogCategoriesQuery,
   ListCatalogCategoriesResponse,
-  ListCatalogItemsQuery,
-  ListCatalogItemsResponse,
 } from './operations/catalogItems'
 import {
   GetInventorySummariesQuery,
@@ -173,7 +171,6 @@ declare module 'amazon-sp-api' {
 
   type Operation =
     | 'getAuthorizationCode'
-    | 'listCatalogItems'
     | 'getCatalogItem'
     | 'listCatalogCategories'
     | 'getItemEligibilityPreview'
@@ -221,8 +218,6 @@ declare module 'amazon-sp-api' {
 
   type ObjectType<TOperation> = TOperation extends 'getAuthorizationCode'
     ? GetAuthorizationCodeResponse
-    : TOperation extends 'listCatalogItems'
-    ? ListCatalogItemsResponse
     : TOperation extends 'getCatalogItem'
     ? GetCatalogItemResponse
     : TOperation extends 'listCatalogCategories'
@@ -315,8 +310,6 @@ declare module 'amazon-sp-api' {
 
   type QueryType<TOperation extends Operation> = TOperation extends 'getAuthorizationCode'
     ? GetAuthorizationCodeQuery
-    : TOperation extends 'listCatalogItems'
-    ? ListCatalogItemsQuery
     : TOperation extends 'getCatalogItem'
     ? GetCatalogItemQuery
     : TOperation extends 'listCatalogCategories'
