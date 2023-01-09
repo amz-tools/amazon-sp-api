@@ -134,7 +134,7 @@ import { IReqOptions } from './IReqOptions'
 import { ReportDocumentType } from './download'
 
 declare module 'amazon-sp-api' {
-  export default class SellingPartner {
+  export class SellingPartner {
     constructor(config: Config)
 
     refreshAccessToken(): Promise<void>
