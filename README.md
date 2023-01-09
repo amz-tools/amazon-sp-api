@@ -82,18 +82,22 @@ Although the most convenient and recommended way of setting the credentials is v
 
 Require library:
 ```javascript
-const SellingPartnerAPI = require('amazon-sp-api');
+// commonjs
+const SellingPartner = require('amazon-sp-api');
+
+// ems
+import { SellingParner } from 'amazon-sp-api';
 ```
 
 Create client and call API:
 ```javascript
 (async() => {
   try {
-    let sellingPartner = new SellingPartnerAPI({
+    let sellingPartnerInstance = new SellingPartner({
       region:'eu', // The region to use for the SP-API endpoints ("eu", "na" or "fe")
       refresh_token:'<REFRESH_TOKEN>' // The refresh token of your app user
     });
-    let res = await sellingPartner.callAPI({
+    let res = await sellingPartnerInstance.callAPI({
       operation:'getMarketplaceParticipations',
       endpoint:'sellers'
     });
