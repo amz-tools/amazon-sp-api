@@ -33,7 +33,7 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
   * [Grantless operations](#grantless-operations)
   * [Restore rates](#restore-rates)
   * [Timeouts](#timeouts)
-* [Download, decrypt and unzip reports](#download-decrypt-and-unzip-reports)
+* [Download reports](#download-reports)
 * [Encrypt and upload feeds](#encrypt-and-upload-feeds)
 * [TypeScript Support](#typescript-support)
 * [Sandbox mode](#sandbox-mode)
@@ -517,7 +517,56 @@ See the table below for valid properties of the timeouts object:
 | **idle**<br>*optional* | number | -    | Timeout (in milliseconds) until an idle timeout is fired. if exceeded the request will abort with an `API_IDLE_TIMEOUT` error. Idle is the time between receiving the last chunk of the reponse and waiting for the next chunk to be received. Might be fired if a request is stalled before finished (i.e. when internet connection is lost). |
 | **deadline**<br>*optional* | number | -    | Timeout (in milliseconds) until a deadline timeout is fired. If exceeded the request will abort with an `API_DEADLINE_TIMEOUT` error. Deadline is the time from the start of the request to receiving the response body in full. If the deadline is too short large responses may not load at all on slow connections. |
 
-## Download, decrypt and unzip reports
+## Download reports
+
+The easiest way of downloading a report is to use the `.downloadReport()` function that will wrap up all operations needed to request and retrieve a report in a single call. The function internally calls the operations `createReport`, `getReport`, `getReportDocument` and the `.download()` function that will download the final report document in sequence.
+
+The function takes a config object with the following parameters as input:
+
+| Name                           |  Type   | Default | Description                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| :----------------------------- | :-----: | :-----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **body**<br>*required*       | object |    -    | Includes the parameters necessary to request the report. These are the parameters usually passed in to the `createReport` operation (see [createReport 2021-06-30](https://developer-docs.amazon.com/sp-api/docs/reports-api-v2021-06-30-reference#createreportspecification)). The possible values will be described below. |
+| **version**<br>*optional*    | string | 2020-09-04 | The report endpoint’s version that should be used when retrieving the report. |
+| **interval**<br>*optional*   | string |   10000    | The request interval (in milliseconds) that should be used for re-requesting the `getReport` operation when the report is still queued or in progress. |
+| **download**<br>*optional*   | object |      -     | Includes optional parameters for the download of the report, i.e. to enable a json result or to additionally save the report to a file. The possible values will be described below. |
+
+The `body` object may include the following properties:
+
+| Name                           |  Type   | Default | Description                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| :----------------------------- | :-----: | :-----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **reportType**<br>*required*      | string |    -    | The report type. |
+| **marketplaceIds**<br>*required* | < string > array |    -    | A list of marketplace identifiers. The report document's contents will contain data for all of the specified marketplaces, unless the report type indicates otherwise. |
+| **dataStartTime**<br>*optional*   | string |    -    | The start of a date and time range, in ISO 8601 date time format, used for selecting the data to report. The default is now. The value must be prior to or equal to the current date and time. Not all report types make use of this. |
+| **dataEndTime**<br>*optional* | string |    -    | The end of a date and time range, in ISO 8601 date time format, used for selecting the data to report. The default is now. The value must be prior to or equal to the current date and time. Not all report types make use of this. |
+| **reportOptions**<br>*optional* | object |    -    | Additional information passed to reports. This varies by report type. |
+
+The `download` object may include the following properties:
+
+| Name                       |  Type   | Default | Description                                                                                                                |
+| :------------------------- | :-----: | :-----: | -------------------------------------------------------------------------------------------------------------------------- |
+| **json**<br>*optional*     | boolean |  false  | Whether or not the content should be transformed to json before returning it (from tab delimited flat-file or XML).        |
+| **unzip**<br>*optional*    | boolean |  true   | Whether or not the content should be unzipped before returning it.                                                         |
+| **file**<br>*optional*     | string  |    -    | The absolute file path to save the report to.<br>NOTE: Even when saved to disk the report content is still returned.       |
+| **charset**<br>*optional*  | string  |  utf8   | The charset to use for decoding the content. If not defined, it uses per default the charset returned in `content-type` header or `utf8` if no charset found in `content-type` header.<br>NOTE: Is ignored when content is compressed and `unzip` is set to `false`. |
+| **timeouts**<br>*optional* | object  | -       | Allows to set timeouts for download requests. Valid keys are `response`, `idle` and `deadline`. Please see detailed information in the [Timeouts](#timeouts) section. |
+
+Please see the following example that will request a `GET_FLAT_FILE_OPEN_LISTINGS_DATA` report for the current report endpoint version `2021-06-30`, re-request it every 8 seconds and, once its finished, will download the report, transform it to json and save it to disk:
+```javascript
+let res = await sellingPartner.downloadReport({
+  body:{
+    reportType:'GET_FLAT_FILE_OPEN_LISTINGS_DATA',
+    marketplaceIds:['A1PA6795UKMFR9']
+  },
+  version:'2021-06-30',
+  interval:8000,
+  download:{
+    json:true,
+    file:'<ABSOLUTE_FILE_PATH>/report.json'
+  }
+});
+```
+
+Instead of using the `.downloadReport()` function you may as well call the necessary operations on your own and use the `.download()` function to retrieve the final report data. Please see the following information below:
 
 The `.download()` function takes the download details (url and encryption details) received from a `getReportDocument` operation as input, downloads the content, unzips it (if result is compressed), decrypts it and returns it.
 
@@ -548,15 +597,7 @@ Call the `.download()` function to receive the content of the report. The defaul
 ```javascript
 let report = await sellingPartner.download(report_document);
 ```
-You may also include an options object as a 2nd parameter to the `.download()` function, i.e. to enable a json result or to additionally save the report to a file. It supports four optional properties:
-
-| Name                       |  Type   | Default | Description                                                                                                                |
-| :------------------------- | :-----: | :-----: | -------------------------------------------------------------------------------------------------------------------------- |
-| **json**<br>*optional*     | boolean |  false  | Whether or not the content should be transformed to json before returning it (from tab delimited flat-file or XML).        |
-| **unzip**<br>*optional*    | boolean |  true   | Whether or not the content should be unzipped before returning it.                                                         |
-| **file**<br>*optional*     | string  |    -    | The absolute file path to save the report to.<br>NOTE: Even when saved to disk the report content is still returned.       |
-| **charset**<br>*optional*  | string  |  utf8   | The charset to use for decoding the content. If not defined, it uses per default the charset returned in `content-type` header or `utf8` if no charset found in `content-type` header.<br>NOTE: Is ignored when content is compressed and `unzip` is set to `false`. |
-| **timeouts**<br>*optional* | object  | -       | Allows to set timeouts for download requests. Valid keys are `response`, `idle` and `deadline`. Please see detailed information in the [Timeouts](#timeouts) section. |
+You may also include an options object as a 2nd parameter to the `.download()` function, i.e. to enable a json result or to additionally save the report to a file. The possible parameters are the same as for the `download` object for the `.downloadReport()` function already documented above.
 
 The following call will download the report, transform it to json and save it to disk:
 ```javascript
