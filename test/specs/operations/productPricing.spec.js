@@ -235,4 +235,25 @@ describe(endpoint, async function(){
     });
   });
 
+  it('should return a featured offer expected price for sku as batch request', async function(){
+    let res = await this.sellingPartner.callAPI({
+      operation:'getFeaturedOfferExpectedPriceBatch',
+      endpoint:'productPricing',
+      body:{
+        requests:[{
+          uri:'/products/pricing/2022-05-01/offer/featuredOfferExpectedPrice',
+          method:'GET',
+          marketplaceId:this.config.marketplace_id,
+          sku:this.config.sku
+        }]
+      }
+    });
+    expect(res).to.be.a('object');
+    expect(res.responses).to.be.a('array');
+    expect(res.responses).to.have.lengthOf(1);
+    expect(res.responses[0].request).to.be.a('object');
+    expect(res.responses[0].request.marketplaceId).to.equal(this.config.marketplace_id);
+    expect(res.responses[0].request.sku).to.equal(this.config.sku);
+  });
+
 });
