@@ -1,7 +1,9 @@
 import { BaseResponse } from "../baseTypes";
 
 export interface GetCatalogItemQuery {
-  MarketplaceId: string;
+  includedData?: string;
+  locale?: string;
+  marketplaceIds: string[];
 }
 
 export interface GetCatalogItemPath {
