@@ -195,6 +195,20 @@ export interface CreateReportResponse extends BaseResponse {
   reportId: string;
 }
 
+export interface GetReportsQuery {
+  reportTypes: ReportType[];
+  processingStatuses?: ProcessingStatus[];
+  marketplaceIds?: string[];
+  pageSize?: number;
+  createdSince?: string;
+  createdUntil?: string;
+  nextToken?: string;
+}
+
+export interface GetReportsResponse extends BaseResponse {
+  payload?: Report[];
+}
+
 export interface GetReportPath {
   reportId: string;
 }
