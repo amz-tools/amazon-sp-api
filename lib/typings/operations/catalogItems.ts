@@ -11,7 +11,7 @@ export interface GetCatalogItemPath {
 }
 
 export interface GetCatalogItemResponse extends BaseResponse {
-  payload?: ListCatalogItem;
+  payload?: any;
 }
 
 export interface ListCatalogCategoriesQuery {
