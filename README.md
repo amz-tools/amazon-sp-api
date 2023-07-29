@@ -85,19 +85,19 @@ Require library:
 // commonjs
 const SellingPartner = require('amazon-sp-api');
 
-// ems
-import { SellingParner } from 'amazon-sp-api';
+// esm
+import { SellingPartner } from 'amazon-sp-api';
 ```
 
 Create client and call API:
 ```javascript
 (async() => {
   try {
-    let sellingPartnerInstance = new SellingPartner({
+    const spClient = new SellingPartner({
       region:'eu', // The region to use for the SP-API endpoints ("eu", "na" or "fe")
       refresh_token:'<REFRESH_TOKEN>' // The refresh token of your app user
     });
-    let res = await sellingPartnerInstance.callAPI({
+    let res = await spClient.callAPI({
       operation:'getMarketplaceParticipations',
       endpoint:'sellers'
     });
@@ -180,13 +180,13 @@ If you want to exchange an authorization code of a seller you can use the `.exch
 
 Once you have obtained the authorization_code you can exchange it for a refresh token:
 ```javascript
-let sellingPartner = new SellingPartnerAPI({
+const spClient = new SellingPartner({
   region:'eu',
   options:{
     only_grantless_operations:true
   }
 });
-let res = await sellingPartner.exchange('<SELLER_AUTHORIZATION_CODE>');
+let res = await spClient.exchange('<SELLER_AUTHORIZATION_CODE>');
 console.log(res.refresh_token);
 ```
 NOTE: You will have to create a new class instance once you have obtained the `refresh_token` and pass it inside the constructor in order to make calls to the API.
@@ -197,22 +197,22 @@ If you only provide the `region` and `refresh_token` parameters the client will 
 
 Instead of having the client handle the `access_token` and `role_credentials` requests automatically, you may also refresh them manually:
 ```javascript
-let sellingPartner = new SellingPartnerAPI({
+const spClient = new SellingPartner({
   region:'eu',
   refresh_token:'<REFRESH_TOKEN>',
   options:{
     auto_request_tokens:false
   }
 });
-await sellingPartner.refreshAccessToken();
-await sellingPartner.refreshRoleCredentials();
+await spClient.refreshAccessToken();
+await spClient.refreshRoleCredentials();
 ```
 If you want to use the same credentials for multiple instances you can retrieve them via getters and use them as input for a new instance:
 ```javascript
-let access_token = sellingPartner.access_token;
-let role_credentials = sellingPartner.role_credentials;
+let access_token = spClient.access_token;
+let role_credentials = spClient.role_credentials;
 
-let sellingPartnerNewInstance = new SellingPartnerAPI({
+const spClient = new SellingPartner({
   region:'eu',
   refresh_token:'<REFRESH_TOKEN>',
   access_token:access_token,
@@ -276,20 +276,20 @@ Valid properties of the config options:
 
 To call an operation of an API endpoint you pass in the operation and the endpoint it belongs to. See the following example:
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   operation:'getMarketplaceParticipations',
   endpoint:'sellers'
 });
 ```
 Instead of using the endpoint property you may also prepend the endpoint to the operation as shorthand dot notation:
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   operation:'sellers.getMarketplaceParticipations'
 });
 ```
 Here are a few examples that use some more properties:
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   operation:'getOrderMetrics',
   endpoint:'sales',
   query:{
@@ -300,7 +300,7 @@ let res = await sellingPartner.callAPI({
 });
 ```
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   operation:'catalogItems.getCatalogItem',
   path:{
     asin:'B084J4QQFT'
@@ -314,7 +314,7 @@ let res = await sellingPartner.callAPI({
 });
 ```
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   operation:'createReport',
   endpoint:'reports',
   body:{
@@ -324,7 +324,7 @@ let res = await sellingPartner.callAPI({
 });
 ```
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   operation:'finances.listFinancialEvents',
   query:{
     PostedAfter:'2020-03-01T00:00:00-07:00',
@@ -337,7 +337,7 @@ let res = await sellingPartner.callAPI({
 ```
 ```javascript
 try {
-  let res = await sellingPartner.callAPI({
+  let res = await spClient.callAPI({
     operation: 'getCompetitivePricing',
     endpoint: 'productPricing',
     query: {
@@ -367,11 +367,11 @@ try {
 NOTE: As the original design of the client (< v0.4.0) didn't keep in mind the possibility of having the exact same operation name for multiple endpoints (i.e. `getShipment`, [see Issue #33](https://github.com/amz-tools/amazon-sp-api/issues/33)) and multiple versions of the same endpoint, we had to replace original operation-only based calls to the API with a new concept that includes endpoints and version-specific operation calls. This concept comes without any breaking changes, so you can still safely upgrade from any version below 0.4.0 to the latest version, but the use of `.callAPI()` without specifying an endpoint is considered deprecated, is discouraged and will trigger a console warning.
 
 ### Endpoints
-The exact endpoint's name of an operation will be the references name ([see SP API Developer Guide](https://developer-docs.amazon.com/sp-api/docs)) without `API` and all spaces removed and continued with a capital letter. So the `Catalog Items API` endpoint's name will be `catalogItems`, `FBA Small and Light API` will be `fbaSmallAndLight`, `Sellers API` will be `sellers` and so on. You can also retrieve the endpoint names and their operations and versions by calling `sellingPartner.endpoints`.
+The exact endpoint's name of an operation will be the references name ([see SP API Developer Guide](https://developer-docs.amazon.com/sp-api/docs)) without `API` and all spaces removed and continued with a capital letter. So the `Catalog Items API` endpoint's name will be `catalogItems`, `FBA Small and Light API` will be `fbaSmallAndLight`, `Sellers API` will be `sellers` and so on. You can also retrieve the endpoint names and their operations and versions by calling `spClient.endpoints`.
 
 ### Versions
 
-Every operation belongs to an endpoint that consists of one or more versions and each version consists of one or more operations. You will find a complete list of the endpoints with all versions and operations [in the SP API Developer Guide](https://developer-docs.amazon.com/sp-api/docs). For a complete list of all currently by the client supported endpoints with versions and operations you can just call `sellingPartner.endpoints`.
+Every operation belongs to an endpoint that consists of one or more versions and each version consists of one or more operations. You will find a complete list of the endpoints with all versions and operations [in the SP API Developer Guide](https://developer-docs.amazon.com/sp-api/docs). For a complete list of all currently by the client supported endpoints with versions and operations you can just call `spClient.endpoints`.
 
 
 #### Version specific operation implementations
@@ -380,7 +380,7 @@ The client uses the first (in fact the oldest) endpoint version if no version is
 
 The implementation of the `getCatalogItem` operation in the `v0` version expects an `asin` and a `MarketplaceId` as input:
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   operation:'getCatalogItem',
   endpoint:'catalogItems',
   query:{
@@ -396,7 +396,7 @@ let res = await sellingPartner.callAPI({
 ```
 In contrast, the implementation of the `getCatalogItem` operation in the `2020-12-01` version expects an `asin`, a `marketplaceIds` array and an `includedData` array as input:
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   operation:'getCatalogItem',
   endpoint:'catalogItems',
   query:{
@@ -418,7 +418,7 @@ Trying to call the new `2020-12-01` version without explicitly setting it would 
 There are different ways of specifying the version to use for endpoints and their corresponding operations. You can specify the `version` directly inside the `options` object of the `.callAPI()` function as seen in the examples above. But you can also enable a newer version for all operations of an endpoint by using the `endpoints_versions` setting in the constructor config object.
 I.e. you can tell the class instance to use the new `2020-12-01` version for the `catalogItems` endpoint and thus enabling it for all operations of the endpoint throughout the class instance like this:
 ```javascript
-  let sellingPartner = new SellingPartnerAPI({
+  const spClient = new SellingPartner({
     region:'eu',
     refresh_token:'<REFRESH_TOKEN>',
     endpoints_versions:{
@@ -433,7 +433,7 @@ By doing so you can skip setting the `version` inside the `options` object each 
 If trying to call an operation that is not part of the endpoint's version you specified, the client will automatically try to find the operation in an earlier endpoint's version and use that implementation if `version_fallback` is set to `true` (which is the default).
 I.e. the `listCatalogCategories` operation is not part of the new `catalogItems` endpoint version. So if the new version was set as in the example code above, the following call would still work, because it will automatically fallback to the operation's implementation in version `v0`:
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   operation:'listCatalogCategories',
   endpoint:'catalogItems',
   query:{
@@ -447,7 +447,7 @@ let res = await sellingPartner.callAPI({
 
 The newest client version should have full support for all endpoints, versions and operations on release, however it might lack support for very recently added new endpoints, versions or operations. If you need an endpoint/version/operation that is not yet supported you can still call it by using the `api_path` parameter. I.e. if the new `catalogItems` version `2020-12-01` would not be supported yet we could still use the new implementation of the `getCatalogItem` operation by using the `api_path` and `method` properties:
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   api_path:'/catalog/2020-12-01/items/B084DWG2VQ',
   method:'GET',
   query:{
@@ -470,7 +470,7 @@ To sum up, please see the following example that will request an auth code for a
 
 First create a class instance that only allows to call grantless operations (no `refresh_token` included):
 ```javascript
-let sellingPartner = new SellingPartnerAPI({
+const spClient = new SellingPartner({
   region:'eu',
   options:{
     auto_request_tokens:false,
@@ -480,12 +480,12 @@ let sellingPartner = new SellingPartnerAPI({
 ```
 Then request a grantless token with the scope needed for the operation you want to call and refresh the role credentials:
 ```javascript
-await sellingPartner.refreshAccessToken('sellingpartnerapi::migration');
-await sellingPartner.refreshRoleCredentials();
+await spClient.refreshAccessToken('sellingpartnerapi::migration');
+await spClient.refreshRoleCredentials();
 ```
 Finally call the grantless operation:
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   operation:'getAuthorizationCode',
   endpoint:'authorization',
   query:{
@@ -523,7 +523,7 @@ The `.download()` function takes the download details (url and encryption detail
 
 Retrieve the download details from a `getReportDocument` operation:
 ```javascript
-let report_document = await sellingPartner.callAPI({
+let report_document = await spClient.callAPI({
   operation:'getReportDocument',
   endpoint:'reports',
   path:{
@@ -546,7 +546,7 @@ The structure of the returned `report_document` should look like this:
 ```
 Call the `.download()` function to receive the content of the report. The default without any config options will download, decrypt and unzip the content and return it without reformatting or saving it to the disk:
 ```javascript
-let report = await sellingPartner.download(report_document);
+let report = await spClient.download(report_document);
 ```
 You may also include an options object as a 2nd parameter to the `.download()` function, i.e. to enable a json result or to additionally save the report to a file. It supports four optional properties:
 
@@ -560,7 +560,7 @@ You may also include an options object as a 2nd parameter to the `.download()` f
 
 The following call will download the report, transform it to json and save it to disk:
 ```javascript
-let report = await sellingPartner.download(report_document, {
+let report = await spClient.download(report_document, {
   json:true,
   file:'<ABSOLUTE_FILE_PATH>/report.json'
 });
@@ -568,7 +568,7 @@ let report = await sellingPartner.download(report_document, {
 
 Some reports may have an encoding other than UTF-8 and require special decoding with a different charset, i.e. the `GET_MERCHANT_LISTINGS_ALL_DATA` report is encoded as `cp1252` for eu region marketplaces. The right charset to use for decoding is taken from the return header `content-type`, but you may force the use of a specific charset for decoding by passing in the optional charset property:
  ```javascript
-let report = await sellingPartner.download(report_document, {
+let report = await spClient.download(report_document, {
   charset:'cp1252' 
 });
 ```
@@ -608,7 +608,7 @@ let feed = {
 ```
 Before you can upload the feed you need to retrieve the feed upload details from a `createFeedDocument` operation:
 ```javascript
-let feed_upload_details = await sellingPartner.callAPI({
+let feed_upload_details = await spClient.callAPI({
   operation:'createFeedDocument',
   endpoint:'feeds',
   body:{
@@ -618,11 +618,11 @@ let feed_upload_details = await sellingPartner.callAPI({
 ```
 Call the `.upload()` function to encrypt and upload the content of the feed:
 ```javascript
-let res = await sellingPartner.upload(feed_upload_details, feed);
+let res = await spClient.upload(feed_upload_details, feed);
 ```
 After uploading the feed you have to trigger the processing of the feed by calling the `createFeed` operation with the necessary params (`marketplaceIds`, `feedType` and `inputFeedDocumentId`):
 ```javascript
-let feed_creation_infos = await sellingPartner.callAPI({
+let feed_creation_infos = await spClient.callAPI({
   operation:'createFeed',
   endpoint:'feeds',
   body:{
@@ -646,7 +646,7 @@ When using the sandbox you have to make sure to use the correct request paramete
 
 For example, this will test the `getPricing` operation in sandbox mode:
 ```javascript
-let res = await sellingPartner.callAPI({
+let res = await spClient.callAPI({
   operation:'getPricing',
   endpoint:'productPricing',
   query:{
