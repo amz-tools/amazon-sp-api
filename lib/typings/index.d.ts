@@ -136,6 +136,7 @@ import {IReqOptions} from "./IReqOptions";
 
 import {ReportDocumentType} from "./download";
 import {
+  GetItemOffersPath,
   GetItemOffersQuery,
   GetItemOffersResponse,
 } from "./operations/productPricing";
