@@ -263,7 +263,7 @@ interface Order{
     PaymentExecutionDetail?: PaymentExecutionDetailItemList;
     PaymentMethod?: paymentMethod;
     PaymentMethodDetails?: PaymentMethodDetailItemList;
-    MarketPlaceId?: string;
+    MarketplaceId?: string;
     ShipmentServiceLevelCategory?: string;
     EasyShipShipmentStatus?: string;
     CbaDisplayableShippingLabel?: string;
