@@ -2,14 +2,6 @@
 
 The client handles calls to the Amazon Selling Partner API. It wraps up all the necessary stuff such as requesting access token, security token and signing requests with AWS4 signature.
 
-```diff
-! Thank you for using our module!
-! Interested in supporting us to build the best Amazon Seller Tool out there?
-- We are currently hiring Full Stack Developers (Techstack React/NextJS/MongoDB/Node).
-! Just drop us a line at info@amz.tools or visit us at amz.tools.
-! We'll definitely get back to you!
-```
-
 ## Contents
 
 * [Prerequisites](#prerequisites)
