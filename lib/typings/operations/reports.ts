@@ -1,4 +1,4 @@
-import { BaseResponse, ProcessingStatus } from "../baseTypes";
+import type { BaseResponse, ProcessingStatus } from "../baseTypes";
 
 type BrandAnalyticsReportType =
   | "GET_BRAND_ANALYTICS_MARKET_BASKET_REPORT"
