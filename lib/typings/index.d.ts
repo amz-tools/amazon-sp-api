@@ -477,6 +477,8 @@ declare module 'amazon-sp-api' {
 
   export interface ReqParams<TOperation extends Operation> {
     operation: TOperation;
+    endpoint?: string;
+    restricted_data_token?: string;
     path?: PathType<TOperation>;
     query?: QueryType<TOperation>;
     body?: BodyType<TOperation>;
