@@ -1,23 +1,23 @@
 import { BaseResponse} from "../baseTypes";
 
 export interface GetOrdersQuery{
-    createdAfter?: string;
-    createdBefore?: string;
-    lastUpdatedAfter?: string;
-    lastUpdatedBefore?: string;
-    orderStatuses?:string[];
-    marketplaceIds?:string[];
-    fulfillmentChannels?:string[];
-    paymentMethods?:string[];
-    buyerEmail?:string[];
-    sellerOrderId?: string[];
-    maxResultPerPage?: number;
-    easyShipShipmentStatuses?: string[];
-    nextToken?: string;
-    amazonOrderIds?: string[];
-    actualFulfillmentSupplySourceId?: string;
-    isISPU?: boolean;
-    storeChainStoreId?: string;
+    CreatedAfter?: string;
+    CreatedBefore?: string;
+    LastUpdatedAfter?: string;
+    LastUpdatedBefore?: string;
+    OrderStatuses?:string[];
+    MarketplaceIds?:string[];
+    FulfillmentChannels?:string[];
+    PaymentMethods?:string[];
+    BuyerEmail?:string[];
+    SellerOrderId?: string[];
+    MaxResultPerPage?: number;
+    EasyShipShipmentStatuses?: string[];
+    NextToken?: string;
+    AmazonOrderIds?: string[];
+    ActualFulfillmentSupplySourceId?: string;
+    IsISPU?: boolean;
+    StoreChainStoreId?: string;
 }
 
 export interface GetOrderPath{
@@ -79,8 +79,8 @@ type ResponsibleParty = "Amazon Services, Inc.";
 type AddressType = "Residential" | "Commercial";
 type paymentMethod = "COD" | "CVS" | "Other";
 type Model = "MarketplaceFacilitator";
-type OrderType = 
-    | "StandardOrder" 
+type OrderType =
+    | "StandardOrder"
     | "LongLeadTimeOrder"
     | "Preorder"
     | "BackOrder"
