@@ -59,8 +59,6 @@ describe(endpoint, async function(){
     expect(res.ReasonCodeDetailsList).to.be.a('array');
   });
 
-
-  // Operation only available in NA region
   it('should return features available for multi-channel fulfillment for marketplace', async function(){
     try {
       let res = await this.sellingPartner.callAPI({
@@ -74,7 +72,10 @@ describe(endpoint, async function(){
       expect(res.features).to.be.a('array');
     } catch(e){
       expect(e).to.have.property('message');
-      expect(e.message).to.include('API not available in region');
+      expect([
+        'API not available in region',
+        'Region does not support feature: BLANK_BOX'
+      ]).to.include(e.message);
     }
   });
 
