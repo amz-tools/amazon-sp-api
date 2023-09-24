@@ -324,6 +324,8 @@ declare module 'amazon-sp-api' {
     ? GetItemOffersResponse
     : TOperation extends "productPricing.getItemOffers"
     ? GetItemOffersResponse
+    : TOperation extends "createReport"
+    ? CreateReportResponse
     : any;
 
   type QueryType<TOperation extends Operation> =
