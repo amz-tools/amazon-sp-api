@@ -34,6 +34,7 @@ interface Options {
 export interface Config {
   region: "eu" | "na" | "fe";
   refresh_token?: string;
+  endpoints_versions?: Record<string, string>;
   access_token?: string;
   role_credentials?: RoleCredentials;
   credentials?: Credentials;
