@@ -19,9 +19,10 @@ describe(endpoint, async function(){
         reportTypes:'GET_FLAT_FILE_OPEN_LISTINGS_DATA'
       }
     });
-    expect(res).to.be.a('array');
-    if (res[0]){
-      report_id = res[0].reportId;
+    expect(res).to.be.a('object');
+    expect(res.reports).to.be.a('array');
+    if (res.reports[0]){
+      report_id = res.reports[0].reportId;
     }
 	});
 
@@ -55,9 +56,10 @@ describe(endpoint, async function(){
         reportTypes:['GET_FLAT_FILE_OPEN_LISTINGS_DATA']
       }
     });
-    expect(res).to.be.a('array');
-    if (res[0]){
-      report_schedule_id = res[0].reportScheduleId;
+    expect(res).to.be.a('object');
+    expect(res.reportSchedules).to.be.a('array');
+    if (res.reportSchedules[0]){
+      report_schedule_id = res.reportSchedules[0].reportScheduleId;
     }
   });
 
@@ -90,10 +92,6 @@ describe(endpoint, async function(){
       });
       expect(res).to.be.a('object');
       expect(res.reportDocumentId).to.equal(report_document_id);
-      expect(res.encryptionDetails).to.be.a('object');
-      expect(res.encryptionDetails.standard).to.equal('AES');
-      expect(res.encryptionDetails.initializationVector).to.be.a('string');
-      expect(res.encryptionDetails.key).to.be.a('string');
       expect(res.url).to.be.a('string');
       report_document = res;
     } else {

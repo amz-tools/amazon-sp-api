@@ -28,6 +28,9 @@ module.exports.mochaHooks = {
         role_credentials:config.role_credentials,
         options:{
           auto_request_tokens:false
+        },
+        endpoints_versions:{
+          reports:'2021-06-30'
         }
       });
     }
