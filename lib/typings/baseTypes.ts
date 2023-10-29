@@ -8,18 +8,9 @@ export interface BaseResponse {
   errors?: Errors;
 }
 
-export interface RoleCredentials {
-  id?: string;
-  secret?: string;
-  security_token?: string;
-}
-
 interface Credentials {
   SELLING_PARTNER_APP_CLIENT_ID?: string;
   SELLING_PARTNER_APP_CLIENT_SECRET?: string;
-  AWS_ACCESS_KEY_ID?: string;
-  AWS_SECRET_ACCESS_KEY?: string;
-  AWS_SELLING_PARTNER_ROLE?: string;
 }
 interface Options {
   credentials_path?: string;
@@ -36,7 +27,6 @@ export interface Config {
   refresh_token?: string;
   endpoints_versions?: Record<string, string>;
   access_token?: string;
-  role_credentials?: RoleCredentials;
   credentials?: Credentials;
   options?: Options;
 }
@@ -56,5 +46,5 @@ export enum ProcessingStatus {
   InProgress = "IN_PROGRESS",
   Done = "DONE",
   Cancelled = "CANCELLED",
-  Fatal = "FATAL",
+  Fatal = "FATAL"
 }

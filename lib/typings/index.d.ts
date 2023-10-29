@@ -12,7 +12,7 @@ import {
   GetOrderPath,
   GetOrderResponse,
   GetOrdersQuery,
-  GetOrdersResponse,
+  GetOrdersResponse
 } from "./operations/orders";
 
 import {
@@ -27,9 +27,9 @@ import {
   GetFeedPath,
   GetFeedResponse,
   GetFeedsQuery,
-  GetFeedsResponse,
+  GetFeedsResponse
 } from "./operations/feeds";
-import {Config, DownloadOptions, RoleCredentials} from "./baseTypes";
+import { Config, DownloadOptions } from "./baseTypes";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
@@ -71,7 +71,7 @@ import {
   UpdateInboundShipmentPath,
   UpdateInboundShipmentResponse,
   VoidTransportPath,
-  VoidTransportResponse,
+  VoidTransportResponse
 } from "./operations/fulfillmentInbound";
 import {
   CreateReportBody,
@@ -80,7 +80,7 @@ import {
   GetReportDocumentResponse,
   GetReportPath,
   GetReportResponse,
-  ReportDocument,
+  ReportDocument
 } from "./operations/reports";
 import {
   DeleteSmallAndLightEnrollmentBySellerSKUPath,
@@ -95,26 +95,26 @@ import {
   GetSmallAndLightFeePreviewResponse,
   PutSmallAndLightEnrollmentBySellerSKUPath,
   PutSmallAndLightEnrollmentBySellerSKUQuery,
-  PutSmallAndLightEnrollmentBySellerSKUResponse,
+  PutSmallAndLightEnrollmentBySellerSKUResponse
 } from "./operations/fbaSmallAndLight";
 import {
   GetAuthorizationCodeQuery,
-  GetAuthorizationCodeResponse,
+  GetAuthorizationCodeResponse
 } from "./operations/authorization";
 import {
   GetCatalogItemPath,
   GetCatalogItemQuery,
   GetCatalogItemResponse,
   ListCatalogCategoriesQuery,
-  ListCatalogCategoriesResponse,
+  ListCatalogCategoriesResponse
 } from "./operations/catalogItems";
 import {
   GetInventorySummariesQuery,
-  GetInventorySummariesResponse,
+  GetInventorySummariesResponse
 } from "./operations/fbaInventory";
 import {
   GetItemEligibilityPreviewQuery,
-  GetItemEligibilityPreviewResponse,
+  GetItemEligibilityPreviewResponse
 } from "./operations/fbaInboundEligibility";
 import {
   ListFinancialEventGroupsByGroupIdPath,
@@ -126,34 +126,30 @@ import {
   ListFinancialEventsByOrderIdQuery,
   ListFinancialEventsByOrderIdResponse,
   ListFinancialEventsQuery,
-  ListFinancialEventsResponse,
+  ListFinancialEventsResponse
 } from "./operations/finances";
 import {
   CreateRestrictedDataTokenBody,
-  CreateRestrictedDataTokenResponse,
+  CreateRestrictedDataTokenResponse
 } from "./operations/tokens";
-import {IReqOptions} from "./IReqOptions";
+import { IReqOptions } from "./IReqOptions";
 
-import {ReportDocumentType} from "./download";
+import { ReportDocumentType } from "./download";
 import {
   GetItemOffersPath,
   GetItemOffersQuery,
-  GetItemOffersResponse,
+  GetItemOffersResponse
 } from "./operations/productPricing";
 
-declare module 'amazon-sp-api' {
+declare module "amazon-sp-api" {
   export class SellingPartner {
-    constructor(config: Config)
+    constructor(config: Config);
 
     refreshAccessToken(): Promise<void>;
-
-    refreshRoleCredentials(): Promise<void>;
 
     exchange(auth_code: string): Promise<any>;
 
     get access_token(): string;
-
-    get role_credentials(): RoleCredentials;
 
     callAPI<TOperation extends Operation>(
       req_params: ReqParams<TOperation>
@@ -167,10 +163,6 @@ declare module 'amazon-sp-api' {
     upload<T>(
       details: {
         url: string;
-        encryptionDetails?: {
-          key: string;
-          initializationVector: string;
-        };
       },
       feed: {
         content?: string;
