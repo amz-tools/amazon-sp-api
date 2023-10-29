@@ -254,12 +254,5 @@ interface Report {
 export interface ReportDocument {
   reportDocumentId: string;
   url: string;
-  encryptionDetails: ReportDocumentEncryptionDetails;
   compressionAlgorithm: "GZIP";
-}
-
-interface ReportDocumentEncryptionDetails {
-  standard: "AES";
-  initializationVector: string;
-  key: string;
 }
