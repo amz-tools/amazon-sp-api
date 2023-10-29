@@ -1,15 +1,15 @@
-import { BaseResponse} from "../baseTypes";
+import { BaseResponse } from "../baseTypes";
 
-export interface GetOrdersQuery{
+export interface GetOrdersQuery {
     CreatedAfter?: string;
     CreatedBefore?: string;
     LastUpdatedAfter?: string;
     LastUpdatedBefore?: string;
-    OrderStatuses?:string[];
-    MarketplaceIds?:string[];
-    FulfillmentChannels?:string[];
-    PaymentMethods?:string[];
-    BuyerEmail?:string[];
+    OrderStatuses?: string[];
+    MarketplaceIds?: string[];
+    FulfillmentChannels?: string[];
+    PaymentMethods?: string[];
+    BuyerEmail?: string[];
     SellerOrderId?: string[];
     MaxResultPerPage?: number;
     EasyShipShipmentStatuses?: string[];
@@ -20,72 +20,72 @@ export interface GetOrdersQuery{
     StoreChainStoreId?: string;
 }
 
-export interface GetOrderPath{
-    orderId:string;
-}
-
-export interface GetOrderBuyerInfoPath{
-    orderId:string;
-}
-
-export interface GetOrderAddressPath{
-    orderId:string;
-}
-
-export interface GetOrderItemsPath{
+export interface GetOrderPath {
     orderId: string;
 }
 
-export interface GetOrderItemsQuery{
-    nextToken?: string;
-}
-
-export interface GetOrderItemsBuyerInfoPath{
+export interface GetOrderBuyerInfoPath {
     orderId: string;
 }
 
-export interface GetOrderItemsBuyerInfoQuery{
+export interface GetOrderAddressPath {
+    orderId: string;
+}
+
+export interface GetOrderItemsPath {
+    orderId: string;
+}
+
+export interface GetOrderItemsQuery {
     nextToken?: string;
 }
 
-export interface GetOrderItemsBuyerInfoResponse extends BaseResponse{
-    payload?: OrderItemBuyerInfoList
+export interface GetOrderItemsBuyerInfoPath {
+    orderId: string;
 }
 
-export interface GetOrderItemResponse extends BaseResponse{
-    payload?: OrderItemsList
+export interface GetOrderItemsBuyerInfoQuery {
+    nextToken?: string;
 }
 
-export interface GetOrderAddressResponse extends BaseResponse{
+export interface GetOrderItemsBuyerInfoResponse extends BaseResponse {
+    payload?: OrderItemsBuyerInfoList;
+}
+
+export interface GetOrderItemsResponse extends BaseResponse {
+    payload?: OrderItemsList;
+}
+
+export interface GetOrderAddressResponse extends BaseResponse {
     payload?: OrderAddress;
 }
 
-export interface GetOrderBuyerInfoResponse extends BaseResponse{
+export interface GetOrderBuyerInfoResponse extends BaseResponse {
     payload?: OrderBuyerInfo;
 }
 
-export interface GetOrderResponse extends BaseResponse{
+export interface GetOrderResponse extends BaseResponse {
     payload?: Order;
 }
 
-export interface GetOrdersResponse extends BaseResponse{
+export interface GetOrdersResponse extends BaseResponse {
     payload?: OrdersList;
 }
 
 
-type DeemedResellerCategory = "IOSS" | "UOSS";
-type FulfillmentChannel = "MFN" | "AFN";
-type ResponsibleParty = "Amazon Services, Inc.";
-type AddressType = "Residential" | "Commercial";
-type paymentMethod = "COD" | "CVS" | "Other";
-type Model = "MarketplaceFacilitator";
-type OrderType =
+export type DeemedResellerCategory = "IOSS" | "UOSS";
+export type FulfillmentChannel = "MFN" | "AFN";
+export type ResponsibleParty = "Amazon Services, Inc.";
+export type AddressType = "Residential" | "Commercial";
+export type paymentMethod = "COD" | "CVS" | "Other";
+export type Model = "MarketplaceFacilitator";
+export type OrderType =
     | "StandardOrder"
     | "LongLeadTimeOrder"
     | "Preorder"
     | "BackOrder"
     | "SourcingOnDemandOrder";
-type OrderStatus =
+export type OrderStatus =
     | "Pending"
     | "Unshipped"
     | "PartialShipped"
@@ -95,38 +95,38 @@ type OrderStatus =
     | "InvoiceUnconfirmed"
     | "PendingAvailability";
 
-interface FulfillmentInstruction{
+export interface FulfillmentInstruction {
     FulfillmentSupplySourceId?: string;
 }
 
-interface TaxCollection{
+export interface TaxCollection {
     Model?: Model;
     ResponsiblePArty?: ResponsibleParty;
 }
 
-interface BuyerCustomizedInfoDetail{
+export interface BuyerCustomizedInfoDetail {
     CustomizedURL?: string;
 }
 
-interface PromotionIdList{
+export interface PromotionIdList {
     PromotionId?: string[];
 }
 
-interface ProductInfoDetail{
+export interface ProductInfoDetail {
     NumberOfItems?: number;
 }
 
-interface Money{
+export interface Money {
     CurrencyCode?: string;
     Amount?: string;
 }
 
-interface PointsGrantedDetail{
+export interface PointsGrantedDetail {
     PointsNumber?: number;
     PointsMonetaryValue?: Money;
 }
 
-interface OrderItemBuyerInfo{
+export interface OrderItemBuyerInfo {
     OrderItemId: string;
     BuyerCustomizedInfo?: BuyerCustomizedInfoDetail;
     GiftWrapPrice?: Money;
@@ -135,20 +135,13 @@ interface OrderItemBuyerInfo{
     GiftWrapLevel?: string;
 }
 
-interface OrderItemBuyerInfoList{
-    OrderItemBuyerInfo?: OrderItemBuyerInfo[];
-}
-
-// Unused type
-/*
-interface OrderItemsBuyerInfoList{
-    OrderItems: OrderItemBuyerInfoList;
+export interface OrderItemsBuyerInfoList {
+    OrderItems: OrderItemBuyerInfo[];
     NextToken?: string;
     AmazonOrderId: string;
 }
-*/
 
-interface OrderItem{
+export interface OrderItem {
     ASIN: string;
     SellerSKU?: string;
     OrderItemId: string;
@@ -183,41 +176,37 @@ interface OrderItem{
     DeemedResellerCategory?: DeemedResellerCategory;
 }
 
-interface OrderItemList{
-    OrderItem?: OrderItem[];
-}
-
-interface OrderItemsList{
-    OrderItems: OrderItemList;
+export interface OrderItemsList {
+    OrderItems: OrderItem[];
     NextToken?: string;
     AmazonOrderId?: string;
 }
 
-interface TaxClassification{
+export interface TaxClassification {
     Name?: string;
     Value?: string;
 }
 
-interface BuyerTaxInfo{
+export interface BuyerTaxInfo {
     CompanyLegalName?: string;
     TaxingRegion?: string;
     TaxClassifications?: TaxClassification[];
 }
 
-interface PaymentExecutionDetailItem{
+export interface PaymentExecutionDetailItem {
     Payment: Money;
     PaymentMethod: paymentMethod;
 }
 
-interface PaymentExecutionDetailItemList{
+export interface PaymentExecutionDetailItemList {
     PaymentExecutionDetailItem?: PaymentExecutionDetailItem[];
 }
 
-interface PaymentMethodDetailItemList{
+export interface PaymentMethodDetailItemList {
     PaymentMethodDetailItem?: string[];
 }
 
-interface Address{
+export interface Address {
     Name: string;
     AddressLine1?: string;
     AddressLine2?: string;
@@ -233,12 +222,12 @@ interface Address{
     AddressType?: AddressType;
 }
 
-interface OrderAddress{
+export interface OrderAddress {
     AmazonOrderId: string;
     ShippingAddress?: Address;
 }
 
-interface OrderBuyerInfo{
+export interface OrderBuyerInfo {
     AmazonOrderId: string;
     BuyerEmail?: string;
     BuyerNama?: string;
@@ -247,14 +236,14 @@ interface OrderBuyerInfo{
     PurchaseOrderNumber?: string;
 }
 
-interface Order{
+export interface Order {
     AmazonOrderId: string;
     SellerOrderId?: string;
     PurchaseDate: string;
     LastUpdateDate: string;
     OrderStatus: OrderStatus;
     FulfillmentChannel?: FulfillmentChannel;
-    salesChannel?: string;
+    SalesChannel?: string;
     OrderChannel?: string;
     ShipServiceLevel?: string;
     OrderTotal?: Money;
@@ -286,12 +275,8 @@ interface Order{
     IsSPU?: boolean;
 }
 
-interface OrderList{
-    OrderList?: Order[];
-}
-
-interface OrdersList{
-    Orders: OrderList;
+export interface OrdersList {
+    Orders: Order[];
     NextToken?: string;
     LastUpdatedBefore?: string;
     CreatedBefore?: string;
