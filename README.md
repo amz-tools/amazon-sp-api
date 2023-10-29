@@ -1,6 +1,6 @@
 # amazon-sp-api (client for the Amazon Selling Partner API)
 
-The client handles calls to the Amazon Selling Partner API. It wraps up all the necessary stuff such as requesting access token and calling the API and also provides some convenience, i.e. a wrapper for requesting and downloading reports and an internal handling/throttling of rate limits.
+The client handles calls to the Amazon Selling Partner API. It wraps up all the necessary stuff such as requesting access tokens and providing (a simplified!) way of calling the API, but also provides some convenience, i.e. a wrapper for requesting and downloading reports and an internal handling of rate limits when calls are throttled.
 
 ```diff
 - Please note: There are a few breaking changes if you are
@@ -52,7 +52,7 @@ npm install amazon-sp-api
 
 ## Getting Started
 
-Before you can use the client you need to add your app client and aws user credentials.
+Before you can use the client you need to add your app client and secret.
 
 ### Setting credentials from environment variables
 
@@ -382,8 +382,6 @@ try {
 }
 ```
 
-NOTE: As the original design of the client (< v0.4.0) didn't keep in mind the possibility of having the exact same operation name for multiple endpoints (i.e. `getShipment`, [see Issue #33](https://github.com/amz-tools/amazon-sp-api/issues/33)) and multiple versions of the same endpoint, we had to replace original operation-only based calls to the API with a new concept that includes endpoints and version-specific operation calls. This concept comes without any breaking changes, so you can still safely upgrade from any version below 0.4.0 to the latest version, but the use of `.callAPI()` without specifying an endpoint is considered deprecated, is discouraged and will trigger a console warning.
-
 ### Endpoints
 
 The exact endpoint's name of an operation will be the references name ([see SP API Developer Guide](https://developer-docs.amazon.com/sp-api/docs)) without `API` and all spaces removed and continued with a capital letter. So the `Catalog Items API` endpoint's name will be `catalogItems`, `FBA Small and Light API` will be `fbaSmallAndLight`, `Sellers API` will be `sellers` and so on. You can also retrieve the endpoint names and their operations and versions by calling `spClient.endpoints`.
@@ -477,7 +475,7 @@ let res = await spClient.callAPI({
 
 ### Unsupported endpoints/versions/operations
 
-The newest client version should have full support for all endpoints, versions and operations on release, however it might lack support for very recently added new endpoints, versions or operations. If you need an endpoint/version/operation that is not yet supported you can still call it by using the `api_path` parameter. I.e. if the new `catalogItems` version `2020-12-01` would not be supported yet we could still use the new implementation of the `getCatalogItem` operation by using the `api_path` and `method` properties:
+The newest client version should always have full support for all endpoints, versions and operations on release, however it might lack support for very recently added new endpoints, versions or operations. If you need an endpoint/version/operation that is not yet supported you can still call it by using the `api_path` parameter. I.e. if the new `catalogItems` version `2020-12-01` would not be supported yet we could still use the new implementation of the `getCatalogItem` operation by using the `api_path` and `method` properties:
 
 ```javascript
 let res = await spClient.callAPI({
@@ -571,7 +569,7 @@ The function takes a config object with the following parameters as input:
 | Name                       |  Type  |  Default   | Description                                                                                                                                                                                                                                                                                                                  |
 | :------------------------- | :----: | :--------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **body**<br>_required_     | object |     -      | Includes the parameters necessary to request the report. These are the parameters usually passed in to the `createReport` operation (see [createReport 2021-06-30](https://developer-docs.amazon.com/sp-api/docs/reports-api-v2021-06-30-reference#createreportspecification)). The possible values will be described below. |
-| **version**<br>_optional_  | string | 2020-09-04 | The report endpoint’s version that should be used when retrieving the report.                                                                                                                                                                                                                                                |
+| **version**<br>_optional_  | string | 2021-06-30 | The report endpoint’s version that should be used when retrieving the report.                                                                                                                                                                                                                                                |
 | **interval**<br>_optional_ | string |   10000    | The request interval (in milliseconds) that should be used for re-requesting the `getReport` operation when the report is still queued or in progress.                                                                                                                                                                       |
 | **download**<br>_optional_ | object |     -      | Includes optional parameters for the download of the report, i.e. to enable a json result or to additionally save the report to a file. The possible values will be described below.                                                                                                                                         |
 
