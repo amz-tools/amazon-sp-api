@@ -3,7 +3,7 @@ import {
   GetOrderAddressResponse,
   GetOrderBuyerInfoPath,
   GetOrderBuyerInfoResponse,
-  GetOrderItemResponse,
+  GetOrderItemsResponse,
   GetOrderItemsBuyerInfoPath,
   GetOrderItemsBuyerInfoQuery,
   GetOrderItemsBuyerInfoResponse,
