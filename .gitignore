@@ -2,3 +2,4 @@
 /test/.env.test
 /temp
 .idea/
+dist/
