@@ -37,7 +37,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:amz-tools/amazon-sp-api.git"
+    "url": "git@github.com:Sellbery-Inc/amazon-sp-api.git"
   },
   "scripts": {
     "test": "mocha --config ./test/.mocharc.js"
