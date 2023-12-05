@@ -1,6 +1,9 @@
 {
-  "name": "amazon-sp-api",
+  "name": "@sellbery-inc/amazon-sp-api",
   "version": "1.0.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "description": "Amazon Selling Partner API client",
   "main": "index.js",
   "directories": {
