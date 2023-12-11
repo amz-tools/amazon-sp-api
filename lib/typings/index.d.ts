@@ -3,7 +3,7 @@ import {
   GetOrderAddressResponse,
   GetOrderBuyerInfoPath,
   GetOrderBuyerInfoResponse,
-  GetOrderItemResponse,
+  GetOrderItemsResponse,
   GetOrderItemsBuyerInfoPath,
   GetOrderItemsBuyerInfoQuery,
   GetOrderItemsBuyerInfoResponse,
@@ -284,7 +284,7 @@ declare module "amazon-sp-api" {
     : TOperation extends "getOrderAddress"
     ? GetOrderAddressResponse
     : TOperation extends "getOrderItem"
-    ? GetOrderItemResponse
+    ? GetOrderItemsResponse
     : TOperation extends "getOrderItemsBuyerInfo"
     ? GetOrderItemsBuyerInfoResponse
     : TOperation extends "createInboundShipmentPlan"
