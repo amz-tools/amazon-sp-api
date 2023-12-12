@@ -208,10 +208,3 @@ interface SalesRank {
   ProductCategoryId?: string;
   Rank?: number;
 }
-
-interface ListCatalogItem {
-  Identifiers: IdentifierType;
-  AttributeSets?: AttributeSet[];
-  Relationships: Relationship[];
-  SalesRankings: SalesRank[];
-}
