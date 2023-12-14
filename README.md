@@ -131,7 +131,8 @@ The class constructor takes a config object with the following structure as inpu
     debug_log:false,
     timeouts:{
       ...
-    }
+    },
+    retry_remote_timeout:true
   }
 }
 ```
@@ -160,6 +161,7 @@ Valid properties of the config options:
 | **user_agent**<br>_optional_                | string  | amazon-sp-api/<CLIENT_VERSION> (Language=Node.js/<NODE_VERSION>; Platform=<OS_PLATFORM>/<OS_RELEASE>) | A custom user-agent header ([see desired format in docs](https://developer-docs.amazon.com/amazon-shipping/docs/include-a-user-agent-header-in-all-requests)). |
 | **debug_log**<br>_optional_                 | boolean |                                                 false                                                 | Whether or not the client should print console logs for debugging purposes.                                                                                    |
 | **timeouts**<br>_optional_                  | object  |                                                   -                                                   | Allows to set timeouts for requests. Valid keys are `response`, `idle` and `deadline`. Please see detailed information in the [Timeouts](#timeouts) section.   |
+| **retry_remote_timeout**<br>_optional_      | boolean |                                                 true                                                  | Whether or not the client should retry a request to the remote server that failed with an ETIMEDOUT error                                                      |
 
 ### Exchange an authorization code for a refresh token
 
