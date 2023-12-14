@@ -19,6 +19,7 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
   - [Setting credentials from constructor config object](#setting-credentials-from-constructor-config-object)
 - [Usage](#usage)
   - [Config params](#config-params)
+  - [Use a proxy agent](#use-a-proxy-agent)
   - [Exchange an authorization code for a refresh token](#exchange-an-authorization-code-for-a-refresh-token)
   - [Request access token](#request-access-token)
 - [Call the API](#call-the-api)
@@ -132,7 +133,8 @@ The class constructor takes a config object with the following structure as inpu
     timeouts:{
       ...
     },
-    retry_remote_timeout:true
+    retry_remote_timeout:true,
+	  httpsProxyAgent: new https.Agent()
   }
 }
 ```
@@ -162,6 +164,22 @@ Valid properties of the config options:
 | **debug_log**<br>_optional_                 | boolean |                                                 false                                                 | Whether or not the client should print console logs for debugging purposes.                                                                                    |
 | **timeouts**<br>_optional_                  | object  |                                                   -                                                   | Allows to set timeouts for requests. Valid keys are `response`, `idle` and `deadline`. Please see detailed information in the [Timeouts](#timeouts) section.   |
 | **retry_remote_timeout**<br>_optional_      | boolean |                                                 true                                                  | Whether or not the client should retry a request to the remote server that failed with an ETIMEDOUT error                                                      |
+| **httpsProxyAgent**<br>_optional_      | object |                                                 https.Agent()                                                  | Override NodeJS [default https agent](https://nodejs.org/api/https.html#class-httpsagent).  Please see detailed information in the [Using Proxy Agent](#use-a-proxy-agent) section.                                                     |
+
+### Use a proxy agent
+
+If you are behing a firewall and would like to use a proxy server then you can pass a custom proxy agent which will override the [default https agent](https://nodejs.org/api/https.html#class-httpsagent) of NodeJS.
+
+```javascript
+const { HttpsProxyAgent } = require('hpagent');
+const agent = new HttpsProxyAgent({ proxy: 'http://x.x.x.x:zzzz' });
+const spClient = new SellingPartner({
+  region: "eu",
+  options: {
+    httpsProxyAgent: agent
+  }
+});
+```
 
 ### Exchange an authorization code for a refresh token
 
