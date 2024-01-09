@@ -141,6 +141,8 @@ import {
   GetItemOffersResponse
 } from "./operations/productPricing";
 
+import { GetMarketplaceParticipationsResponse } from "./operations/sellers";
+
 declare module "amazon-sp-api" {
   export class SellingPartner {
     constructor(config: Config);
@@ -219,6 +221,7 @@ declare module "amazon-sp-api" {
     | "getShipmentItems"
     | "getItemOffers"
     | "productPricing.getItemOffers"
+    | "getMarketplaceParticipations"
     | string;
 
   type ObjectType<TOperation> = TOperation extends "getAuthorizationCode"
@@ -378,6 +381,9 @@ declare module "amazon-sp-api" {
       ? GetItemOffersQuery
       : TOperation extends "productPricing.getItemOffers"
       ? GetItemOffersQuery
+      : // Sellers
+      TOperation extends "getMarketplaceParticipations"
+      ? GetMarketplaceParticipationsResponse
       : any;
 
   type PathType<TOperation extends Operation> =
