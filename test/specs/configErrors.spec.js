@@ -331,4 +331,26 @@ describe("configErrors", async function () {
     expect(res.code).to.equal("API_DEADLINE_TIMEOUT");
     expect(res.timeout).to.equal(deadline_timeout);
   });
+
+  it("should catch invalid client error, update credentials and return a valid access token", async function () {
+    let sellingPartner = new SellingPartnerAPI({
+      region: this.config.region,
+      refresh_token: this.config.refresh_token,
+      credentials: {
+        SELLING_PARTNER_APP_CLIENT_ID: "INVALID_CLIENT_ID",
+        SELLING_PARTNER_APP_CLIENT_SECRET: "INVALID_CLIENT_ERROR"
+      }
+    });
+    let res;
+    try {
+      res = await sellingPartner.refreshAccessToken();
+    } catch (e) {
+      res = e;
+    }
+    expect(res).to.be.an("error");
+    expect(res.code).to.equal("invalid_client");
+    sellingPartner.updateCredentials();
+    await sellingPartner.refreshAccessToken();
+    expect(sellingPartner.access_token).to.be.a("string");
+  });
 });
