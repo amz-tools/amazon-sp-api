@@ -321,6 +321,8 @@ declare module "amazon-sp-api" {
     ? GetItemOffersResponse
     : TOperation extends "createReport"
     ? CreateReportResponse
+    : TOperation extends "getMarketplaceParticipations"
+    ? GetMarketplaceParticipationsResponse
     : any;
 
   type QueryType<TOperation extends Operation> =
@@ -381,9 +383,6 @@ declare module "amazon-sp-api" {
       ? GetItemOffersQuery
       : TOperation extends "productPricing.getItemOffers"
       ? GetItemOffersQuery
-      : // Sellers
-      TOperation extends "getMarketplaceParticipations"
-      ? GetMarketplaceParticipationsResponse
       : any;
 
   type PathType<TOperation extends Operation> =

@@ -1,7 +1,5 @@
 import { BaseResponse } from "../baseTypes";
 
-// type MarketplaceParticipationList = MarketplaceParticipation[];
-
 interface MarketplaceParticipation {
   marketplace: Marketplace;
   participation: Participation;
