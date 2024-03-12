@@ -19,6 +19,7 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
   - [Setting credentials from constructor config object](#setting-credentials-from-constructor-config-object)
 - [Usage](#usage)
   - [Config params](#config-params)
+  - [Use a proxy agent](#use-a-proxy-agent)
   - [Exchange an authorization code for a refresh token](#exchange-an-authorization-code-for-a-refresh-token)
   - [Request access token](#request-access-token)
 - [Call the API](#call-the-api)
@@ -132,7 +133,8 @@ The class constructor takes a config object with the following structure as inpu
     timeouts:{
       ...
     },
-    retry_remote_timeout:true
+    retry_remote_timeout:true,
+    https_proxy_agent:<HttpsProxyAgent>
   }
 }
 ```
@@ -162,6 +164,23 @@ Valid properties of the config options:
 | **debug_log**<br>_optional_                 | boolean |                                                 false                                                 | Whether or not the client should print console logs for debugging purposes.                                                                                    |
 | **timeouts**<br>_optional_                  | object  |                                                   -                                                   | Allows to set timeouts for requests. Valid keys are `response`, `idle` and `deadline`. Please see detailed information in the [Timeouts](#timeouts) section.   |
 | **retry_remote_timeout**<br>_optional_      | boolean |                                                 true                                                  | Whether or not the client should retry a request to the remote server that failed with an ETIMEDOUT error                                                      |
+| **https_proxy_agent**<br>_optional_         | object  |                                                   -                                                   | Possibility to add your own HTTPS Proxy Agent. Please see detailed information in the [Using Proxy Agent](#use-a-proxy-agent) section.                         |
+
+### Use a proxy agent
+
+If you are behind a firewall and would like to use a proxy server then you can pass a custom proxy agent to the options object. See the following example:
+
+```javascript
+const { HttpsProxyAgent } = require("hpagent");
+const agent = new HttpsProxyAgent({ proxy: "http://x.x.x.x:zzzz" });
+const spClient = new SellingPartner({
+  region: "eu",
+  refresh_token: "<REFRESH_TOKEN>",
+  options: {
+    https_proxy_agent: agent
+  }
+});
+```
 
 ### Exchange an authorization code for a refresh token
 
