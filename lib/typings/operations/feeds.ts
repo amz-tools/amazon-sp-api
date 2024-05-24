@@ -68,13 +68,6 @@ export interface CreateFeedDocumentResponse extends BaseResponse {
 interface CreateFeedDocumentResult {
   feedDocumentId: string;
   url: string;
-  encryptionDetails: FeedDocumentEncryptionDetails;
-}
-
-interface FeedDocumentEncryptionDetails {
-  standard: "AES";
-  initializationVector: string;
-  key: string;
 }
 
 export interface GetFeedDocumentPath {
