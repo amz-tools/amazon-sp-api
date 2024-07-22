@@ -5,108 +5,94 @@ const moment = require("moment");
 const endpoint = "fulfillmentInbound";
 
 describe(endpoint, async function () {
+  let inbound_plan_id;
   let shipment_id;
 
-  it("should return prep instructions for asin", async function () {
+  it("should return a list of shipped inbound plans", async function () {
     let res = await this.sellingPartner.callAPI({
-      operation: "getPrepInstructions",
+      operation: "listInboundPlans",
       endpoint: endpoint,
       query: {
-        ShipToCountryCode: this.config.country_code,
-        ASINList: this.config.asin
+        status: "SHIPPED"
       }
     });
     expect(res).to.be.a("object");
-    expect(res.ASINPrepInstructionsList).to.be.a("array");
-    expect(res.InvalidASINList).to.be.a("array");
+    expect(res.inboundPlans).to.be.a("array");
+    if (res.inboundPlans[0]?.inboundPlanId)
+      inbound_plan_id = res.inboundPlans[0].inboundPlanId;
   });
 
-  it("should return prep instructions for sku", async function () {
-    if (this.config.sku) {
+  it("should return inbound plan", async function () {
+    if (inbound_plan_id) {
       let res = await this.sellingPartner.callAPI({
-        operation: "getPrepInstructions",
+        operation: "getInboundPlan",
         endpoint: endpoint,
-        query: {
-          ShipToCountryCode: this.config.country_code,
-          SellerSKUList: this.config.sku
+        path: {
+          inboundPlanId: inbound_plan_id
         }
       });
       expect(res).to.be.a("object");
-      expect(res.SKUPrepInstructionsList).to.be.a("array");
-      expect(res.InvalidSKUList).to.be.a("array");
+      expect(res.sourceAddress).to.be.a("object");
+      expect(["ACTIVE", "VOIDED", "SHIPPED", "ERRORED"]).to.include(res.status);
+      expect(res.shipments).to.be.a("array");
+      if (res.shipments[0]?.shipmentId)
+        shipment_id = res.shipments[0].shipmentId;
     } else {
       this.skip();
     }
   });
 
-  it("should return inbound shipments for date range", async function () {
-    let res = await this.sellingPartner.callAPI({
-      operation: "getShipments",
-      endpoint: endpoint,
-      query: {
-        MarketplaceId: this.config.marketplace_id,
-        ShipmentStatusList: [
-          "WORKING",
-          "SHIPPED",
-          "RECEIVING",
-          "CANCELLED",
-          "DELETED",
-          "CLOSED",
-          "ERROR",
-          "IN_TRANSIT",
-          "DELIVERED",
-          "CHECKED_IN"
-        ],
-        QueryType: "DATE_RANGE",
-        LastUpdatedBefore: moment().startOf("day").toISOString(),
-        LastUpdatedAfter: moment()
-          .startOf("day")
-          .subtract(2, "months")
-          .toISOString()
-      }
-    });
-    expect(res).to.be.a("object");
-    expect(res.ShipmentData).to.be.a("array");
-
-    if (res.ShipmentData[0]) {
-      shipment_id = res.ShipmentData[0].ShipmentId;
+  it("should return inbound plan items", async function () {
+    if (inbound_plan_id) {
+      let res = await this.sellingPartner.callAPI({
+        operation: "listInboundPlanItems",
+        endpoint: endpoint,
+        path: {
+          inboundPlanId: inbound_plan_id
+        }
+      });
+      expect(res).to.be.a("object");
+      expect(res.items).to.be.a("array");
+    } else {
+      this.skip();
     }
   });
 
-  it("should return inbound shipment items for shipment", async function () {
-    if (shipment_id) {
+  it("should return inbound shipment", async function () {
+    if (inbound_plan_id && shipment_id) {
       let res = await this.sellingPartner.callAPI({
-        operation: "getShipmentItemsByShipmentId",
+        operation: "getShipment",
         endpoint: endpoint,
-        query: {
-          MarketplaceId: this.config.marketplace_id
-        },
         path: {
+          inboundPlanId: inbound_plan_id,
           shipmentId: shipment_id
         }
       });
       expect(res).to.be.a("object");
-      expect(res.ItemData).to.be.a("array");
+      expect(res.destination).to.be.a("object");
+      expect(res.source).to.be.a("object");
+      expect(res.placementOptionId).to.be.a("string").to.have.length(38);
     } else {
       this.skip();
     }
   });
 
-  it("should return inbound shipment items for date range", async function () {
-    let res = await this.sellingPartner.callAPI({
-      operation: "getShipmentItems",
-      endpoint: endpoint,
-      query: {
-        MarketplaceId: this.config.marketplace_id,
-        QueryType: "DATE_RANGE",
-        LastUpdatedBefore: moment().startOf("day").toISOString(),
-        LastUpdatedAfter: moment()
-          .startOf("day")
-          .subtract(2, "months")
-          .toISOString()
-      }
-    });
-    expect(res).to.be.a("object");
-    expect(res.ItemData).to.be.a("array");
+  it("should return transportation options", async function () {
+    if (inbound_plan_id && shipment_id) {
+      let res = await this.sellingPartner.callAPI({
+        operation: "listTransportationOptions",
+        endpoint: endpoint,
+        path: {
+          inboundPlanId: inbound_plan_id
+        },
+        query: {
+          shipmentId: shipment_id
+        }
+      });
+      expect(res).to.be.a("object");
+      expect(res.transportationOptions).to.be.a("array");
+    } else {
+      this.skip();
+    }
   });
 });
