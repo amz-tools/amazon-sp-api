@@ -1,4 +1,4 @@
-import { BaseResponse, ProcessingStatus } from "../baseTypes";
+import type { BaseResponse, ProcessingStatus } from "../baseTypes";
 
 export interface GetFeedsQuery {
   feedTypes?: string[];

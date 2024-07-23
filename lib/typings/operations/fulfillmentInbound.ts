@@ -1,4 +1,4 @@
-import { BaseResponse } from "../baseTypes";
+import type { BaseResponse } from "../baseTypes";
 
 export interface CreateInboundShipmentPlanBody {
   ShipFromAddress: Address;
