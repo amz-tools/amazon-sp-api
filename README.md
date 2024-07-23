@@ -405,7 +405,7 @@ try {
 
 ### Endpoints
 
-The exact endpoint's name of an operation will be the references name ([see SP API Developer Guide](https://developer-docs.amazon.com/sp-api/docs)) without `API` and all spaces removed and continued with a capital letter. So the `Catalog Items API` endpoint's name will be `catalogItems`, `FBA Small and Light API` will be `fbaSmallAndLight`, `Sellers API` will be `sellers` and so on. You can also retrieve the endpoint names and their operations and versions by calling `spClient.endpoints`.
+The exact endpoint's name of an operation will be the references name ([see SP API Developer Guide](https://developer-docs.amazon.com/sp-api/docs)) without `API` and all spaces removed and continued with a capital letter. So the `Catalog Items API` endpoint's name will be `catalogItems`, `Fulfillment Inbound API` will be `fulfillmentInbound`, `Sellers API` will be `sellers` and so on. You can also retrieve the endpoint names and their operations and versions by calling `spClient.endpoints`.
 
 ### Versions
 
