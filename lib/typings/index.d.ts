@@ -98,10 +98,6 @@ import {
   PutSmallAndLightEnrollmentBySellerSKUResponse
 } from "./operations/fbaSmallAndLight";
 import {
-  GetAuthorizationCodeQuery,
-  GetAuthorizationCodeResponse
-} from "./operations/authorization";
-import {
   GetCatalogItemPath,
   GetCatalogItemQuery,
   GetCatalogItemResponse,
@@ -175,7 +171,6 @@ declare module "amazon-sp-api" {
   }
 
   type Operation =
-    | "getAuthorizationCode"
     | "getCatalogItem"
     | "listCatalogCategories"
     | "getItemEligibilityPreview"
@@ -224,9 +219,7 @@ declare module "amazon-sp-api" {
     | "getMarketplaceParticipations"
     | string;
 
-  type ObjectType<TOperation> = TOperation extends "getAuthorizationCode"
-    ? GetAuthorizationCodeResponse
-    : TOperation extends "getCatalogItem"
+  type ObjectType<TOperation> = TOperation extends "getCatalogItem"
     ? GetCatalogItemResponse
     : TOperation extends "listCatalogCategories"
     ? ListCatalogCategoriesResponse
@@ -326,9 +319,7 @@ declare module "amazon-sp-api" {
     : any;
 
   type QueryType<TOperation extends Operation> =
-    TOperation extends "getAuthorizationCode"
-      ? GetAuthorizationCodeQuery
-      : TOperation extends "getCatalogItem"
+    TOperation extends "getCatalogItem"
       ? GetCatalogItemQuery
       : TOperation extends "listCatalogCategories"
       ? ListCatalogCategoriesQuery
