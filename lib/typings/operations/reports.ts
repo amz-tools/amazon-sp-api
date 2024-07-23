@@ -1,4 +1,4 @@
-import type { BaseResponse, ProcessingStatus } from "../baseTypes";
+import type { BaseResponse } from "../baseTypes";
 
 type BrandAnalyticsReportType =
   | "GET_BRAND_ANALYTICS_MARKET_BASKET_REPORT"
@@ -174,6 +174,14 @@ type RegulatoryComplianceReportType =
   | "GET_EPR_MONTHLY_REPORTS"
   | "GET_EPR_QUARTERLY_REPORTS"
   | "GET_EPR_ANNUAL_REPORTS";
+
+enum ProcessingStatus {
+  InQueue = "IN_QUEUE",
+  InProgress = "IN_PROGRESS",
+  Done = "DONE",
+  Cancelled = "CANCELLED",
+  Fatal = "FATAL"
+}
 
 export type ReportType =
   | AnalyticsReportType

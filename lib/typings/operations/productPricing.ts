@@ -1,4 +1,4 @@
-import type {BaseResponse} from "../baseTypes";
+import type { BaseResponse } from "../baseTypes";
 
 interface MoneyType {
   CurrencyCode: string;
