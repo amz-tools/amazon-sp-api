@@ -1,4 +1,4 @@
-import { BaseResponse, ProcessingStatus } from "../baseTypes";
+import type { BaseResponse } from "../baseTypes";
 
 type BrandAnalyticsReportType =
   | "GET_BRAND_ANALYTICS_MARKET_BASKET_REPORT"
@@ -129,8 +129,6 @@ type FBARemovalsReportsType =
   | "GET_FBA_FULFILLMENT_REMOVAL_ORDER_DETAIL_DATA"
   | "GET_FBA_FULFILLMENT_REMOVAL_SHIPMENT_DETAIL_DATA";
 
-type FBASmallAndLightReportsType = "GET_FBA_UNO_INVENTORY_DATA";
-
 type FBASubscribeAndSaveReportsType =
   | "GET_FBA_SNS_FORECAST_DATA"
   | "GET_FBA_SNS_PERFORMANCE_DATA";
@@ -141,7 +139,6 @@ type FBAReportType =
   | FBAPaymentsReportsType
   | FBAConcessionsReportsType
   | FBARemovalsReportsType
-  | FBASmallAndLightReportsType
   | FBASubscribeAndSaveReportsType;
 
 type TaxReportType =
@@ -177,6 +174,14 @@ type RegulatoryComplianceReportType =
   | "GET_EPR_MONTHLY_REPORTS"
   | "GET_EPR_QUARTERLY_REPORTS"
   | "GET_EPR_ANNUAL_REPORTS";
+
+enum ProcessingStatus {
+  InQueue = "IN_QUEUE",
+  InProgress = "IN_PROGRESS",
+  Done = "DONE",
+  Cancelled = "CANCELLED",
+  Fatal = "FATAL"
+}
 
 export type ReportType =
   | AnalyticsReportType
@@ -254,12 +259,5 @@ interface Report {
 export interface ReportDocument {
   reportDocumentId: string;
   url: string;
-  encryptionDetails: ReportDocumentEncryptionDetails;
   compressionAlgorithm: "GZIP";
-}
-
-interface ReportDocumentEncryptionDetails {
-  standard: "AES";
-  initializationVector: string;
-  key: string;
 }

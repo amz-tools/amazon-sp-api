@@ -1,4 +1,4 @@
-import { BaseResponse } from "../baseTypes";
+import type { BaseResponse } from "../baseTypes";
 
 export interface GetCatalogItemQuery {
   includedData?: string;
@@ -207,11 +207,4 @@ interface Relationship {
 interface SalesRank {
   ProductCategoryId?: string;
   Rank?: number;
-}
-
-interface ListCatalogItem {
-  Identifiers: IdentifierType;
-  AttributeSets?: AttributeSet[];
-  Relationships: Relationship[];
-  SalesRankings: SalesRank[];
 }
