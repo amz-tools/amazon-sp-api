@@ -126,7 +126,9 @@ declare module "amazon-sp-api" {
   export class SellingPartner {
     constructor(config: Config);
 
-    refreshAccessToken(): Promise<void>;
+    refreshAccessToken(
+        scope?: 'sellingpartnerapi::notifications' | 'sellingpartnerapi::migration'
+    ): Promise<void>;
 
     exchange(auth_code: string): Promise<any>;
 
