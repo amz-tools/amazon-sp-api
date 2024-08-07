@@ -29,7 +29,7 @@ import {
   GetFeedsQuery,
   GetFeedsResponse
 } from "./operations/feeds";
-import { Config, DownloadOptions } from "./baseTypes";
+import { Config, DownloadOptions, Scope } from "./baseTypes";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
@@ -127,7 +127,7 @@ declare module "amazon-sp-api" {
     constructor(config: Config);
 
     refreshAccessToken(
-        scope?: 'sellingpartnerapi::notifications' | 'sellingpartnerapi::migration' | 'sellingpartnerapi::client_credential:rotation'
+        scope?: Scope
     ): Promise<void>;
 
     exchange(auth_code: string): Promise<any>;
