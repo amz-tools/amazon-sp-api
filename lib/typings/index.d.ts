@@ -127,7 +127,7 @@ declare module "amazon-sp-api" {
     constructor(config: Config);
 
     refreshAccessToken(
-        scope?: 'sellingpartnerapi::notifications' | 'sellingpartnerapi::migration'
+        scope?: 'sellingpartnerapi::notifications' | 'sellingpartnerapi::migration' | 'sellingpartnerapi::client_credential:rotation'
     ): Promise<void>;
 
     exchange(auth_code: string): Promise<any>;
