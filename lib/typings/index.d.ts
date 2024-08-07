@@ -453,5 +453,6 @@ declare module "amazon-sp-api" {
     query?: QueryType<TOperation>;
     body?: BodyType<TOperation>;
     options?: ReqOptions;
+    scope?: Scope
   }
 }
