@@ -242,7 +242,7 @@ interface ReportOptions {
   [key: string]: string;
 }
 
-interface Report {
+export interface Report {
   marketplaceIds?: string[];
   reportId: string;
   reportType: ReportType;
