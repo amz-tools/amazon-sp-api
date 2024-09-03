@@ -271,7 +271,7 @@ export interface Order {
   IsSoldByAB?: boolean;
   DefaultShipFromLocationAddress?: Address;
   FulfillmentInstruction?: FulfillmentInstruction;
-  IsSPU?: boolean;
+  IsISPU?: boolean;
 }
 
 export interface OrdersList {
