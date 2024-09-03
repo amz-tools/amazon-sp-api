@@ -158,10 +158,6 @@ declare module "amazon-sp-api" {
     | "listCatalogCategories"
     | "getItemEligibilityPreview"
     | "getInventorySummaries"
-    | "getSmallAndLightEnrollmentBySellerSKU"
-    | "putSmallAndLightEnrollmentBySellerSKU"
-    | "getSmallAndLightEligibilityBySellerSKU"
-    | "getSmallAndLightFeePreview"
     | "getFeeds"
     | "createFeed"
     | "getFeed"
@@ -209,14 +205,6 @@ declare module "amazon-sp-api" {
     ? GetItemEligibilityPreviewResponse
     : TOperation extends "getInventorySummaries"
     ? GetInventorySummariesResponse
-    : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
-    ? GetSmallAndLightEnrollmentBySellerSKUResponse
-    : TOperation extends "putSmallAndLightEnrollmentBySellerSKU"
-    ? PutSmallAndLightEnrollmentBySellerSKUResponse
-    : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
-    ? GetSmallAndLightEligibilityBySellerSKUResponse
-    : TOperation extends "getSmallAndLightFeePreview"
-    ? GetSmallAndLightFeePreviewResponse
     : TOperation extends "getFeeds"
     ? GetFeedsResponse
     : TOperation extends "createFeed"
@@ -307,14 +295,6 @@ declare module "amazon-sp-api" {
       ? GetItemEligibilityPreviewQuery
       : TOperation extends "getInventorySummaries"
       ? GetInventorySummariesQuery
-      : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
-      ? GetSmallAndLightEnrollmentBySellerSKUQuery
-      : TOperation extends "putSmallAndLightEnrollmentBySellerSKU"
-      ? PutSmallAndLightEnrollmentBySellerSKUQuery
-      : TOperation extends "deleteSmallAndLightEnrollmentBySellerSKU"
-      ? DeleteSmallAndLightEnrollmentBySellerSKUQuery
-      : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
-      ? GetSmallAndLightEligibilityBySellerSKUQuery
       : TOperation extends "getFeeds"
       ? GetFeedsQuery
       : TOperation extends "listFinancialEventGroups"
@@ -357,14 +337,6 @@ declare module "amazon-sp-api" {
   type PathType<TOperation extends Operation> =
     TOperation extends "getCatalogItem"
       ? GetCatalogItemPath
-      : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
-      ? GetSmallAndLightEnrollmentBySellerSKUPath
-      : TOperation extends "putSmallAndLightEnrollmentBySellerSKU"
-      ? PutSmallAndLightEnrollmentBySellerSKUPath
-      : TOperation extends "deleteSmallAndLightEnrollmentBySellerSKU"
-      ? DeleteSmallAndLightEnrollmentBySellerSKUPath
-      : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
-      ? GetSmallAndLightEligibilityBySellerSKUPath
       : TOperation extends "getFeed"
       ? GetFeedPath
       : TOperation extends "cancelFeed"
@@ -420,26 +392,23 @@ declare module "amazon-sp-api" {
       ? GetItemOffersPath
       : any;
 
-  type BodyType<TOperation extends Operation> =
-    TOperation extends "getSmallAndLightFeePreview"
-      ? GetSmallAndLightFeePreviewBody
-      : TOperation extends "createFeed"
-      ? CreateFeedBody
-      : TOperation extends "createFeedDocument"
-      ? CreateFeedDocumentBody
-      : TOperation extends "createInboundShipmentPlan"
-      ? CreateInboundShipmentPlanBody
-      : TOperation extends "updateInboundShipment"
-      ? UpdateInboundShipmentBody
-      : TOperation extends "createInboundShipment"
-      ? CreateInboundShipmentBody
-      : TOperation extends "createReport"
-      ? CreateReportBody
-      : TOperation extends "putTransportDetails"
-      ? PutTransportDetailsBody
-      : TOperation extends "createRestrictedDataToken"
-      ? CreateRestrictedDataTokenBody
-      : any;
+  type BodyType<TOperation extends Operation> = TOperation extends "createFeed"
+    ? CreateFeedBody
+    : TOperation extends "createFeedDocument"
+    ? CreateFeedDocumentBody
+    : TOperation extends "createInboundShipmentPlan"
+    ? CreateInboundShipmentPlanBody
+    : TOperation extends "updateInboundShipment"
+    ? UpdateInboundShipmentBody
+    : TOperation extends "createInboundShipment"
+    ? CreateInboundShipmentBody
+    : TOperation extends "createReport"
+    ? CreateReportBody
+    : TOperation extends "putTransportDetails"
+    ? PutTransportDetailsBody
+    : TOperation extends "createRestrictedDataToken"
+    ? CreateRestrictedDataTokenBody
+    : any;
 
   type ReqOptions = IReqOptions;
 
