@@ -42,6 +42,5 @@ export interface DownloadOptions {
 }
 
 export type Scope =
-  | 'sellingpartnerapi::notifications'
-  | 'sellingpartnerapi::migration'
-  | 'sellingpartnerapi::client_credential:rotation'
+  | "sellingpartnerapi::notifications"
+  | "sellingpartnerapi::client_credential:rotation";
