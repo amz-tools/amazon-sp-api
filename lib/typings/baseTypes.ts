@@ -40,3 +40,8 @@ export interface DownloadOptions {
   unzip?: boolean;
   file?: string;
 }
+
+export type Scope =
+  | 'sellingpartnerapi::notifications'
+  | 'sellingpartnerapi::migration'
+  | 'sellingpartnerapi::client_credential:rotation'
