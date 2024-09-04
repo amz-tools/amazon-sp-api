@@ -39,6 +39,12 @@ export interface DownloadOptions {
   json?: boolean;
   unzip?: boolean;
   file?: string;
+  charset?: string;
+  timeouts?: {
+    response?: number;
+    idle?: number;
+    deadline?: number;
+  };
 }
 
 export type Scope =

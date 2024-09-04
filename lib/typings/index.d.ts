@@ -126,9 +126,7 @@ declare module "amazon-sp-api" {
   export class SellingPartner {
     constructor(config: Config);
 
-    refreshAccessToken(
-        scope?: Scope
-    ): Promise<void>;
+    refreshAccessToken(scope?: Scope): Promise<void>;
 
     exchange(auth_code: string): Promise<any>;
 
@@ -153,6 +151,14 @@ declare module "amazon-sp-api" {
         contentType?: string;
       }
     ): T;
+
+    downloadReport<T extends ReportDocumentType>(body: {
+      body: CreateReportBody;
+      version?: string;
+      interval?: number;
+      cancel_after?: number;
+      download?: DownloadOptions;
+    }): T;
   }
 
   type Operation =
@@ -422,6 +428,6 @@ declare module "amazon-sp-api" {
     query?: QueryType<TOperation>;
     body?: BodyType<TOperation>;
     options?: ReqOptions;
-    scope?: Scope
+    scope?: Scope;
   }
 }
