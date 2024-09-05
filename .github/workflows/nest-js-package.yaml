@@ -1,0 +1,50 @@
+name: NestJS Package Workflow
+
+on:   
+  push:
+    branches:
+      - "*"
+    tags-ignore:
+      - '*'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  action-for-build-module:
+    env:
+      branch: ${{ github.ref_name }}
+      NODE_AUTH_TOKEN: ${{ secrets.GH_CLASSIC_TOKEN }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          registry-url: "https://npm.pkg.github.com"
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+          
+      - name: bump version and push node module on repository  
+        run: | 
+          git config --global user.email ci-bot@github && git config --global user.name ci-bot-$SERVICE_NAME
+          npm ci
+          npm run build
+          cp -r ./dist/* .
+          NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
+          NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")  
+          
+          if [[ "$branch" == *"main"* ]]; then
+            npm run release:major
+            git push --follow-tags origin HEAD:main
+            npm publish
+          fi

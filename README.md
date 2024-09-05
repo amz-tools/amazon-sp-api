@@ -1,5 +1,6 @@
 # amazon-sp-api (client for the Amazon Selling Partner API)
 
+
 The client handles calls to the Amazon Selling Partner API. It wraps up all the necessary stuff such as requesting access tokens and providing (a simplified!) way of calling the API, but also provides some convenience, i.e. a wrapper for requesting and downloading reports and an internal handling of rate limits when calls are throttled.
 
 ```diff

@@ -27,7 +27,8 @@ import {
   GetFeedPath,
   GetFeedResponse,
   GetFeedsQuery,
-  GetFeedsResponse
+  GetFeedsResponse,
+  GetSmallAndLightFeePreviewBody
 } from "./operations/feeds";
 import { Config, DownloadOptions } from "./baseTypes";
 import {
@@ -85,7 +86,19 @@ import {
   GetCatalogItemQuery,
   GetCatalogItemResponse,
   ListCatalogCategoriesQuery,
-  ListCatalogCategoriesResponse
+  ListCatalogCategoriesResponse,
+  GetSmallAndLightEnrollmentBySellerSKUResponse,
+  PutSmallAndLightEnrollmentBySellerSKUResponse,
+  GetSmallAndLightEligibilityBySellerSKUResponse,
+  GetSmallAndLightFeePreviewResponse,
+  GetSmallAndLightEnrollmentBySellerSKUQuery,
+  PutSmallAndLightEnrollmentBySellerSKUQuery,
+  DeleteSmallAndLightEnrollmentBySellerSKUQuery,
+  GetSmallAndLightEligibilityBySellerSKUQuery,
+  GetSmallAndLightEnrollmentBySellerSKUPath,
+  PutSmallAndLightEnrollmentBySellerSKUPath,
+  DeleteSmallAndLightEnrollmentBySellerSKUPath,
+  GetSmallAndLightEligibilityBySellerSKUPath
 } from "./operations/catalogItems";
 import {
   GetInventorySummariesQuery,

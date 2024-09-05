@@ -1,6 +1,9 @@
 {
-  "name": "amazon-sp-api",
-  "version": "1.1.0",
+  "name": "@sellbery-inc/amazon-sp-api",
+  "version": "5.0.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "description": "Amazon Selling Partner API client",
   "main": "index.js",
   "directories": {
@@ -27,6 +30,7 @@
     "fast-xml-parser": "^4.4.0",
     "iconv-lite": "^0.6.3",
     "qs": "^6.12.3"
+    "standard-version": "^9.5.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.11",
@@ -38,10 +42,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:amz-tools/amazon-sp-api.git"
+    "url": "git@github.com:Sellbery-Inc/amazon-sp-api.git"
   },
   "scripts": {
-    "test": "mocha --config ./test/.mocharc.js"
+    "test": "mocha --config ./test/.mocharc.js",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
+    "release:major": "standard-version --release-as major"
   },
   "homepage": "https:/getarthy.com",
   "types": "./lib/typings/index.d.ts"
