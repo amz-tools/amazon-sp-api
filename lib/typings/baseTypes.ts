@@ -35,6 +35,12 @@ export interface Pagination {
   nextToken?: string;
 }
 
+export interface DownloadDocument {
+  url: string;
+  compressionAlgorithm?: string;
+  unzip?: boolean;
+}
+
 export interface DownloadOptions {
   json?: boolean;
   unzip?: boolean;
