@@ -38,7 +38,6 @@ export interface Pagination {
 export interface DownloadDocument {
   url: string;
   compressionAlgorithm?: string;
-  unzip?: boolean;
 }
 
 export interface DownloadOptions {
