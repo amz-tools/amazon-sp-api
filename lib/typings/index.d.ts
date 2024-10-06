@@ -29,7 +29,7 @@ import {
   GetFeedsQuery,
   GetFeedsResponse
 } from "./operations/feeds";
-import { Config, DownloadOptions, Scope } from "./baseTypes";
+import { Config, DownloadDocument, DownloadOptions, Scope } from "./baseTypes";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
@@ -137,7 +137,7 @@ declare module "amazon-sp-api" {
     ): Promise<ObjectType<TOperation>>;
 
     download<T extends ReportDocumentType>(
-      details: ReportDocument,
+      details: DownloadDocument,
       options?: DownloadOptions
     ): T;
 
