@@ -86,6 +86,6 @@ export interface GetFeedDocumentResponse extends BaseResponse {
   payload?: FeedDocument;
 }
 
-interface FeedDocument extends CreateFeedDocumentResult {
+export interface FeedDocument extends CreateFeedDocumentResult {
   compressionAlgorithm?: "GZIP";
 }
