@@ -46,9 +46,7 @@ interface FeedOptions {
 }
 
 export interface CreateFeedResponse extends BaseResponse {
-  payload?: {
-    feedId: string;
-  };
+  feedId: string;
 }
 
 export interface GetFeedPath {
