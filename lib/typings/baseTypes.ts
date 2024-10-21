@@ -38,6 +38,7 @@ export interface Pagination {
 export interface DownloadDocument {
   url: string;
   compressionAlgorithm?: string;
+  reportDocumentId?: string;
 }
 
 export interface DownloadOptions {
