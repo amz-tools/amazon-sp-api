@@ -186,7 +186,7 @@ const spClient = new SellingPartner({
 
 If you already have a refresh token you can skip this step. If you only want to use the API for your own seller account you can just use the [self authorization](https://developer-docs.amazon.com/amazon-shipping/docs/self-authorization) to obtain a valid refresh token.
 
-If you want to exchange an authorization code of a seller you can use the `.exchange()` function of the client. The neccessary authorization code is returned to your callback URI as `spapi_oauth_code` when a seller authorizes your application ([see authorization workflow in docs](https://developer-docs.amazon.com/amazon-shipping/docs/authorizing-selling-partner-api-applications)) or via a call to the `getAuthorizationCode` operation if you want to authorize a seller for the SP-API who has previously authorized you for the MWS API (the `getAuthorizationCode` workflow is explained in the [Grantless operations](#grantless-operations) section).
+If you want to exchange an authorization code of a seller you can use the `.exchange()` function of the client. The neccessary authorization code is returned to your callback URI as `spapi_oauth_code` when a seller authorizes your application ([see authorization workflow in docs](https://developer-docs.amazon.com/amazon-shipping/docs/authorizing-selling-partner-api-applications)).
 
 Once you have obtained the authorization_code you can exchange it for a refresh token:
 
@@ -405,7 +405,7 @@ try {
 
 ### Endpoints
 
-The exact endpoint's name of an operation will be the references name ([see SP API Developer Guide](https://developer-docs.amazon.com/sp-api/docs)) without `API` and all spaces removed and continued with a capital letter. So the `Catalog Items API` endpoint's name will be `catalogItems`, `FBA Small and Light API` will be `fbaSmallAndLight`, `Sellers API` will be `sellers` and so on. You can also retrieve the endpoint names and their operations and versions by calling `spClient.endpoints`.
+The exact endpoint's name of an operation will be the references name ([see SP API Developer Guide](https://developer-docs.amazon.com/sp-api/docs)) without `API` and all spaces removed and continued with a capital letter. So the `Catalog Items API` endpoint's name will be `catalogItems`, `Fulfillment Inbound API` will be `fulfillmentInbound`, `Sellers API` will be `sellers` and so on. You can also retrieve the endpoint names and their operations and versions by calling `spClient.endpoints`.
 
 ### Versions
 
@@ -522,11 +522,11 @@ NOTE: If your `api_path` includes special characters that require encoding (i.e.
 
 Some operations don't require an explicit authorization by a seller, [see list of grantless operations](https://developer-docs.amazon.com/sp-api/docs/grantless-operations). A grantless operation needs another access token than other operations and as such a grantless token is NOT the `access_token` you can provide in the constructor config object. However if the `auto_request_tokens` option is set to `true` the client should handle everything for you.
 
-If you do the token request manually you need to create a grantless token by calling `refreshAccessToken` with the scope of the corresponding endpoint. Currently there are only two different scopes: `sellingpartnerapi::migration` for authorization endpoint and `sellingpartnerapi::notifications` for notifications endpoint.
+If you do the token request manually you need to create a grantless token by calling `refreshAccessToken` with the scope of the corresponding endpoint. Currently there are only two different scopes: `sellingpartnerapi::notifications` for notifications endpoint and `sellingpartnerapi::client_credential:rotation` for application management endpoint.
 
-If you don't need or have a refresh token (i.e. because you want to retrieve an SP API authorization code of an already via MWS authorized seller) you may use the client with the `only_grantless_operations` option set to `true` which allows you to create an instance of the client without a `refresh_token`.
+If you don't need or have a refresh token you may use the client with the `only_grantless_operations` option set to `true` which allows you to create an instance of the client without a `refresh_token`.
 
-To sum up, please see the following example that will request an auth code for an authorized MWS seller account.
+To sum up, please see the following example that will return the destinations for your notifications.
 
 First create a class instance that only allows to call grantless operations (no `refresh_token` included):
 
@@ -543,20 +543,15 @@ const spClient = new SellingPartner({
 Then request a grantless token with the scope needed for the operation you want to call:
 
 ```javascript
-await spClient.refreshAccessToken("sellingpartnerapi::migration");
+await spClient.refreshAccessToken("sellingpartnerapi::notifications");
 ```
 
 Finally call the grantless operation:
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "getAuthorizationCode",
-  endpoint: "authorization",
-  query: {
-    sellingPartnerId: "<YOUR_CUSTOMERS_SELLER_ID>",
-    developerId: "<YOUR_DEVELOPER_ID>",
-    mwsAuthToken: "<YOUR_CUSTOMERS_MWS_TOKEN>"
-  }
+  operation: "getDestinations",
+  endpoint: "notifications"
 });
 ```
 

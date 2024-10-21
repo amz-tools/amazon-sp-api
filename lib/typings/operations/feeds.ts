@@ -1,4 +1,12 @@
-import type { BaseResponse, ProcessingStatus } from "../baseTypes";
+import type { BaseResponse } from "../baseTypes";
+
+enum ProcessingStatus {
+  InQueue = "IN_QUEUE",
+  InProgress = "IN_PROGRESS",
+  Done = "DONE",
+  Cancelled = "CANCELLED",
+  Fatal = "FATAL"
+}
 
 export interface GetFeedsQuery {
   feedTypes?: string[];
@@ -38,9 +46,7 @@ interface FeedOptions {
 }
 
 export interface CreateFeedResponse extends BaseResponse {
-  payload?: {
-    feedId: string;
-  };
+  feedId: string;
 }
 
 export interface GetFeedPath {
@@ -78,6 +84,6 @@ export interface GetFeedDocumentResponse extends BaseResponse {
   payload?: FeedDocument;
 }
 
-interface FeedDocument extends CreateFeedDocumentResult {
+export interface FeedDocument extends CreateFeedDocumentResult {
   compressionAlgorithm?: "GZIP";
 }

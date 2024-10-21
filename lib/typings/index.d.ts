@@ -29,7 +29,7 @@ import {
   GetFeedsQuery,
   GetFeedsResponse
 } from "./operations/feeds";
-import { Config, DownloadOptions } from "./baseTypes";
+import { Config, DownloadDocument, DownloadOptions, Scope } from "./baseTypes";
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
@@ -45,8 +45,6 @@ import {
   EstimateTransportResponse,
   GetBillOfLadingPath,
   GetBillOfLadingResponse,
-  GetInboundGuidanceQuery,
-  GetInboundGuidanceResponse,
   GetLabelsPath,
   GetLabelsQuery,
   GetLabelsResponse,
@@ -82,25 +80,6 @@ import {
   GetReportResponse,
   ReportDocument
 } from "./operations/reports";
-import {
-  DeleteSmallAndLightEnrollmentBySellerSKUPath,
-  DeleteSmallAndLightEnrollmentBySellerSKUQuery,
-  GetSmallAndLightEligibilityBySellerSKUPath,
-  GetSmallAndLightEligibilityBySellerSKUQuery,
-  GetSmallAndLightEligibilityBySellerSKUResponse,
-  GetSmallAndLightEnrollmentBySellerSKUPath,
-  GetSmallAndLightEnrollmentBySellerSKUQuery,
-  GetSmallAndLightEnrollmentBySellerSKUResponse,
-  GetSmallAndLightFeePreviewBody,
-  GetSmallAndLightFeePreviewResponse,
-  PutSmallAndLightEnrollmentBySellerSKUPath,
-  PutSmallAndLightEnrollmentBySellerSKUQuery,
-  PutSmallAndLightEnrollmentBySellerSKUResponse
-} from "./operations/fbaSmallAndLight";
-import {
-  GetAuthorizationCodeQuery,
-  GetAuthorizationCodeResponse
-} from "./operations/authorization";
 import {
   GetCatalogItemPath,
   GetCatalogItemQuery,
@@ -147,7 +126,7 @@ declare module "amazon-sp-api" {
   export class SellingPartner {
     constructor(config: Config);
 
-    refreshAccessToken(): Promise<void>;
+    refreshAccessToken(scope?: Scope): Promise<void>;
 
     exchange(auth_code: string): Promise<any>;
 
@@ -158,7 +137,7 @@ declare module "amazon-sp-api" {
     ): Promise<ObjectType<TOperation>>;
 
     download<T extends ReportDocumentType>(
-      details: ReportDocument,
+      details: DownloadDocument,
       options?: DownloadOptions
     ): T;
 
@@ -172,18 +151,21 @@ declare module "amazon-sp-api" {
         contentType?: string;
       }
     ): T;
+
+    downloadReport<T extends ReportDocumentType>(body: {
+      body: CreateReportBody;
+      version?: string;
+      interval?: number;
+      cancel_after?: number;
+      download?: DownloadOptions;
+    }): T;
   }
 
   type Operation =
-    | "getAuthorizationCode"
     | "getCatalogItem"
     | "listCatalogCategories"
     | "getItemEligibilityPreview"
     | "getInventorySummaries"
-    | "getSmallAndLightEnrollmentBySellerSKU"
-    | "putSmallAndLightEnrollmentBySellerSKU"
-    | "getSmallAndLightEligibilityBySellerSKU"
-    | "getSmallAndLightFeePreview"
     | "getFeeds"
     | "createFeed"
     | "getFeed"
@@ -194,7 +176,6 @@ declare module "amazon-sp-api" {
     | "listFinancialEventsByGroupId"
     | "listFinancialEventsByOrderId"
     | "listFinancialEvents"
-    | "getInboundGuidance"
     | "updateInboundShipment"
     | "createInboundShipment"
     | "getPreorderInfo"
@@ -224,9 +205,7 @@ declare module "amazon-sp-api" {
     | "getMarketplaceParticipations"
     | string;
 
-  type ObjectType<TOperation> = TOperation extends "getAuthorizationCode"
-    ? GetAuthorizationCodeResponse
-    : TOperation extends "getCatalogItem"
+  type ObjectType<TOperation> = TOperation extends "getCatalogItem"
     ? GetCatalogItemResponse
     : TOperation extends "listCatalogCategories"
     ? ListCatalogCategoriesResponse
@@ -234,14 +213,6 @@ declare module "amazon-sp-api" {
     ? GetItemEligibilityPreviewResponse
     : TOperation extends "getInventorySummaries"
     ? GetInventorySummariesResponse
-    : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
-    ? GetSmallAndLightEnrollmentBySellerSKUResponse
-    : TOperation extends "putSmallAndLightEnrollmentBySellerSKU"
-    ? PutSmallAndLightEnrollmentBySellerSKUResponse
-    : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
-    ? GetSmallAndLightEligibilityBySellerSKUResponse
-    : TOperation extends "getSmallAndLightFeePreview"
-    ? GetSmallAndLightFeePreviewResponse
     : TOperation extends "getFeeds"
     ? GetFeedsResponse
     : TOperation extends "createFeed"
@@ -262,8 +233,6 @@ declare module "amazon-sp-api" {
     ? ListFinancialEventsByOrderIdResponse
     : TOperation extends "listFinancialEvents"
     ? ListFinancialEventsResponse
-    : TOperation extends "getInboundGuidance"
-    ? GetInboundGuidanceResponse
     : TOperation extends "updateInboundShipment"
     ? UpdateInboundShipmentResponse
     : TOperation extends "createInboundShipment"
@@ -326,9 +295,7 @@ declare module "amazon-sp-api" {
     : any;
 
   type QueryType<TOperation extends Operation> =
-    TOperation extends "getAuthorizationCode"
-      ? GetAuthorizationCodeQuery
-      : TOperation extends "getCatalogItem"
+    TOperation extends "getCatalogItem"
       ? GetCatalogItemQuery
       : TOperation extends "listCatalogCategories"
       ? ListCatalogCategoriesQuery
@@ -336,14 +303,6 @@ declare module "amazon-sp-api" {
       ? GetItemEligibilityPreviewQuery
       : TOperation extends "getInventorySummaries"
       ? GetInventorySummariesQuery
-      : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
-      ? GetSmallAndLightEnrollmentBySellerSKUQuery
-      : TOperation extends "putSmallAndLightEnrollmentBySellerSKU"
-      ? PutSmallAndLightEnrollmentBySellerSKUQuery
-      : TOperation extends "deleteSmallAndLightEnrollmentBySellerSKU"
-      ? DeleteSmallAndLightEnrollmentBySellerSKUQuery
-      : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
-      ? GetSmallAndLightEligibilityBySellerSKUQuery
       : TOperation extends "getFeeds"
       ? GetFeedsQuery
       : TOperation extends "listFinancialEventGroups"
@@ -354,8 +313,6 @@ declare module "amazon-sp-api" {
       ? ListFinancialEventsByOrderIdQuery
       : TOperation extends "listFinancialEvents"
       ? ListFinancialEventsQuery
-      : TOperation extends "getInboundGuidance"
-      ? GetInboundGuidanceQuery
       : TOperation extends "getPreorderInfo"
       ? GetPreorderInfoQuery
       : TOperation extends "confirmPreorder"
@@ -388,14 +345,6 @@ declare module "amazon-sp-api" {
   type PathType<TOperation extends Operation> =
     TOperation extends "getCatalogItem"
       ? GetCatalogItemPath
-      : TOperation extends "getSmallAndLightEnrollmentBySellerSKU"
-      ? GetSmallAndLightEnrollmentBySellerSKUPath
-      : TOperation extends "putSmallAndLightEnrollmentBySellerSKU"
-      ? PutSmallAndLightEnrollmentBySellerSKUPath
-      : TOperation extends "deleteSmallAndLightEnrollmentBySellerSKU"
-      ? DeleteSmallAndLightEnrollmentBySellerSKUPath
-      : TOperation extends "getSmallAndLightEligibilityBySellerSKU"
-      ? GetSmallAndLightEligibilityBySellerSKUPath
       : TOperation extends "getFeed"
       ? GetFeedPath
       : TOperation extends "cancelFeed"
@@ -451,26 +400,23 @@ declare module "amazon-sp-api" {
       ? GetItemOffersPath
       : any;
 
-  type BodyType<TOperation extends Operation> =
-    TOperation extends "getSmallAndLightFeePreview"
-      ? GetSmallAndLightFeePreviewBody
-      : TOperation extends "createFeed"
-      ? CreateFeedBody
-      : TOperation extends "createFeedDocument"
-      ? CreateFeedDocumentBody
-      : TOperation extends "createInboundShipmentPlan"
-      ? CreateInboundShipmentPlanBody
-      : TOperation extends "updateInboundShipment"
-      ? UpdateInboundShipmentBody
-      : TOperation extends "createInboundShipment"
-      ? CreateInboundShipmentBody
-      : TOperation extends "createReport"
-      ? CreateReportBody
-      : TOperation extends "putTransportDetails"
-      ? PutTransportDetailsBody
-      : TOperation extends "createRestrictedDataToken"
-      ? CreateRestrictedDataTokenBody
-      : any;
+  type BodyType<TOperation extends Operation> = TOperation extends "createFeed"
+    ? CreateFeedBody
+    : TOperation extends "createFeedDocument"
+    ? CreateFeedDocumentBody
+    : TOperation extends "createInboundShipmentPlan"
+    ? CreateInboundShipmentPlanBody
+    : TOperation extends "updateInboundShipment"
+    ? UpdateInboundShipmentBody
+    : TOperation extends "createInboundShipment"
+    ? CreateInboundShipmentBody
+    : TOperation extends "createReport"
+    ? CreateReportBody
+    : TOperation extends "putTransportDetails"
+    ? PutTransportDetailsBody
+    : TOperation extends "createRestrictedDataToken"
+    ? CreateRestrictedDataTokenBody
+    : any;
 
   type ReqOptions = IReqOptions;
 
@@ -484,6 +430,7 @@ declare module "amazon-sp-api" {
     options?: ReqOptions;
     api_path?: string;
     method?: HttpMethod;
+    scope?: Scope;
   }
 
   type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';

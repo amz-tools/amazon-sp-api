@@ -35,16 +35,26 @@ export interface Pagination {
   nextToken?: string;
 }
 
+export interface DownloadDocument {
+  url: string;
+  compressionAlgorithm?: string;
+  reportDocumentId?: string;
+}
+
+export interface Timeouts {
+  response?: number;
+  idle?: number;
+  deadline?: number;
+}
+
 export interface DownloadOptions {
   json?: boolean;
   unzip?: boolean;
   file?: string;
+  charset?: string;
+  timeouts?: Timeouts;
 }
 
-export enum ProcessingStatus {
-  InQueue = "IN_QUEUE",
-  InProgress = "IN_PROGRESS",
-  Done = "DONE",
-  Cancelled = "CANCELLED",
-  Fatal = "FATAL"
-}
+export type Scope =
+  | "sellingpartnerapi::notifications"
+  | "sellingpartnerapi::client_credential:rotation";
