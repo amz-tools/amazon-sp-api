@@ -175,13 +175,12 @@ type RegulatoryComplianceReportType =
   | "GET_EPR_QUARTERLY_REPORTS"
   | "GET_EPR_ANNUAL_REPORTS";
 
-enum ProcessingStatus {
-  InQueue = "IN_QUEUE",
-  InProgress = "IN_PROGRESS",
-  Done = "DONE",
-  Cancelled = "CANCELLED",
-  Fatal = "FATAL"
-}
+export type ProcessingStatus =
+  | "IN_QUEUE"
+  | "IN_PROGRESS"
+  | "DONE"
+  | "CANCELLED"
+  | "FATAL";
 
 export type ReportType =
   | AnalyticsReportType
