@@ -41,16 +41,18 @@ export interface DownloadDocument {
   reportDocumentId?: string;
 }
 
+export interface Timeouts {
+  response?: number;
+  idle?: number;
+  deadline?: number;
+}
+
 export interface DownloadOptions {
   json?: boolean;
   unzip?: boolean;
   file?: string;
   charset?: string;
-  timeouts?: {
-    response?: number;
-    idle?: number;
-    deadline?: number;
-  };
+  timeouts?: Timeouts;
 }
 
 export type Scope =
