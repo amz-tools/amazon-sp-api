@@ -428,8 +428,6 @@ declare module "amazon-sp-api" {
     query?: QueryType<TOperation>;
     body?: BodyType<TOperation>;
     options?: ReqOptions;
-    api_path?: string;
-    method?: HttpMethod;
     scope?: Scope;
   }
 
