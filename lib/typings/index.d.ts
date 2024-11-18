@@ -429,6 +429,8 @@ declare module "amazon-sp-api" {
     body?: BodyType<TOperation>;
     options?: ReqOptions;
     scope?: Scope;
+    api_path?: string;
+    method?: HttpMethod;
   }
 
   type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
