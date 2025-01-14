@@ -1,6 +1,7 @@
 import * as chai from "chai";
 const expect = chai.expect;
 import moment from "moment";
+import { report } from "process";
 
 const endpoint = "reports";
 
@@ -20,6 +21,78 @@ describe(endpoint, async function () {
         cancel_after: 1
       });
     } catch (e) {
+      expect(e).to.be.an("error");
+      expect(e.code).to.equal("REPORT_PROCESSING_CANCELLED_MANUALLY");
+    }
+  });
+
+  it("should (by stream api) return downloaded the content of open listings inventory report document", async function () {
+    this.timeout(100000);
+    try {
+      const req_params = {
+        body: {
+          reportType: "GET_FLAT_FILE_OPEN_LISTINGS_DATA",
+          marketplaceIds: [this.config.marketplace_id]
+        },
+        cancel_after: 3,
+        interval: 10000
+      };
+      const {reportId: report_id} = await this.sellingPartner.callAPI({
+        operation: "reports.createReport",
+        body: req_params.body,
+        options: {
+          ...(req_params.version ? { version: req_params.version } : {})
+        }
+      });
+      console.log("created the report", report_id);
+      // wait a sensitive amount of time for report to be ready
+      await new Promise((s,r)=> setTimeout(()=>s(1),60000));
+      // try 3 times, until success or failure
+      let report_document_id = await (async () => {
+        let report_doc_id = 0;
+        let tries = 0;
+        while(!report_doc_id || tries<3) {
+          const res = await this.sellingPartner.callAPI({
+            operation: "reports.getReport",
+            path: {
+              reportId: report_id
+            },
+            options: {
+              ...(req_params.version ? { version: req_params.version } : {})
+            }
+          });
+          if (res.processingStatus === "DONE") {
+            return res.reportDocumentId;
+          }
+          await new Promise((s,r)=> setTimeout(()=>s(1),10000));
+        }
+      })();
+      const report_document = await this.sellingPartner.callAPI({
+        operation: "reports.getReportDocument",
+        path: {
+          reportDocumentId: report_document_id
+        },
+        options: {
+          ...(req_params.version ? { version: req_params.version } : {})
+        }
+      });
+      const docStream = await this.sellingPartner.downloadStream(report_document);
+      // expect(res).to.be.a("array");
+      let data = "";
+      docStream.on('data', (chunk) => {
+        if (data.length <1000) {
+          data += chunk.toString();
+        }
+      });
+      await new Promise((resolve, reject)=> {
+        docStream.on('end', () => {
+          expect(data).to.contain('Price');
+          expect(data).to.contain('sku');
+          resolve();
+        })
+      })
+    } catch(e) {
+      console.log("ERROR DURRRRRING STREAM", e);
       expect(e).to.be.an("error");
       expect(e.code).to.equal("REPORT_PROCESSING_CANCELLED_MANUALLY");
     }
