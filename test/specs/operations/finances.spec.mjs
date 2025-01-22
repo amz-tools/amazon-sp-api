@@ -71,4 +71,16 @@ describe(endpoint, async function () {
     expect(res).to.be.a("object");
     expect(res.FinancialEvents).to.be.a("object");
   });
+
+  it("should return transaction events for date range", async function () {
+    let res = await this.sellingPartner.callAPI({
+      operation: "listTransactions",
+      endpoint: endpoint,
+      query: {
+        postedAfter: moment().startOf("day").subtract(3, "days").toISOString()
+      }
+    });
+    expect(res).to.be.a("object");
+    expect(res.transactions).to.be.a("array");
+  });
 });
