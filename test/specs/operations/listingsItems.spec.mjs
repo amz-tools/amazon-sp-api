@@ -28,4 +28,23 @@ describe(endpoint, async function () {
       this.skip();
     }
   });
+  it("should return listings items", async function () {
+    if (this.config.seller_id) {
+      let res = await this.sellingPartner.callAPI({
+        operation: "searchListingsItems",
+        endpoint: endpoint,
+        path: {
+          sellerId: this.config.seller_id
+        },
+        query: {
+          marketplaceIds: this.config.marketplace_id
+        }
+      });
+      expect(res).to.be.a("object");
+      expect(res.numberOfResults).to.be.a("number");
+      expect(res.items).to.be.a("array");
+    } else {
+      this.skip();
+    }
+  });
 });
