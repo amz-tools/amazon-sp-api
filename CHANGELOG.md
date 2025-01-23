@@ -1,3 +1,30 @@
+## [v1.1.5](https://github.com/amz-tools/amazon-sp-api/tree/v1.1.5) (2025-01-23)
+
+[Full Changelog](https://github.com/amz-tools/amazon-sp-api/compare/v1.1.4...v1.1.5)
+
+**Notable changes:**
+
+- Added new endpoint version: finances (2024-06-19) with listTransactions operation
+- Added searchListingsItems operation to listingsItems (2021-08-01) endpoint
+- Added changelog
+- Added prettier formatting and reformatted all files
+
+**Commits:**
+
+- Added prettier to project and reformatted all files ([`0432e58`](https://github.com/amz-tools/amazon-sp-api/commit/0432e58e79e6fe49fbdeac9d433087ea552397e9))
+- Added changelog ([`0359bee`](https://github.com/amz-tools/amazon-sp-api/commit/0359beee1b0beb0115ac210dac25318df1aa3ad0))
+- Added test for searchListingsItems ([`0324499`](https://github.com/amz-tools/amazon-sp-api/commit/03244999f5a5e3117fa52df7bb92f4148aac0bf6))
+- Minor reformatting and test for listTransactions operation ([`954b547`](https://github.com/amz-tools/amazon-sp-api/commit/954b547946273c759974bccf47acf877e6c1631f))
+- fix tab ([`6b72598`](https://github.com/amz-tools/amazon-sp-api/commit/6b72598ae9373b78f78260e0c05b3419ab56a9fd))
+- listings items support searchListingsItems operation ([`87e9cb1`](https://github.com/amz-tools/amazon-sp-api/commit/87e9cb1552e6e72c4662ddb5bc92cd523f7f6e4b))
+- Add new version of finance api ([`0d2cb55`](https://github.com/amz-tools/amazon-sp-api/commit/0d2cb55d7267f29921698c64ff0ab955ac4964da))
+- Add new version of finance api ([`5a59634`](https://github.com/amz-tools/amazon-sp-api/commit/5a596342093de357e111d27df35446df0c105882))
+
+**Merged pull requests:**
+
+- listings items support searchListingsItems operation [\#305](https://github.com/amz-tools/amazon-sp-api/pull/305) ([altruer](https://github.com/altruer))
+- Patch finance api [\#303](https://github.com/amz-tools/amazon-sp-api/pull/303) ([brknesn](https://github.com/brknesn))
+
 ## [v1.1.4](https://github.com/amz-tools/amazon-sp-api/tree/v1.1.4) (2024-11-25)
 
 [Full Changelog](https://github.com/amz-tools/amazon-sp-api/compare/v1.1.3...v1.1.4)
