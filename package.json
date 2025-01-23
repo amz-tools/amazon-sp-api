@@ -29,19 +29,21 @@
     "qs": "^6.13.1"
   },
   "devDependencies": {
-    "@types/node": "^22.9.0",
     "@types/mocha": "^10.0.9",
+    "@types/node": "^22.9.0",
     "chai": "^5.1.2",
     "dotenv": "^16.4.5",
     "mocha": "^10.8.2",
-    "moment": "^2.30.1"
+    "moment": "^2.30.1",
+    "prettier": "^3.4.2"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:amz-tools/amazon-sp-api.git"
   },
   "scripts": {
-    "test": "mocha --config ./test/.mocharc.js"
+    "test": "mocha --config ./test/.mocharc.js",
+    "format": "npx prettier --write ."
   },
   "homepage": "https:/getarthy.com",
   "types": "./lib/typings/index.d.ts"

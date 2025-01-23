@@ -1,4 +1,4 @@
-import type { BaseResponse } from "../baseTypes";
+import type {BaseResponse} from '../baseTypes';
 
 export interface CreateRestrictedDataTokenBody {
   targetApplication?: string;
@@ -11,11 +11,7 @@ export interface RestrictedResource {
   dataElements?: string[];
 }
 
-type Method =
-  | "GET"
-  | "PUT"
-  | "POST"
-  | "DELETE";
+type Method = 'GET' | 'PUT' | 'POST' | 'DELETE';
 
 export interface CreateRestrictedDataTokenResponse extends BaseResponse {
   restrictedDataToken?: string;

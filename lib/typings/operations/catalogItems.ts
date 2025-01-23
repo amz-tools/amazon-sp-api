@@ -1,4 +1,4 @@
-import type { BaseResponse } from "../baseTypes";
+import type {BaseResponse} from '../baseTypes';
 
 export interface GetCatalogItemQuery {
   includedData?: string;

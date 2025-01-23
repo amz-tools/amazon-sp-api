@@ -1,13 +1,13 @@
-import * as chai from "chai";
+import * as chai from 'chai';
 const expect = chai.expect;
 
-const endpoint = "listingsRestrictions";
+const endpoint = 'listingsRestrictions';
 
 describe(endpoint, async function () {
-  it("should return an array of restrictions", async function () {
+  it('should return an array of restrictions', async function () {
     if (this.config.seller_id) {
       let res = await this.sellingPartner.callAPI({
-        operation: "getListingsRestrictions",
+        operation: 'getListingsRestrictions',
         endpoint: endpoint,
         query: {
           sellerId: this.config.seller_id,
@@ -15,8 +15,8 @@ describe(endpoint, async function () {
           marketplaceIds: this.config.marketplace_id
         }
       });
-      expect(res).to.be.a("object");
-      expect(res.restrictions).to.be.a("array");
+      expect(res).to.be.a('object');
+      expect(res.restrictions).to.be.a('array');
     } else {
       this.skip();
     }

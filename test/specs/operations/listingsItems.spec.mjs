@@ -1,15 +1,15 @@
-import * as chai from "chai";
+import * as chai from 'chai';
 const expect = chai.expect;
 
-const endpoint = "listingsItems";
+const endpoint = 'listingsItems';
 
 describe(endpoint, async function () {
-  it("should return a not found error for special chars sku", async function () {
+  it('should return a not found error for special chars sku', async function () {
     if (this.config.seller_id) {
-      let sku = "#+ =,?~_-|/!*?()";
+      let sku = '#+ =,?~_-|/!*?()';
       try {
         let res = await this.sellingPartner.callAPI({
-          operation: "getListingsItem",
+          operation: 'getListingsItem',
           endpoint: endpoint,
           path: {
             sellerId: this.config.seller_id,
@@ -20,18 +20,18 @@ describe(endpoint, async function () {
           }
         });
       } catch (e) {
-        expect(e).to.be.an("error");
-        expect(e.code).to.equal("NOT_FOUND");
+        expect(e).to.be.an('error');
+        expect(e.code).to.equal('NOT_FOUND');
         expect(e.message).to.include(sku);
       }
     } else {
       this.skip();
     }
   });
-  it("should return listings items", async function () {
+  it('should return listings items', async function () {
     if (this.config.seller_id) {
       let res = await this.sellingPartner.callAPI({
-        operation: "searchListingsItems",
+        operation: 'searchListingsItems',
         endpoint: endpoint,
         path: {
           sellerId: this.config.seller_id
@@ -40,9 +40,9 @@ describe(endpoint, async function () {
           marketplaceIds: this.config.marketplace_id
         }
       });
-      expect(res).to.be.a("object");
-      expect(res.numberOfResults).to.be.a("number");
-      expect(res.items).to.be.a("array");
+      expect(res).to.be.a('object');
+      expect(res.numberOfResults).to.be.a('number');
+      expect(res.items).to.be.a('array');
     } else {
       this.skip();
     }

@@ -1,11 +1,11 @@
-import type { BaseResponse } from "../baseTypes";
+import type {BaseResponse} from '../baseTypes';
 
 enum ProcessingStatus {
-  InQueue = "IN_QUEUE",
-  InProgress = "IN_PROGRESS",
-  Done = "DONE",
-  Cancelled = "CANCELLED",
-  Fatal = "FATAL"
+  InQueue = 'IN_QUEUE',
+  InProgress = 'IN_PROGRESS',
+  Done = 'DONE',
+  Cancelled = 'CANCELLED',
+  Fatal = 'FATAL'
 }
 
 export interface GetFeedsQuery {
@@ -85,5 +85,5 @@ export interface GetFeedDocumentResponse extends BaseResponse {
 }
 
 export interface FeedDocument extends CreateFeedDocumentResult {
-  compressionAlgorithm?: "GZIP";
+  compressionAlgorithm?: 'GZIP';
 }

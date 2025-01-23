@@ -1,4 +1,4 @@
-import type { BaseResponse } from "../baseTypes";
+import type {BaseResponse} from '../baseTypes';
 
 export interface GetOrdersQuery {
   CreatedAfter?: string;
@@ -72,27 +72,22 @@ export interface GetOrdersResponse extends BaseResponse {
   payload?: OrdersList;
 }
 
-export type DeemedResellerCategory = "IOSS" | "UOSS";
-export type FulfillmentChannel = "MFN" | "AFN";
-export type ResponsibleParty = "Amazon Services, Inc.";
-export type AddressType = "Residential" | "Commercial";
-export type paymentMethod = "COD" | "CVS" | "Other";
-export type Model = "MarketplaceFacilitator";
-export type OrderType =
-  | "StandardOrder"
-  | "LongLeadTimeOrder"
-  | "Preorder"
-  | "BackOrder"
-  | "SourcingOnDemandOrder";
+export type DeemedResellerCategory = 'IOSS' | 'UOSS';
+export type FulfillmentChannel = 'MFN' | 'AFN';
+export type ResponsibleParty = 'Amazon Services, Inc.';
+export type AddressType = 'Residential' | 'Commercial';
+export type paymentMethod = 'COD' | 'CVS' | 'Other';
+export type Model = 'MarketplaceFacilitator';
+export type OrderType = 'StandardOrder' | 'LongLeadTimeOrder' | 'Preorder' | 'BackOrder' | 'SourcingOnDemandOrder';
 export type OrderStatus =
-  | "Pending"
-  | "Unshipped"
-  | "PartialShipped"
-  | "Shipped"
-  | "Canceled"
-  | "Unfulfillable"
-  | "InvoiceUnconfirmed"
-  | "PendingAvailability";
+  | 'Pending'
+  | 'Unshipped'
+  | 'PartialShipped'
+  | 'Shipped'
+  | 'Canceled'
+  | 'Unfulfillable'
+  | 'InvoiceUnconfirmed'
+  | 'PendingAvailability';
 
 export interface FulfillmentInstruction {
   FulfillmentSupplySourceId?: string;

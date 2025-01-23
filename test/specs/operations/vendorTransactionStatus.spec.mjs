@@ -1,7 +1,7 @@
-import * as chai from "chai";
+import * as chai from 'chai';
 const expect = chai.expect;
 
-const endpoint = "vendorTransactionStatus";
+const endpoint = 'vendorTransactionStatus';
 
 describe(endpoint, async function () {
   // TODO: Define tests

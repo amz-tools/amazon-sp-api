@@ -1,4 +1,4 @@
-import type { BaseResponse } from "../baseTypes";
+import type {BaseResponse} from '../baseTypes';
 
 export interface CreateInboundShipmentPlanBody {
   ShipFromAddress: Address;
@@ -28,8 +28,7 @@ export interface UpdateInboundShipmentResponse extends BaseResponse {
 
 export interface CreateInboundShipmentPath extends BasePath {}
 
-export interface CreateInboundShipmentResponse
-  extends UpdateInboundShipmentResponse {}
+export interface CreateInboundShipmentResponse extends UpdateInboundShipmentResponse {}
 
 export interface GetPreorderInfoPath extends BasePath {}
 
@@ -97,33 +96,27 @@ interface ASINPrepInstructions {
   PrepInstructionList?: PrepInstruction[];
 }
 
-type BarcodeInstruction =
-  | "RequiresFNSKULabel"
-  | "CanUseOriginalBarcode"
-  | "MustProvideSellerSKU";
-type PrepGuidance =
-  | "ConsultHelpDocuments"
-  | "NoAdditionalPrepRequired"
-  | "SeePrepInstructionsList";
+type BarcodeInstruction = 'RequiresFNSKULabel' | 'CanUseOriginalBarcode' | 'MustProvideSellerSKU';
+type PrepGuidance = 'ConsultHelpDocuments' | 'NoAdditionalPrepRequired' | 'SeePrepInstructionsList';
 
 type SellerFreightClass =
-  | "50"
-  | "55"
-  | "60"
-  | "65"
-  | "77.5"
-  | "85"
-  | "92.5"
-  | "100"
-  | "110"
-  | "125"
-  | "150"
-  | "175"
-  | "200"
-  | "250"
-  | "300"
-  | "400"
-  | "500";
+  | '50'
+  | '55'
+  | '60'
+  | '65'
+  | '77.5'
+  | '85'
+  | '92.5'
+  | '100'
+  | '110'
+  | '125'
+  | '150'
+  | '175'
+  | '200'
+  | '250'
+  | '300'
+  | '400'
+  | '500';
 
 interface ConfirmPreorderResult {
   ConfirmedNeedByDate?: string;
@@ -137,7 +130,7 @@ interface GetPreorderInfoResult {
   ConfirmedFulfillableDate?: string;
 }
 
-type ErrorReason = "DoesNotExist" | "InvalidASIN";
+type ErrorReason = 'DoesNotExist' | 'InvalidASIN';
 
 interface InvalidSKU {
   SellerSKU?: string;
@@ -160,10 +153,7 @@ interface Address {
   PostalCode: string;
 }
 
-type LabelPrepPreference =
-  | "SELLER_LABEL"
-  | "AMAZON_LABEL_ONLY"
-  | "AMAZON_LABEL_PREFERRED";
+type LabelPrepPreference = 'SELLER_LABEL' | 'AMAZON_LABEL_ONLY' | 'AMAZON_LABEL_PREFERRED';
 
 interface InboundShipmentPlanRequestItem {
   SellerSKU: string;
@@ -175,39 +165,33 @@ interface InboundShipmentPlanRequestItem {
 }
 
 type Condition =
-  | "NewItem"
-  | "NewWithWarranty"
-  | "NewOEM"
-  | "NewOpenBox"
-  | "UsedLikeNew"
-  | "UsedVeryGood"
-  | "UsedGood"
-  | "UsedAcceptable"
-  | "UsedPoor"
-  | "UsedRefurbished"
-  | "CollectibleLikeNew"
-  | "CollectibleVeryGood"
-  | "CollectibleGood"
-  | "CollectibleAcceptable"
-  | "CollectiblePoor"
-  | "RefurbishedWithWarranty"
-  | "Refurbished"
-  | "Club";
+  | 'NewItem'
+  | 'NewWithWarranty'
+  | 'NewOEM'
+  | 'NewOpenBox'
+  | 'UsedLikeNew'
+  | 'UsedVeryGood'
+  | 'UsedGood'
+  | 'UsedAcceptable'
+  | 'UsedPoor'
+  | 'UsedRefurbished'
+  | 'CollectibleLikeNew'
+  | 'CollectibleVeryGood'
+  | 'CollectibleGood'
+  | 'CollectibleAcceptable'
+  | 'CollectiblePoor'
+  | 'RefurbishedWithWarranty'
+  | 'Refurbished'
+  | 'Club';
 
 interface PrepDetails {
   PrepInstruction: PrepInstruction;
   PrepOwner: PrepOwner;
 }
 
-type PrepInstruction =
-  | "Polybagging"
-  | "BubbleWrapping"
-  | "Taping"
-  | "BlackShrinkWrapping"
-  | "Labeling"
-  | "HangGarment";
+type PrepInstruction = 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment';
 
-type PrepOwner = "AMAZON" | "SELLER";
+type PrepOwner = 'AMAZON' | 'SELLER';
 
 interface InboundShipmentPlan {
   ShipmentId: string;
@@ -218,7 +202,7 @@ interface InboundShipmentPlan {
   EstimatedBoxContentsFee?: BoxContentsFeeDetails;
 }
 
-type LabelPrepType = "NO_LABEL" | "SELER_LABEL" | "AMAZON_LABEL";
+type LabelPrepType = 'NO_LABEL' | 'SELER_LABEL' | 'AMAZON_LABEL';
 
 interface InboundShipmentPlanItem {
   SellerSKU: string;
@@ -234,7 +218,7 @@ interface BoxContentsFeeDetails {
 }
 
 interface Amount {
-  CurrencyCode: "USD" | "GBP";
+  CurrencyCode: 'USD' | 'GBP';
   Value: number;
 }
 
@@ -261,18 +245,18 @@ interface InboundShipmentHeader {
 }
 
 type ShipmentStatus =
-  | "WORKING"
-  | "SHIPPED"
-  | "RECEIVING"
-  | "CANCELLED"
-  | "DELETED"
-  | "CLOSED"
-  | "ERROR"
-  | "IN_TRANSIT"
-  | "DELIVERED"
-  | "CHECKED_IN";
+  | 'WORKING'
+  | 'SHIPPED'
+  | 'RECEIVING'
+  | 'CANCELLED'
+  | 'DELETED'
+  | 'CLOSED'
+  | 'ERROR'
+  | 'IN_TRANSIT'
+  | 'DELIVERED'
+  | 'CHECKED_IN';
 
-type IntendedBoxContentsSource = "NONE" | "FEED" | "2D_BARCODE";
+type IntendedBoxContentsSource = 'NONE' | 'FEED' | '2D_BARCODE';
 
 interface InboundShipmentItem {
   ShipmentId?: string;
@@ -293,7 +277,7 @@ export interface PutTransportDetailsBody {
   TransportDetails: TransportDetailInput;
 }
 
-type ShipmentType = "SP" | "LTL";
+type ShipmentType = 'SP' | 'LTL';
 
 interface TransportDetailInput {
   PartneredSmallParcelData?: PartneredSmallParcelDataInput;
@@ -343,14 +327,14 @@ interface Dimensions {
   Unit: UnitOfMeasurement;
 }
 
-type UnitOfMeasurement = "inches" | "centimeters";
+type UnitOfMeasurement = 'inches' | 'centimeters';
 
 interface Weight {
   Value: number;
   Unit: UnitOfWeight;
 }
 
-type UnitOfWeight = "pounds" | "kilograms";
+type UnitOfWeight = 'pounds' | 'kilograms';
 
 interface Contact {
   Name: string;
@@ -380,17 +364,17 @@ interface TransportResult {
 }
 
 type TransportStatus =
-  | "WORKING"
-  | "ESTIMATING"
-  | "ESTIMATED"
-  | "ERROR_ON_ESTIMATING"
-  | "CONFIRMING"
-  | "CONFIRMED"
-  | "ERROR_ON_CONFIRMING"
-  | "VOIDING"
-  | "VOIDED"
-  | "ERROR_IN_VOIDING"
-  | "ERROR";
+  | 'WORKING'
+  | 'ESTIMATING'
+  | 'ESTIMATED'
+  | 'ERROR_ON_ESTIMATING'
+  | 'CONFIRMING'
+  | 'CONFIRMED'
+  | 'ERROR_ON_CONFIRMING'
+  | 'VOIDING'
+  | 'VOIDED'
+  | 'ERROR_IN_VOIDING'
+  | 'ERROR';
 
 export interface GetTransportDetailsPath extends BasePath {}
 
@@ -474,14 +458,7 @@ interface NonPartneredLtlDataOutput {
   ProNumber: string;
 }
 
-type PackageStatus =
-  | "SHIPPED"
-  | "IN_TRANSIT"
-  | "DELIVERED"
-  | "CHECKED_IN"
-  | "RECEIVING"
-  | "CLOSED"
-  | "DELETED";
+type PackageStatus = 'SHIPPED' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN' | 'RECEIVING' | 'CLOSED' | 'DELETED';
 
 export interface VoidTransportPath extends BasePath {}
 
@@ -514,20 +491,20 @@ export interface GetLabelsQuery {
 }
 
 type PageType =
-  | "PackageLabel_Letter_2"
-  | "PackageLabel_Letter_4"
-  | "PackageLabel_Letter_6"
-  | "PackageLabel_Letter_6_CarrierLeft"
-  | "PackageLabel_A4_2"
-  | "PackageLabel_A4_4"
-  | "PackageLabel_Plain_Paper"
-  | "PackageLabel_Plain_Paper_CarrierBottom"
-  | "PackageLabel_Thermal"
-  | "PackageLabel_Thermal_Unified"
-  | "PackageLabel_Thermal_NonPCP"
-  | "PackageLabel_Thermal_No_Carrier_Rotation";
+  | 'PackageLabel_Letter_2'
+  | 'PackageLabel_Letter_4'
+  | 'PackageLabel_Letter_6'
+  | 'PackageLabel_Letter_6_CarrierLeft'
+  | 'PackageLabel_A4_2'
+  | 'PackageLabel_A4_4'
+  | 'PackageLabel_Plain_Paper'
+  | 'PackageLabel_Plain_Paper_CarrierBottom'
+  | 'PackageLabel_Thermal'
+  | 'PackageLabel_Thermal_Unified'
+  | 'PackageLabel_Thermal_NonPCP'
+  | 'PackageLabel_Thermal_No_Carrier_Rotation';
 
-type LabelType = "BARCODE_2D" | "UNIQUE" | "PALLET";
+type LabelType = 'BARCODE_2D' | 'UNIQUE' | 'PALLET';
 
 export interface GetLabelsResponse extends BaseResponse {
   payload?: LabelDownloadURL;
@@ -562,18 +539,18 @@ export interface GetShipmentsResponse extends BaseResponse {
 }
 
 type ShipmentStatusList =
-  | "WORKING"
-  | "SHIPPED"
-  | "RECEIVING"
-  | "CANCELLED"
-  | "DELETED"
-  | "CLOSED"
-  | "ERROR"
-  | "IN_TRANSIT"
-  | "DELIVERED"
-  | "CHECKED_IN";
+  | 'WORKING'
+  | 'SHIPPED'
+  | 'RECEIVING'
+  | 'CANCELLED'
+  | 'DELETED'
+  | 'CLOSED'
+  | 'ERROR'
+  | 'IN_TRANSIT'
+  | 'DELIVERED'
+  | 'CHECKED_IN';
 
-type GetShipmentsQueryType = "SHIPMENT" | "DATE_RANGE" | "NEXT_TOKEN";
+type GetShipmentsQueryType = 'SHIPMENT' | 'DATE_RANGE' | 'NEXT_TOKEN';
 
 interface GetShipmentsResult {
   ShipmentData?: InboundShipmentInfo[];
@@ -593,7 +570,7 @@ interface InboundShipmentInfo {
   EstimatedBoxContentsFee?: BoxContentsFeeDetails;
 }
 
-type BoxContentsSource = "NONE" | "FEED" | "2D_BARCODE" | "INTERACTIVE";
+type BoxContentsSource = 'NONE' | 'FEED' | '2D_BARCODE' | 'INTERACTIVE';
 
 interface BoxContentsFeeDetails {
   TotalUnits?: number;
@@ -628,4 +605,4 @@ export interface GetShipmentItemsResponse extends BaseResponse {
   payload?: GetShipmentItemsResult;
 }
 
-type GetShipmentItemsQueryType = "DATE_RANGE" | "NEXT_TOKEN";
+type GetShipmentItemsQueryType = 'DATE_RANGE' | 'NEXT_TOKEN';

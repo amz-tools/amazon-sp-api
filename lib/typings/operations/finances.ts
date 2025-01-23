@@ -1,4 +1,4 @@
-import type { BaseResponse } from "../baseTypes";
+import type {BaseResponse} from '../baseTypes';
 
 export interface ListFinancialEventGroupsQuery {
   MaxResultsPerPage?: number;
@@ -20,8 +20,7 @@ export interface ListFinancialEventGroupsByGroupIdPath {
   eventGroupId: string;
 }
 
-export interface ListFinancialEventGroupsByGroupIdResponse
-  extends BaseResponse {
+export interface ListFinancialEventGroupsByGroupIdResponse extends BaseResponse {
   payload?: ListFinancialEventsPayload;
 }
 
@@ -34,8 +33,7 @@ export interface ListFinancialEventsByOrderIdQuery {
   NextToken?: string;
 }
 
-export interface ListFinancialEventsByOrderIdResponse
-  extends ListFinancialEventGroupsByGroupIdResponse {}
+export interface ListFinancialEventsByOrderIdResponse extends ListFinancialEventGroupsByGroupIdResponse {}
 
 export interface ListFinancialEventsQuery {
   MaxResultsPerPage?: number;
@@ -44,8 +42,7 @@ export interface ListFinancialEventsQuery {
   NextToken?: string;
 }
 
-export interface ListFinancialEventsResponse
-  extends ListFinancialEventGroupsByGroupIdResponse {}
+export interface ListFinancialEventsResponse extends ListFinancialEventGroupsByGroupIdResponse {}
 
 export interface ListFinancialEventGroupsPayload {
   NextToken?: string;

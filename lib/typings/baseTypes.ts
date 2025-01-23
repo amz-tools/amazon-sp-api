@@ -23,7 +23,7 @@ interface Options {
 }
 
 export interface Config {
-  region: "eu" | "na" | "fe";
+  region: 'eu' | 'na' | 'fe';
   refresh_token?: string;
   endpoints_versions?: Record<string, string>;
   access_token?: string;
@@ -55,6 +55,4 @@ export interface DownloadOptions {
   timeouts?: Timeouts;
 }
 
-export type Scope =
-  | "sellingpartnerapi::notifications"
-  | "sellingpartnerapi::client_credential:rotation";
+export type Scope = 'sellingpartnerapi::notifications' | 'sellingpartnerapi::client_credential:rotation';

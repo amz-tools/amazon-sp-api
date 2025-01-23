@@ -1,21 +1,16 @@
-import type { BaseResponse } from "../baseTypes";
+import type {BaseResponse} from '../baseTypes';
 
 interface MoneyType {
   CurrencyCode: string;
   Amount: number;
 }
 
-type FulfillmentChannel = "Merchant" | "Amazon";
-type SubCondition = "acceptable" | "good" | "mint" | "new" | string;
-type ItemConditionType =
-  | "Used"
-  | "New"
-  | "Collectible"
-  | "Refurbished"
-  | "Club";
-type Condition = "used" | "new";
-type Status = "Success";
-type CustomerType = "Business" | "Customer";
+type FulfillmentChannel = 'Merchant' | 'Amazon';
+type SubCondition = 'acceptable' | 'good' | 'mint' | 'new' | string;
+type ItemConditionType = 'Used' | 'New' | 'Collectible' | 'Refurbished' | 'Club';
+type Condition = 'used' | 'new';
+type Status = 'Success';
+type CustomerType = 'Business' | 'Customer';
 
 interface SummaryOffers {
   condition: Condition;

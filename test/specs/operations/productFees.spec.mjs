@@ -1,13 +1,13 @@
-import * as chai from "chai";
+import * as chai from 'chai';
 const expect = chai.expect;
 
-const endpoint = "productFees";
+const endpoint = 'productFees';
 
 describe(endpoint, async function () {
-  it("should return estimated product fees for sku", async function () {
+  it('should return estimated product fees for sku', async function () {
     if (this.config.sku) {
       let res = await this.sellingPartner.callAPI({
-        operation: "getMyFeesEstimateForSKU",
+        operation: 'getMyFeesEstimateForSKU',
         endpoint: endpoint,
         path: {
           SellerSKU: this.config.sku
@@ -25,16 +25,16 @@ describe(endpoint, async function () {
           }
         }
       });
-      expect(res).to.be.a("object");
-      expect(res.FeesEstimateResult).to.be.a("object");
+      expect(res).to.be.a('object');
+      expect(res.FeesEstimateResult).to.be.a('object');
     } else {
       this.skip();
     }
   });
 
-  it("should return estimated product fees for asin", async function () {
+  it('should return estimated product fees for asin', async function () {
     let res = await this.sellingPartner.callAPI({
-      operation: "getMyFeesEstimateForASIN",
+      operation: 'getMyFeesEstimateForASIN',
       endpoint: endpoint,
       path: {
         Asin: this.config.asin
@@ -52,14 +52,14 @@ describe(endpoint, async function () {
         }
       }
     });
-    expect(res).to.be.a("object");
-    expect(res.FeesEstimateResult).to.be.a("object");
+    expect(res).to.be.a('object');
+    expect(res.FeesEstimateResult).to.be.a('object');
   });
 
-  it("should return estimated product fees for sku and asin", async function () {
+  it('should return estimated product fees for sku and asin', async function () {
     if (this.config.sku) {
       let res = await this.sellingPartner.callAPI({
-        operation: "getMyFeesEstimates",
+        operation: 'getMyFeesEstimates',
         endpoint: endpoint,
         body: [
           {
@@ -73,7 +73,7 @@ describe(endpoint, async function () {
                 }
               }
             },
-            IdType: "SellerSKU",
+            IdType: 'SellerSKU',
             IdValue: this.config.sku
           },
           {
@@ -87,12 +87,12 @@ describe(endpoint, async function () {
                 }
               }
             },
-            IdType: "ASIN",
+            IdType: 'ASIN',
             IdValue: this.config.sain
           }
         ]
       });
-      expect(res).to.be.a("array");
+      expect(res).to.be.a('array');
       expect(res).to.have.lengthOf(2);
     } else {
       this.skip();

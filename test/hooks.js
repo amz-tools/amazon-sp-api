@@ -1,5 +1,5 @@
-const config = require("./config");
-const SellingPartnerAPI = require("../index");
+const config = require('./config');
+const SellingPartnerAPI = require('../index');
 
 module.exports.mochaHooks = {
   beforeAll: async function () {
@@ -16,7 +16,7 @@ module.exports.mochaHooks = {
   },
 
   beforeEach: function (done) {
-    let skip_hook_titles = ["configErrors", "authorization", "notifications"];
+    let skip_hook_titles = ['configErrors', 'authorization', 'notifications'];
     if (!skip_hook_titles.includes(this.currentTest.parent.title)) {
       this.sellingPartner = new SellingPartnerAPI({
         region: config.region,
@@ -26,7 +26,7 @@ module.exports.mochaHooks = {
           auto_request_tokens: false
         },
         endpoints_versions: {
-          reports: "2021-06-30"
+          reports: '2021-06-30'
         }
       });
     }

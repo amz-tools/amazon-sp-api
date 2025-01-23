@@ -1,4 +1,4 @@
-import type { Timeouts } from "./baseTypes";
+import type {Timeouts} from './baseTypes';
 
 export interface IReqOptions {
   version?: string;

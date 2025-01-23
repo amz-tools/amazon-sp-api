@@ -1,6 +1,6 @@
-import type { BaseResponse } from "../baseTypes";
+import type {BaseResponse} from '../baseTypes';
 
-type GranularityType = "Marketplace";
+type GranularityType = 'Marketplace';
 
 export interface GetInventorySummariesQuery {
   details?: boolean;
@@ -60,10 +60,7 @@ export interface ResearchingQuantityEntry {
   quantity: number;
 }
 
-type Name =
-  | "researchingQuantityInShortTerm"
-  | "researchingQuantityInMidTerm"
-  | "researchingQuantityInLongTerm";
+type Name = 'researchingQuantityInShortTerm' | 'researchingQuantityInMidTerm' | 'researchingQuantityInLongTerm';
 
 export interface UnfulfillableQuantity {
   totalUnfulfillableQuantity?: number;

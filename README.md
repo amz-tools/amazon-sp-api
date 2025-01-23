@@ -79,10 +79,10 @@ Require library:
 
 ```javascript
 // commonjs
-const SellingPartner = require("amazon-sp-api");
+const SellingPartner = require('amazon-sp-api');
 
 // esm
-import { SellingPartner } from "amazon-sp-api";
+import {SellingPartner} from 'amazon-sp-api';
 ```
 
 Create client and call API:
@@ -91,12 +91,12 @@ Create client and call API:
 (async () => {
   try {
     const spClient = new SellingPartner({
-      region: "eu", // The region to use for the SP-API endpoints ("eu", "na" or "fe")
-      refresh_token: "<REFRESH_TOKEN>" // The refresh token of your app user
+      region: 'eu', // The region to use for the SP-API endpoints ("eu", "na" or "fe")
+      refresh_token: '<REFRESH_TOKEN>' // The refresh token of your app user
     });
     let res = await spClient.callAPI({
-      operation: "getMarketplaceParticipations",
-      endpoint: "sellers"
+      operation: 'getMarketplaceParticipations',
+      endpoint: 'sellers'
     });
     console.log(res);
   } catch (e) {
@@ -171,11 +171,11 @@ Valid properties of the config options:
 If you are behind a firewall and would like to use a proxy server then you can pass a custom proxy agent to the options object. See the following example:
 
 ```javascript
-const { HttpsProxyAgent } = require("hpagent");
-const agent = new HttpsProxyAgent({ proxy: "http://x.x.x.x:zzzz" });
+const {HttpsProxyAgent} = require('hpagent');
+const agent = new HttpsProxyAgent({proxy: 'http://x.x.x.x:zzzz'});
 const spClient = new SellingPartner({
-  region: "eu",
-  refresh_token: "<REFRESH_TOKEN>",
+  region: 'eu',
+  refresh_token: '<REFRESH_TOKEN>',
   options: {
     https_proxy_agent: agent
   }
@@ -192,12 +192,12 @@ Once you have obtained the authorization_code you can exchange it for a refresh 
 
 ```javascript
 const spClient = new SellingPartner({
-  region: "eu",
+  region: 'eu',
   options: {
     only_grantless_operations: true
   }
 });
-let res = await spClient.exchange("<SELLER_AUTHORIZATION_CODE>");
+let res = await spClient.exchange('<SELLER_AUTHORIZATION_CODE>');
 console.log(res.refresh_token);
 ```
 
@@ -211,8 +211,8 @@ Instead of having the client handle the `access_token` requests automatically, y
 
 ```javascript
 const spClient = new SellingPartner({
-  region: "eu",
-  refresh_token: "<REFRESH_TOKEN>",
+  region: 'eu',
+  refresh_token: '<REFRESH_TOKEN>',
   options: {
     auto_request_tokens: false
   }
@@ -226,8 +226,8 @@ If you want to use the same credentials for multiple instances you can retrieve 
 let access_token = spClient.access_token;
 
 const spClient = new SellingPartner({
-  region: "eu",
-  refresh_token: "<REFRESH_TOKEN>",
+  region: 'eu',
+  refresh_token: '<REFRESH_TOKEN>',
   access_token: access_token
 });
 ```
@@ -296,8 +296,8 @@ To call an operation of an API endpoint you pass in the operation and the endpoi
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "getMarketplaceParticipations",
-  endpoint: "sellers"
+  operation: 'getMarketplaceParticipations',
+  endpoint: 'sellers'
 });
 ```
 
@@ -305,7 +305,7 @@ Instead of using the endpoint property you may also prepend the endpoint to the 
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "sellers.getMarketplaceParticipations"
+  operation: 'sellers.getMarketplaceParticipations'
 });
 ```
 
@@ -313,48 +313,48 @@ Here are a few examples that use some more properties:
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "getOrderMetrics",
-  endpoint: "sales",
+  operation: 'getOrderMetrics',
+  endpoint: 'sales',
   query: {
-    marketplaceIds: ["A1PA6795UKMFR9"],
-    interval: "2020-10-01T00:00:00-07:00--2020-10-01T20:00:00-07:00",
-    granularity: "Hour"
+    marketplaceIds: ['A1PA6795UKMFR9'],
+    interval: '2020-10-01T00:00:00-07:00--2020-10-01T20:00:00-07:00',
+    granularity: 'Hour'
   }
 });
 ```
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "catalogItems.getCatalogItem",
+  operation: 'catalogItems.getCatalogItem',
   path: {
-    asin: "B084J4QQFT"
+    asin: 'B084J4QQFT'
   },
   query: {
-    marketplaceIds: ["A1PA6795UKMFR9"]
+    marketplaceIds: ['A1PA6795UKMFR9']
   },
   options: {
-    version: "2022-04-01"
+    version: '2022-04-01'
   }
 });
 ```
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "createReport",
-  endpoint: "reports",
+  operation: 'createReport',
+  endpoint: 'reports',
   body: {
-    reportType: "GET_FLAT_FILE_OPEN_LISTINGS_DATA",
-    marketplaceIds: ["A1PA6795UKMFR9"]
+    reportType: 'GET_FLAT_FILE_OPEN_LISTINGS_DATA',
+    marketplaceIds: ['A1PA6795UKMFR9']
   }
 });
 ```
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "finances.listFinancialEvents",
+  operation: 'finances.listFinancialEvents',
   query: {
-    PostedAfter: "2020-03-01T00:00:00-07:00",
-    PostedBefore: "2020-03-02T00:00:00-07:00"
+    PostedAfter: '2020-03-01T00:00:00-07:00',
+    PostedBefore: '2020-03-02T00:00:00-07:00'
   },
   options: {
     raw_result: true
@@ -365,15 +365,15 @@ let res = await spClient.callAPI({
 ```javascript
 try {
   let res = await spClient.callAPI({
-    operation: "getCompetitivePricing",
-    endpoint: "productPricing",
+    operation: 'getCompetitivePricing',
+    endpoint: 'productPricing',
     query: {
-      Asins: ["B00Z7T970I", "B01BHHE9VK"],
-      ItemType: "Asin",
-      MarketplaceId: "A1PA6795UKMFR9"
+      Asins: ['B00Z7T970I', 'B01BHHE9VK'],
+      ItemType: 'Asin',
+      MarketplaceId: 'A1PA6795UKMFR9'
     },
     options: {
-      version: "v0",
+      version: 'v0',
       raw_result: true,
       timeouts: {
         response: 5000,
@@ -384,21 +384,12 @@ try {
   });
 } catch (err) {
   if (err.code) {
-    if (err.code === "API_RESPONSE_TIMEOUT")
-      console.log(
-        "SP-API ERROR: response timeout: " + err.timeout + "ms exceeded.",
-        err.message
-      );
-    if (err.code === "API_IDLE_TIMEOUT")
-      console.log(
-        "SP-API ERROR: idle timeout: " + err.timeout + "ms exceeded.",
-        err.message
-      );
-    if (err.code === "API_DEADLINE_TIMEOUT")
-      console.log(
-        "SP-API ERROR: deadline timeout: " + err.timeout + "ms exceeded.",
-        err.message
-      );
+    if (err.code === 'API_RESPONSE_TIMEOUT')
+      console.log('SP-API ERROR: response timeout: ' + err.timeout + 'ms exceeded.', err.message);
+    if (err.code === 'API_IDLE_TIMEOUT')
+      console.log('SP-API ERROR: idle timeout: ' + err.timeout + 'ms exceeded.', err.message);
+    if (err.code === 'API_DEADLINE_TIMEOUT')
+      console.log('SP-API ERROR: deadline timeout: ' + err.timeout + 'ms exceeded.', err.message);
   }
 }
 ```
@@ -419,16 +410,16 @@ The implementation of the `getCatalogItem` operation in the `v0` version expects
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "getCatalogItem",
-  endpoint: "catalogItems",
+  operation: 'getCatalogItem',
+  endpoint: 'catalogItems',
   query: {
-    MarketplaceId: "A1PA6795UKMFR9"
+    MarketplaceId: 'A1PA6795UKMFR9'
   },
   path: {
-    asin: "B084DWG2VQ"
+    asin: 'B084DWG2VQ'
   },
   options: {
-    version: "v0"
+    version: 'v0'
   }
 });
 ```
@@ -437,24 +428,17 @@ In contrast, the implementation of the `getCatalogItem` operation in the `2020-1
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "getCatalogItem",
-  endpoint: "catalogItems",
+  operation: 'getCatalogItem',
+  endpoint: 'catalogItems',
   query: {
-    marketplaceIds: ["A1PA6795UKMFR9"],
-    includedData: [
-      "identifiers",
-      "images",
-      "productTypes",
-      "salesRanks",
-      "summaries",
-      "variations"
-    ]
+    marketplaceIds: ['A1PA6795UKMFR9'],
+    includedData: ['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
   },
   path: {
-    asin: "B084DWG2VQ"
+    asin: 'B084DWG2VQ'
   },
   options: {
-    version: "2020-12-01"
+    version: '2020-12-01'
   }
 });
 ```
@@ -468,10 +452,10 @@ I.e. you can tell the class instance to use the new `2020-12-01` version for the
 
 ```javascript
 const spClient = new SellingPartner({
-  region: "eu",
-  refresh_token: "<REFRESH_TOKEN>",
+  region: 'eu',
+  refresh_token: '<REFRESH_TOKEN>',
   endpoints_versions: {
-    catalogItems: "2020-12-01"
+    catalogItems: '2020-12-01'
   }
 });
 ```
@@ -485,11 +469,11 @@ I.e. the `listCatalogCategories` operation is not part of the new `catalogItems`
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "listCatalogCategories",
-  endpoint: "catalogItems",
+  operation: 'listCatalogCategories',
+  endpoint: 'catalogItems',
   query: {
-    MarketplaceId: "A1PA6795UKMFR9",
-    ASIN: "B084DWG2VQ"
+    MarketplaceId: 'A1PA6795UKMFR9',
+    ASIN: 'B084DWG2VQ'
   }
 });
 ```
@@ -500,18 +484,11 @@ The newest client version should always have full support for all endpoints, ver
 
 ```javascript
 let res = await spClient.callAPI({
-  api_path: "/catalog/2020-12-01/items/B084DWG2VQ",
-  method: "GET",
+  api_path: '/catalog/2020-12-01/items/B084DWG2VQ',
+  method: 'GET',
   query: {
-    marketplaceIds: ["A1PA6795UKMFR9"],
-    includedData: [
-      "identifiers",
-      "images",
-      "productTypes",
-      "salesRanks",
-      "summaries",
-      "variations"
-    ]
+    marketplaceIds: ['A1PA6795UKMFR9'],
+    includedData: ['identifiers', 'images', 'productTypes', 'salesRanks', 'summaries', 'variations']
   }
 });
 ```
@@ -532,7 +509,7 @@ First create a class instance that only allows to call grantless operations (no 
 
 ```javascript
 const spClient = new SellingPartner({
-  region: "eu",
+  region: 'eu',
   options: {
     auto_request_tokens: false,
     only_grantless_operations: true
@@ -543,15 +520,15 @@ const spClient = new SellingPartner({
 Then request a grantless token with the scope needed for the operation you want to call:
 
 ```javascript
-await spClient.refreshAccessToken("sellingpartnerapi::notifications");
+await spClient.refreshAccessToken('sellingpartnerapi::notifications');
 ```
 
 Finally call the grantless operation:
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "getDestinations",
-  endpoint: "notifications"
+  operation: 'getDestinations',
+  endpoint: 'notifications'
 });
 ```
 
@@ -615,14 +592,14 @@ Please see the following example that will request a `GET_FLAT_FILE_OPEN_LISTING
 ```javascript
 let res = await sellingPartner.downloadReport({
   body: {
-    reportType: "GET_FLAT_FILE_OPEN_LISTINGS_DATA",
-    marketplaceIds: ["A1PA6795UKMFR9"]
+    reportType: 'GET_FLAT_FILE_OPEN_LISTINGS_DATA',
+    marketplaceIds: ['A1PA6795UKMFR9']
   },
-  version: "2021-06-30",
+  version: '2021-06-30',
   interval: 8000,
   download: {
     json: true,
-    file: "<ABSOLUTE_FILE_PATH>/report.json"
+    file: '<ABSOLUTE_FILE_PATH>/report.json'
   }
 });
 ```
@@ -635,10 +612,10 @@ Retrieve the download details from a `getReportDocument` operation:
 
 ```javascript
 let report_document = await spClient.callAPI({
-  operation: "getReportDocument",
-  endpoint: "reports",
+  operation: 'getReportDocument',
+  endpoint: 'reports',
   path: {
-    reportDocumentId: "<REPORT_DOCUMENT_ID>" // retrieve the reportDocumentId from a "getReport" operation (when processingStatus of report is "DONE")
+    reportDocumentId: '<REPORT_DOCUMENT_ID>' // retrieve the reportDocumentId from a "getReport" operation (when processingStatus of report is "DONE")
   }
 });
 ```
@@ -666,7 +643,7 @@ The following call will download the report, transform it to json and save it to
 ```javascript
 let report = await spClient.download(report_document, {
   json: true,
-  file: "<ABSOLUTE_FILE_PATH>/report.json"
+  file: '<ABSOLUTE_FILE_PATH>/report.json'
 });
 ```
 
@@ -674,7 +651,7 @@ Some reports may have an encoding other than UTF-8 and require special decoding 
 
 ```javascript
 let report = await spClient.download(report_document, {
-  charset: "cp1252"
+  charset: 'cp1252'
 });
 ```
 
@@ -709,7 +686,7 @@ let feed = {
         </Inventory>
       </Message>
     </AmazonEnvelope>`,
-  contentType: "text/xml; charset=utf-8"
+  contentType: 'text/xml; charset=utf-8'
 };
 ```
 
@@ -717,8 +694,8 @@ Before you can upload the feed you need to retrieve the feed upload details from
 
 ```javascript
 let feed_upload_details = await spClient.callAPI({
-  operation: "createFeedDocument",
-  endpoint: "feeds",
+  operation: 'createFeedDocument',
+  endpoint: 'feeds',
   body: {
     contentType: feed.contentType
   }
@@ -735,11 +712,11 @@ After uploading the feed you have to trigger the processing of the feed by calli
 
 ```javascript
 let feed_creation_infos = await spClient.callAPI({
-  operation: "createFeed",
-  endpoint: "feeds",
+  operation: 'createFeed',
+  endpoint: 'feeds',
   body: {
-    marketplaceIds: ["A1PA6795UKMFR9"],
-    feedType: "POST_INVENTORY_AVAILABILITY_DATA",
+    marketplaceIds: ['A1PA6795UKMFR9'],
+    feedType: 'POST_INVENTORY_AVAILABILITY_DATA',
     inputFeedDocumentId: feed_upload_details.feedDocumentId // retrieve the feedDocumentId from the "createFeedDocument" operation
   }
 });
@@ -761,10 +738,10 @@ For example, this will test the `getPricing` operation in sandbox mode:
 
 ```javascript
 let res = await spClient.callAPI({
-  operation: "getPricing",
-  endpoint: "productPricing",
+  operation: 'getPricing',
+  endpoint: 'productPricing',
   query: {
-    MarketplaceId: "TEST_CASE_400"
+    MarketplaceId: 'TEST_CASE_400'
   }
 });
 ```

@@ -1,15 +1,15 @@
-import * as chai from "chai";
+import * as chai from 'chai';
 const expect = chai.expect;
 
-const endpoint = "dataKiosk";
+const endpoint = 'dataKiosk';
 
 describe(endpoint, async function () {
-  it("should return data kiosk queries", async function () {
+  it('should return data kiosk queries', async function () {
     let res = await this.sellingPartner.callAPI({
-      operation: "getQueries",
+      operation: 'getQueries',
       endpoint: endpoint
     });
-    expect(res).to.be.a("object");
-    expect(res.queries).to.be.a("array");
+    expect(res).to.be.a('object');
+    expect(res.queries).to.be.a('array');
   });
 });
