@@ -1,3 +1,5 @@
 /node_modules
 /test/.env.test
 /temp
+/CHANGELOG.md.*
+/enhance_changelog.sh
