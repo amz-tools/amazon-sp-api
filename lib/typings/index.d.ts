@@ -84,6 +84,8 @@ import {
   GetCatalogItemPath,
   GetCatalogItemQuery,
   GetCatalogItemResponse,
+  SearchCatalogItemsQuery,
+  SearchCatalogItemsResponse,
   ListCatalogCategoriesQuery,
   ListCatalogCategoriesResponse
 } from './operations/catalogItems';
@@ -150,6 +152,7 @@ declare module 'amazon-sp-api' {
 
   type Operation =
     | 'getCatalogItem'
+    | 'searchCatalogItems'
     | 'listCatalogCategories'
     | 'getItemEligibilityPreview'
     | 'getInventorySummaries'
@@ -285,7 +288,9 @@ declare module 'amazon-sp-api' {
                                                                                           ? SearchProductTypesResponse
                                                                                           : TOperation extends 'searchDefinitionsProductTypes'
                                                                                             ? SearchDefinitionsProductTypesResponse
-                                                                                            : any;
+                                                                                            : TOperation extends 'searchCatalogItems'
+                                                                                              ? SearchCatalogItemsResponse
+                                                                                              : any;
 
   type QueryType<TOperation extends Operation> = TOperation extends 'getCatalogItem'
     ? GetCatalogItemQuery
@@ -336,7 +341,9 @@ declare module 'amazon-sp-api' {
                                                 ? SearchProductTypesQuery
                                                 : TOperation extends 'searchDefinitionsProductTypes'
                                                   ? SearchDefinitionsProductTypesQuery
-                                                  : any;
+                                                  : TOperation extends 'searchCatalogItems'
+                                                    ? SearchCatalogItemsQuery
+                                                    : any;
 
   type PathType<TOperation extends Operation> = TOperation extends 'getCatalogItem'
     ? GetCatalogItemPath
