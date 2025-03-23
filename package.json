@@ -45,6 +45,6 @@
     "test": "mocha --config ./test/.mocharc.js",
     "format": "npx prettier --write ."
   },
-  "homepage": "https:/getarthy.com",
+  "homepage": "https://getarthy.com",
   "types": "./lib/typings/index.d.ts"
 }
