@@ -34,6 +34,7 @@ The client handles calls to the Amazon Selling Partner API. It wraps up all the 
   - [Restore rates](#restore-rates)
   - [Timeouts](#timeouts)
 - [Download reports](#download-reports)
+  - [Download reports as stream](#download-reports-as-stream)
 - [Upload feeds](#upload-feeds)
 - [TypeScript Support](#typescript-support)
 - [Sandbox mode](#sandbox-mode)
@@ -677,6 +678,32 @@ let report = await spClient.download(report_document, {
   charset: "cp1252"
 });
 ```
+
+### Download reports as stream
+
+If you have a very extensive report you may use the `.downloadReportStream()` function. Instead of returning the report content it will return a stream instance allowing you to retrieve the individual buffer chunks:
+
+```javascript
+let resStream = await sellingPartner.downloadReportStream({
+  body: {
+    reportType: "GET_FLAT_FILE_OPEN_LISTINGS_DATA",
+    marketplaceIds: ["A1PA6795UKMFR9"]
+  },
+  version: "2021-06-30",
+  interval: 8000
+});
+resStream.on("data", (chunk) => {
+  // Receiving buffer chunk
+});
+resStream.on("error", async (err) => {
+  // Error while streaming
+});
+resStream.on("end", () => {
+  // Stream finished
+});
+```
+
+Please note: For the `download` object you may only use the `unzip` property, all other properties (`json`, `file`, `charset`, `timeouts`) are not available when downloading a report as a stream.
 
 ## Upload feeds
 
