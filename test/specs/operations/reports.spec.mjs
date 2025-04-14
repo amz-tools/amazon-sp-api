@@ -124,4 +124,28 @@ describe(endpoint, async function () {
       this.skip();
     }
   });
+
+  it("should return streamed decrypted content of open listings inventory report document", async function () {
+    this.timeout(120000);
+    let resStream = await this.sellingPartner.downloadReportStream({
+      body: {
+        reportType: "GET_V2_SELLER_PERFORMANCE_REPORT",
+        marketplaceIds: [this.config.marketplace_id]
+      },
+      download: {
+        unzip: true
+      }
+    });
+    let data = "";
+    resStream.on("data", (chunk) => {
+      data += chunk.toString();
+    });
+    resStream.on("error", async (err) => {});
+    resStream.on("end", () => {
+      data = JSON.parse(data);
+      expect(data).to.be.a("object");
+      expect(data.accountStatuses).to.be.a("array");
+      expect(data.performanceMetrics).to.be.a("array");
+    });
+  });
 });
