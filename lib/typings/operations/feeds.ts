@@ -1,18 +1,18 @@
 import type {BaseResponse} from '../baseTypes';
 
-enum ProcessingStatus {
-  InQueue = 'IN_QUEUE',
-  InProgress = 'IN_PROGRESS',
-  Done = 'DONE',
-  Cancelled = 'CANCELLED',
-  Fatal = 'FATAL'
-}
+const ProcessingStatus = {
+  InQueue: 'IN_QUEUE',
+  InProgress: 'IN_PROGRESS',
+  Done: 'DONE',
+  Cancelled: 'CANCELLED',
+  Fatal: 'FATAL'
+} as const;
 
 export interface GetFeedsQuery {
   feedTypes?: string[];
   marketplaceIds?: string[];
   pageSize?: number;
-  processingStatuses?: ProcessingStatus[];
+  processingStatuses?: (typeof ProcessingStatus)[keyof typeof ProcessingStatus][];
   createdSince?: string;
   createdUntil?: string;
   nextToken?: string;
@@ -28,7 +28,7 @@ interface Feed {
   feedType: string;
   marketplaceIds?: string[];
   createdTime: string;
-  processingStatus: ProcessingStatus;
+  processingStatus: (typeof ProcessingStatus)[keyof typeof ProcessingStatus];
   processingStartTime?: string;
   processingEndTime?: string;
   resultFeedDocumentId?: string;
