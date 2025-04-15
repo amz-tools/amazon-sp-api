@@ -29,7 +29,7 @@ import {
   GetFeedsQuery,
   GetFeedsResponse
 } from './operations/feeds';
-import {Config, DownloadDocument, DownloadOptions, Scope} from './baseTypes';
+import {Config, DownloadDocument, DownloadOptions, Scope, ExchangeResponse} from './baseTypes';
 import {
   ConfirmPreorderPath,
   ConfirmPreorderQuery,
@@ -120,7 +120,7 @@ declare module 'amazon-sp-api' {
 
     refreshAccessToken(scope?: Scope): Promise<void>;
 
-    exchange(auth_code: string): Promise<any>;
+    exchange(auth_code: string): Promise<ExchangeResponse>;
 
     get access_token(): string;
 
