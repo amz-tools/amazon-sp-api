@@ -1,3 +1,42 @@
+## [v1.1.6](https://github.com/amz-tools/amazon-sp-api/tree/v1.1.6) (2025-04-15)
+
+[Full Changelog](https://github.com/amz-tools/amazon-sp-api/compare/v1.1.5...v1.1.6)
+
+**Notable changes:**
+
+- Added new downloadReportStream() function
+- Added new operations for endpoints amazonWarehousingAndDistribution, supplySource, vendorDirectFulfillmentShipping, vendorShipments
+- Added new vehicles endpoint
+- Removed deprecated operations from fulfillmentInbound v0 endpoint
+- Added some more missing types (constructor config, .exchange, reports)
+
+**Commits:**
+
+- Added updateSupplySourceStatus operation to supplySource endpoint ([`5047010`](https://github.com/amz-tools/amazon-sp-api/commit/50470100cebc53f036aea5f0e913ce09d308e607))
+- Added new vendorShipments operations ([`e16d8a6`](https://github.com/amz-tools/amazon-sp-api/commit/e16d8a6eaf4abd54afa1a45273149dd5823edaee))
+- Added createContainerLabel operation to vendorDirectFulfillmentShipping endpoint ([`2e015dc`](https://github.com/amz-tools/amazon-sp-api/commit/2e015dc65fbab3014ce335bee5939b0ef8d641df))
+- Removed deprecated v0 fulfillmentInbound operations ([`a80e98f`](https://github.com/amz-tools/amazon-sp-api/commit/a80e98f27c1604a322ee46413d8fdc82c7c9f682))
+- Added new vehicles endpoint ([`75939b7`](https://github.com/amz-tools/amazon-sp-api/commit/75939b7c3f5b8b1e396ee50d4b066865cc1f2386))
+- Added new AmazonWarehousingAndDistribution operations ([`226fb96`](https://github.com/amz-tools/amazon-sp-api/commit/226fb96c2491e4494ec0dacfe376188e7d41f516))
+- Added ExchangeResponse type (Fixes #224) ([`ebee3d1`](https://github.com/amz-tools/amazon-sp-api/commit/ebee3d15630cf1365c4e71f9dec7b56e74db5ce2))
+- Added all possible constructor config options to types (also fixes #264) ([`f57e73a`](https://github.com/amz-tools/amazon-sp-api/commit/f57e73a8c5dd4aaa5831cc7545b4ce6a4ca50b85))
+- Added new report types (fixes #311) ([`6520762`](https://github.com/amz-tools/amazon-sp-api/commit/6520762f54eadf63ff0ab052a8e8232d7db96ab3))
+- Fix for #310 ([`06f984a`](https://github.com/amz-tools/amazon-sp-api/commit/06f984aa52efdcd99b11a5166f556a83278e828b))
+- Added test for downloadReportStream ([`391ae64`](https://github.com/amz-tools/amazon-sp-api/commit/391ae64404de2fef0365ecddf2821340174ee1b7))
+- Update Readme to include Download reports as stream ([`740c2d7`](https://github.com/amz-tools/amazon-sp-api/commit/740c2d7515d958cba3eec768f824d9fa98ea966f))
+- Removed uploadStream for now and added unzip as option to downloadReportStream (identical to downloadReport) ([`76800e7`](https://github.com/amz-tools/amazon-sp-api/commit/76800e79bd6e43d1291645cc5eb85462d32f076f))
+- Fix the website url. ([`3b535e5`](https://github.com/amz-tools/amazon-sp-api/commit/3b535e5baaa63bf956b9f2545b6b93f984ce8c58))
+- Using erasable syntax instead of enums ([`8ea71f7`](https://github.com/amz-tools/amazon-sp-api/commit/8ea71f70d482b4278249931c5ba7d838a1db109a))
+- Added downloadReportStream method ([`8a8a70c`](https://github.com/amz-tools/amazon-sp-api/commit/8a8a70cd4d7d0b7f921d10750b7f8208e0f8e6ec))
+- Changed streamToString to use \_getStreamChunks and use existing decoding method, added TODOs to reporting tests ([`8ecac8c`](https://github.com/amz-tools/amazon-sp-api/commit/8ecac8c9d96451b27de98c9d244077982b789d78))
+- implement streamDownload() returning a stream ([`9c471a6`](https://github.com/amz-tools/amazon-sp-api/commit/9c471a6e2c9d352e6ed2d040b4a6d0d3d54c4766))
+
+**Merged pull requests:**
+
+- Fix the website url. [\#315](https://github.com/amz-tools/amazon-sp-api/pull/315) ([IonicaBizau](https://github.com/IonicaBizau))
+- Using erasable syntax instead of enums [\#314](https://github.com/amz-tools/amazon-sp-api/pull/314) ([jakeleventhal](https://github.com/jakeleventhal))
+- implement streamDownload\(\) returning a stream [\#306](https://github.com/amz-tools/amazon-sp-api/pull/306) ([danielecr](https://github.com/danielecr))
+
 ## [v1.1.5](https://github.com/amz-tools/amazon-sp-api/tree/v1.1.5) (2025-01-23)
 
 [Full Changelog](https://github.com/amz-tools/amazon-sp-api/compare/v1.1.4...v1.1.5)
