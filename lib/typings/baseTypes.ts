@@ -1,3 +1,5 @@
+import type {Agent} from 'https';
+
 export interface Errors {
   code: string;
   message: string;
@@ -16,10 +18,14 @@ interface Options {
   credentials_path?: string;
   auto_request_tokens?: boolean;
   auto_request_throttled?: boolean;
-  debug_log?: boolean;
-  only_grantless_operations?: boolean;
+  version_fallback?: boolean;
   use_sandbox?: boolean;
+  only_grantless_operations?: boolean;
   user_agent?: string;
+  debug_log?: boolean;
+  timeouts?: Timeouts;
+  retry_remote_timeout?: boolean;
+  https_proxy_agent?: Agent | false;
 }
 
 export interface Config {
