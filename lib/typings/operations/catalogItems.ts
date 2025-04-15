@@ -24,16 +24,7 @@ export interface SearchCatalogItemsResponse extends BaseResponse {
   payload: ItemSearchResults;
 }
 
-enum IdentifiersType {
-  'ASIN',
-  'EAN',
-  'GTIN',
-  'ISBN',
-  'JAN',
-  'MINSAN',
-  'SKU',
-  'UPC'
-}
+type IdentifiersType = 'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC';
 
 export interface GetCatalogItemQuery {
   marketplaceIds: string[];
@@ -41,18 +32,17 @@ export interface GetCatalogItemQuery {
   locale?: string;
 }
 
-enum IncludedData {
-  'attributes',
-  'classifications',
-  'dimensions',
-  'identifiers',
-  'images',
-  'productTypes',
-  'relationships',
-  'salesRanks',
-  'summaries',
-  'vendorDetails'
-}
+type IncludedData =
+  | 'attributes'
+  | 'classifications'
+  | 'dimensions'
+  | 'identifiers'
+  | 'images'
+  | 'productTypes'
+  | 'relationships'
+  | 'salesRanks'
+  | 'summaries'
+  | 'vendorDetails';
 
 export interface GetCatalogItemPath {
   asin: string;
@@ -162,18 +152,7 @@ interface ItemImage {
   width: number;
 }
 
-enum Variant {
-  'MAIN',
-  'PT01',
-  'PT02',
-  'PT03',
-  'PT04',
-  'PT05',
-  'PT06',
-  'PT07',
-  'PT08',
-  'SWCH'
-}
+type Variant = 'MAIN' | 'PT01' | 'PT02' | 'PT03' | 'PT04' | 'PT05' | 'PT06' | 'PT07' | 'PT08' | 'SWCH';
 
 interface ItemProductTypes {
   marketplaceId?: string;
@@ -197,10 +176,7 @@ interface ItemVariationTheme {
   theme?: string;
 }
 
-enum Type {
-  'VARIATION',
-  'PACKAGE_HIERARCHY'
-}
+type Type = 'VARIATION' | 'PACKAGE_HIERARCHY';
 
 interface ItemSalesRanks {
   marketplaceId: string;
@@ -261,12 +237,7 @@ interface ItemContributorRole {
   value: string;
 }
 
-enum Iteminterfaceification {
-  'BASE_PRODUCT',
-  'OTHER',
-  'PRODUCT_BUNDLE',
-  'VARIATION_PARENT'
-}
+type Iteminterfaceification = 'BASE_PRODUCT' | 'OTHER' | 'PRODUCT_BUNDLE' | 'VARIATION_PARENT';
 
 interface ItemVendorDetails {
   marketplaceId: string;
@@ -284,18 +255,17 @@ interface ItemVendorDetailsCategory {
   value?: string;
 }
 
-enum ReplenishmentCategory {
-  'ALLOCATED',
-  'BASIC_REPLENISHMENT',
-  'IN_SEASON',
-  'LIMITED_REPLENISHMENT',
-  'MANUFACTURER_OUT_OF_STOCK',
-  'NEW_PRODUCT',
-  'NON_REPLENISHABLE',
-  'NON_STOCKUPABLE',
-  'OBSOLETE',
-  'PLANNED_REPLENISHMENT'
-}
+type ReplenishmentCategory =
+  | 'ALLOCATED'
+  | 'BASIC_REPLENISHMENT'
+  | 'IN_SEASON'
+  | 'LIMITED_REPLENISHMENT'
+  | 'MANUFACTURER_OUT_OF_STOCK'
+  | 'NEW_PRODUCT'
+  | 'NON_REPLENISHABLE'
+  | 'NON_STOCKUPABLE'
+  | 'OBSOLETE'
+  | 'PLANNED_REPLENISHMENT';
 
 /**
  *
