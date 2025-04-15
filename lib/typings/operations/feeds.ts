@@ -1,12 +1,6 @@
 import type {BaseResponse} from '../baseTypes';
 
-enum ProcessingStatus {
-  InQueue = 'IN_QUEUE',
-  InProgress = 'IN_PROGRESS',
-  Done = 'DONE',
-  Cancelled = 'CANCELLED',
-  Fatal = 'FATAL'
-}
+type ProcessingStatus = 'IN_QUEUE' | 'IN_PROGRESS' | 'DONE' | 'CANCELLED' | 'FATAL';
 
 export interface GetFeedsQuery {
   feedTypes?: string[];
